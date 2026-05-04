@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-bg: #020617;
+  --color-brand-surface: #0B0F1A;
+  --color-brand-accent: #10B981; /* Emerald 500 */
+  --color-brand-accent-glow: #34D399; /* Emerald 400 */
+  --color-brand-text: #F8FAFC;
+  --color-brand-text-dim: #94A3B8;
+  
+  --font-display: "Playfair Display", serif;
+  --font-body: "Inter", sans-serif;
+
+  --shadow-premium: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  --shadow-emerald-glow: 0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+@layer base {
+  body {
+    @apply bg-brand-bg text-brand-text font-body antialiased selection:bg-brand-accent/20 selection:text-brand-accent;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
+  }
+}
+
+/* Custom Utilities */
+.luxury-noise::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  opacity: 0.02;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  z-index: 9999;
+}
+
+.glass-card {
+  @apply bg-white/[0.02] backdrop-blur-2xl border border-white/5 transition-all duration-500 hover:bg-white/[0.04] hover:border-white/10 shadow-premium;
+}
+
+.glass-pill {
+  @apply bg-white/[0.03] backdrop-blur-md border border-white/5 px-6 py-2 rounded-full;
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-brand-accent;
+}
+
+.btn-premium {
+  @apply px-8 py-4 rounded-full bg-brand-accent text-brand-bg font-bold uppercase tracking-[0.2em] text-[10px] shadow-emerald-glow hover:scale-105 hover:bg-brand-accent-glow active:scale-95 transition-all duration-300;
+}
+
+.btn-luxury-outline {
+  @apply px-8 py-4 rounded-full border border-brand-accent/30 text-brand-accent font-bold uppercase tracking-[0.2em] text-[10px] hover:bg-brand-accent/10 transition-all duration-300;
+}
+
+.tab-active {
+  @apply text-brand-accent relative;
+}
+
+.tab-active::after {
+  content: "";
+  @apply absolute -bottom-2 left-0 w-full h-0.5 bg-brand-accent shadow-[0_0_10px_rgba(16,185,129,0.5)];
+}
+
+/* Image Hover Zoom */
+.hover-zoom {
+  @apply transition-transform duration-1000 ease-out group-hover:scale-110;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-brand-bg;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-white/10 rounded-full hover:bg-brand-accent/40 transition-colors;
+}
