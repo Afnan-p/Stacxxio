@@ -6,7 +6,7 @@ import {
   Image as ImageIcon, Search 
 } from 'lucide-react';
 import { FaGithub } from "react-icons/fa";
-import axios from 'axios';
+import API from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
 import ProjectForm from '../../components/ProjectForm';
 import TeamForm from '../../components/TeamForm';
@@ -29,8 +29,8 @@ const AdminDashboard = () => {
   const fetchData = async () => {
     try {
       const [projRes, teamRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/projects'),
-        axios.get('http://localhost:5000/api/team')
+        API.get('/api/projects'),
+        API.get('/api/team')
       ]);
       setProjects(projRes.data);
       setTeam(teamRes.data);
@@ -50,7 +50,7 @@ const AdminDashboard = () => {
     
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/api/${type}/${id}`, {
+      await API.delete(`/api/${type}/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Asset liquidated successfully');

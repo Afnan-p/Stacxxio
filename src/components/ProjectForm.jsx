@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Upload, Plus, Trash2, Globe } from 'lucide-react';
 import { FaGithub } from "react-icons/fa";
-import axios from 'axios';
+import API from '../api/axios';
 import toast from 'react-hot-toast';
 import { PROJECT_CATEGORIES } from '../constants/categories';
 
@@ -77,10 +77,10 @@ const ProjectForm = ({ onClose, onRefresh, editProject = null }) => {
       };
 
       if (editProject) {
-        await axios.put(`http://localhost:5000/api/projects/${editProject._id}`, data, config);
+        await API.put(`/api/projects/${editProject._id}`, data, config);
         toast.success('Masterpiece refined successfully');
       } else {
-        await axios.post('http://localhost:5000/api/projects', data, config);
+        await API.post('/api/projects', data, config);
         toast.success('New masterpiece added to gallery');
       }
       

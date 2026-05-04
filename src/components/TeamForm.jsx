@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Upload } from 'lucide-react';
 import { FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
-import axios from 'axios';
+import API from '../api/axios';
 import toast from 'react-hot-toast';
 
 const TeamForm = ({ onClose, onRefresh, editMember = null }) => {
@@ -63,10 +63,10 @@ const TeamForm = ({ onClose, onRefresh, editMember = null }) => {
       };
 
       if (editMember) {
-        await axios.put(`http://localhost:5000/api/team/${editMember._id}`, data, config);
+        await API.put(`/api/team/${editMember._id}`, data, config);
         toast.success('Agent profiles updated');
       } else {
-        await axios.post('http://localhost:5000/api/team', data, config);
+        await API.post('/api/team', data, config);
         toast.success('New agent recruited');
       }
       

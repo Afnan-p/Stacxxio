@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
-import axios from 'axios';
+import API from '../api/axios';
 
 const Team = () => {
   const [team, setTeam] = useState([]);
@@ -9,7 +9,7 @@ const Team = () => {
   useEffect(() => {
     const fetchTeam = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/team');
+        const res = await API.get('/api/team');
         setTeam(res.data);
       } catch (err) {
         console.error(err);

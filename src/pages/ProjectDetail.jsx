@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ExternalLink, ChevronRight, ChevronLeft } from 'lucide-react';
 import { FaGithub } from "react-icons/fa";
-import axios from 'axios';
+import API from '../api/axios';
 
 const ProjectDetail = () => {
   const { id } = useParams();
@@ -14,7 +14,7 @@ const ProjectDetail = () => {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/projects/${id}`);
+        const res = await API.get(`/api/projects/${id}`);
         setProject(res.data);
         setLoading(false);
       } catch (err) {

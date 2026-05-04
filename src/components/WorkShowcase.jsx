@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ExternalLink } from 'lucide-react';
-import axios from 'axios';
+import API from '../api/axios';
 import { Link } from 'react-router-dom';
 
 const categories = [
@@ -23,7 +23,7 @@ const WorkShowcase = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/projects');
+        const res = await API.get('/api/projects');
         setProjects(res.data);
         setFilteredProjects(res.data);
         setLoading(false);
