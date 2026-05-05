@@ -71,15 +71,15 @@ const Services = () => {
 
   return (
     <section id="services" className="py-24 md:py-40 bg-brand-bg relative overflow-hidden border-t border-white/5">
-      {/* Environmental Lighting */}
-      <div className="absolute top-0 right-0 w-[1000px] h-[1000px] bg-brand-accent/[0.02] rounded-full blur-[250px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-brand-accent/[0.02] rounded-full blur-[250px] pointer-events-none" />
+      {/* Dynamic Lighting Ambience */}
+      <div className="absolute top-0 left-0 w-full h-full bg-brand-accent/[0.01] pointer-events-none" />
+      <div className="absolute top-1/4 right-0 w-[800px] h-[800px] bg-brand-accent/[0.02] rounded-full blur-[250px] pointer-events-none" />
 
       <div className="container mx-auto px-6 md:px-10 relative z-10">
         <div className="max-w-[1400px] mx-auto">
-          <div className="mb-20 md:mb-32 text-center">
+          <div className="mb-20 md:mb-28 text-center">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: "easeOut" }}
@@ -88,36 +88,36 @@ const Services = () => {
               <h2 className="text-5xl md:text-8xl font-display font-medium text-brand-text mb-8 tracking-tighter leading-none">
                 Services We <span className="text-brand-accent/20 italic">Provide.</span>
               </h2>
-              <p className="max-w-2xl mx-auto text-brand-text-dim text-base md:text-lg font-light italic leading-relaxed opacity-60">
-                Precision engineering meets high-end digital luxury.
+              <p className="max-w-2xl mx-auto text-[#9CA3AF] text-base md:text-lg font-light italic leading-relaxed">
+                High-performance digital curations designed for the modern era.
               </p>
             </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {services.map((service, index) => (
               <motion.div
                 key={service._id || index}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: index * 0.1, ease: "easeOut" }}
-                className="group relative"
+                transition={{ duration: 0.6, delay: index * 0.08, ease: "easeOut" }}
+                className="group h-full"
               >
-                {/* Horizontal Rectangular Card */}
-                <div className="relative h-full min-h-[160px] md:min-h-[180px] p-8 md:p-10 bg-white/[0.02] backdrop-blur-[12px] rounded-[20px] border border-white/[0.08] cursor-default flex items-center gap-6 md:gap-10 transition-all duration-500 hover:scale-[1.02] hover:border-brand-accent/30 hover:bg-white/[0.04] overflow-hidden group">
+                {/* Sleek Horizontal Rectangle Card */}
+                <div className="relative h-[140px] md:h-[160px] p-6 md:p-8 bg-white/[0.02] backdrop-blur-md rounded-[18px] border border-white/[0.08] cursor-default flex items-center gap-5 md:gap-6 transition-all duration-500 hover:scale-[1.03] hover:border-brand-accent/30 hover:bg-white/[0.04] overflow-hidden group">
                   
-                  {/* Glass Reflection Shimmer */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.02] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+                  {/* Subtle Glass Reflection */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.01] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
                   
-                  {/* Left Icon Architecture */}
+                  {/* Left Icon Container */}
                   <div className="relative flex-shrink-0">
-                    <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-brand-accent/[0.05] border border-brand-accent/10 flex items-center justify-center text-brand-accent shadow-[0_0_30px_rgba(0,255,198,0.05)] group-hover:shadow-brand-accent/20 group-hover:scale-110 transition-all duration-700">
+                    <div className="w-[50px] h-[50px] md:w-[55px] md:h-[55px] rounded-full bg-brand-accent/[0.06] flex items-center justify-center text-brand-accent transition-all duration-500 group-hover:rotate-6 group-hover:scale-110">
                       {getIcon(service.icon)}
                     </div>
                     {service.tag && (
                       <div className="absolute -top-1 -right-1">
-                        <span className="px-2 py-0.5 bg-brand-accent/10 border border-brand-accent/20 rounded-md text-[7px] font-bold uppercase tracking-widest text-brand-accent">
+                        <span className="px-2 py-0.5 bg-brand-accent/10 border border-brand-accent/20 rounded-md text-[6px] font-bold uppercase tracking-widest text-brand-accent">
                           {service.tag}
                         </span>
                       </div>
@@ -125,20 +125,20 @@ const Services = () => {
                   </div>
 
                   {/* Right Content Area */}
-                  <div className="flex-grow">
-                    <h4 className="text-2xl md:text-3xl font-display font-bold mb-3 text-brand-text group-hover:text-brand-accent transition-colors duration-500 tracking-tight">
+                  <div className="flex-grow min-w-0">
+                    <h4 className="text-xl md:text-2xl font-display font-bold mb-2 text-brand-text group-hover:text-brand-accent transition-colors duration-500 tracking-tight truncate">
                       {service.title}
                     </h4>
-                    <p className="text-brand-text-dim text-sm md:text-base leading-relaxed font-light italic opacity-60 group-hover:opacity-100 transition-opacity duration-500 line-clamp-2">
+                    <p className="text-[#9CA3AF] text-xs md:text-sm leading-relaxed font-light italic opacity-60 group-hover:opacity-100 transition-opacity duration-500 line-clamp-2">
                       {service.description}
                     </p>
                   </div>
 
-                  {/* Premium Bottom Gradient Line */}
-                  <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-gradient-to-r from-transparent via-brand-accent to-transparent group-hover:w-full transition-all duration-700 ease-in-out" />
+                  {/* Premium Bottom Highlight */}
+                  <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-gradient-to-r from-transparent via-brand-accent/40 to-transparent group-hover:w-full transition-all duration-700 ease-in-out" />
                   
-                  {/* Glow Backdrop Follower */}
-                  <div className="absolute -inset-1 bg-brand-accent/5 rounded-[20px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-10" />
+                  {/* Internal Glow Backdrop */}
+                  <div className="absolute -inset-1 bg-brand-accent/5 rounded-[18px] blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-10" />
                 </div>
               </motion.div>
             ))}
