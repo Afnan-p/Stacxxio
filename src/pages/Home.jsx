@@ -16,8 +16,8 @@ const Home = () => {
       <WorkShowcase />
       <Approach />
       <Founders />
-      <Team />
       <TechStack />
+      <Team />
       <Contact />
     </>
   );
