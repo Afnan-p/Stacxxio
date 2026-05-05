@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Plus, Edit2, Trash2, LogOut, LayoutGrid, 
   Users, Briefcase, ChevronRight, ExternalLink, 
-  Image as ImageIcon, Search 
+  Image as ImageIcon, Search, Mail
 } from 'lucide-react';
 import { FaGithub } from "react-icons/fa";
 import API from '../../api/axios';
