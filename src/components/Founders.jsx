@@ -4,8 +4,8 @@ import foundersImg from '../assets/grouppic3.png';
 
 const Founders = () => {
   return (
-    <section className="py-16 bg-brand-bg relative luxury-noise">
-      <div className="container mx-auto px-10 relative z-10">
+    <section className="py-16 md:py-24 bg-brand-bg relative luxury-noise">
+      <div className="container mx-auto px-6 md:px-10 relative z-10">
         <div className="mb-5 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
