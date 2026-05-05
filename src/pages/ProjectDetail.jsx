@@ -15,6 +15,7 @@ const ProjectDetail = () => {
     const fetchProject = async () => {
       try {
         const res = await API.get(`/api/projects/${id}`);
+        console.log("PROJECT:", res.data);
         setProject(res.data);
         setLoading(false);
       } catch (err) {
@@ -70,37 +71,50 @@ const ProjectDetail = () => {
           >
             {project.type === 'video' ? (
               <div className="relative rounded-[3rem] overflow-hidden border border-white/5 shadow-premium bg-[#0b0f19] aspect-video flex items-center justify-center">
-                {project.mediaUrl && !project.mediaUrl.startsWith('http') ? (
-                  <video 
-                    src={`${import.meta.env.VITE_API_URL}/${project.mediaUrl}`} 
-                    controls 
-                    className="w-full h-full object-contain"
-                    poster={project.thumbnail ? (project.thumbnail.startsWith('http') ? project.thumbnail : `${import.meta.env.VITE_API_URL}/${project.thumbnail}`) : ''}
-                  />
-                ) : project.videoUrl?.includes('youtube.com') || project.videoUrl?.includes('youtu.be') ? (
-                  <iframe 
-                    src={`https://www.youtube.com/embed/${project.videoUrl.split('v=')[1] || project.videoUrl.split('/').pop()}`}
-                    className="w-full h-full"
-                    allowFullScreen
-                    title={project.title}
-                  />
-                ) : project.videoUrl?.includes('vimeo.com') ? (
-                  <iframe 
-                    src={`https://player.vimeo.com/video/${project.videoUrl.split('/').pop()}`}
-                    className="w-full h-full"
-                    allowFullScreen
-                    title={project.title}
-                  />
-                ) : project.videoUrl ? (
-                  <video 
-                    src={project.videoUrl} 
-                    controls 
-                    className="w-full h-full object-contain"
-                    poster={project.thumbnail}
-                  />
-                ) : (
-                   <div className="text-brand-text-dim italic">Motion Asset Missing</div>
-                )}
+                {(() => {
+                  const vUrl = project.videoUrl || project.mediaUrl;
+                  if (!vUrl) return <div className="text-brand-text-dim italic">Motion Asset Missing</div>;
+
+                  const isYoutube = vUrl.includes('youtube.com') || vUrl.includes('youtu.be');
+                  const isVimeo = vUrl.includes('vimeo.com');
+                  
+                  if (isYoutube) {
+                    const videoId = vUrl.split('v=')[1]?.split('&')[0] || vUrl.split('/').pop();
+                    return (
+                      <iframe 
+                        src={`https://www.youtube.com/embed/${videoId}`}
+                        className="w-full h-full"
+                        allowFullScreen
+                        title={project.title}
+                      />
+                    );
+                  }
+
+                  if (isVimeo) {
+                    const videoId = vUrl.split('/').pop();
+                    return (
+                      <iframe 
+                        src={`https://player.vimeo.com/video/${videoId}`}
+                        className="w-full h-full"
+                        allowFullScreen
+                        title={project.title}
+                      />
+                    );
+                  }
+
+                  // Direct video file (Cloudinary or local)
+                  const finalSrc = vUrl.startsWith('http') ? vUrl : `${import.meta.env.VITE_API_URL}/${vUrl}`;
+                  const finalPoster = project.thumbnail ? (project.thumbnail.startsWith('http') ? project.thumbnail : `${import.meta.env.VITE_API_URL}/${project.thumbnail}`) : '';
+
+                  return (
+                    <video 
+                      src={finalSrc} 
+                      controls 
+                      className="w-full h-full object-contain"
+                      poster={finalPoster}
+                    />
+                  );
+                })()}
               </div>
             ) : (
               <>
@@ -151,7 +165,11 @@ const ProjectDetail = () => {
                       onClick={() => setCurrentImageIndex(i)}
                       className={`aspect-video rounded-2xl overflow-hidden border-2 transition-all ${i === currentImageIndex ? 'border-brand-accent shadow-emerald-glow' : 'border-transparent opacity-40 hover:opacity-100'}`}
                     >
-                      <img src={img} className="w-full h-full object-cover" />
+                      <img 
+                        src={img.startsWith('http') ? img : `${import.meta.env.VITE_API_URL}/${img}`} 
+                        className="w-full h-full object-cover" 
+                        alt={`Preview ${i}`}
+                      />
                     </button>
                   ))}
                 </div>
