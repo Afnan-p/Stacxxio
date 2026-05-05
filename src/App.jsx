@@ -12,10 +12,11 @@ import { Toaster } from 'react-hot-toast';
 const AppContent = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
+  const isProjectDetail = location.pathname.startsWith('/project/');
 
   return (
     <div className="min-h-screen flex flex-col">
-      {!isAdmin && <Navbar />}
+      {!isAdmin && !isProjectDetail && <Navbar />}
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
