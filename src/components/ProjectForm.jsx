@@ -207,7 +207,6 @@ const ProjectForm = ({ onClose, onRefresh, editProject = null }) => {
       const token = localStorage.getItem('token');
       const config = {
         headers: { 
-          'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}`
         },
       };
