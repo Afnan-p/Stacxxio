@@ -79,7 +79,7 @@ const WorkShowcase = () => {
         </div>
 
         {/* Projects Horizontal Scroll */}
-        <div className="relative group -mx-10 px-20">
+        <div className="relative group -mx-10 ">
           {/* Gradient Masks */}
           <div className="absolute inset-y-0 left-0 w-24 md:w-40 bg-gradient-to-r from-brand-bg via-brand-bg/80 to-transparent z-20 pointer-events-none" />
           <div className="absolute inset-y-0 right-0 w-24 md:w-40 bg-gradient-to-l from-brand-bg via-brand-bg/80 to-transparent z-20 pointer-events-none" />
