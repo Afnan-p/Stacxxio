@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Plus, Edit2, Trash2, LogOut, LayoutGrid, 
   Users, Briefcase, ChevronRight, ExternalLink, 
-  Image as ImageIcon, Search, Mail, Menu, X, Cpu, Layers, Globe
+  Image as ImageIcon, Search, Mail, Menu, X, Cpu, Layers, Globe, Tag, Play
 } from 'lucide-react';
 import { FaGithub } from "react-icons/fa";
 import * as SiIcons from "react-icons/si";
@@ -15,6 +15,7 @@ import TeamForm from '../../components/TeamForm';
 import TechForm from '../../components/TechForm';
 import ServiceForm from '../../components/ServiceForm';
 import FooterForm from '../../components/FooterForm';
+import CategoryManager from '../../components/CategoryManager';
 import toast, { Toaster } from 'react-hot-toast';
 
 const AdminDashboard = () => {
@@ -29,6 +30,7 @@ const AdminDashboard = () => {
   const [isTechFormOpen, setIsTechFormOpen] = useState(false);
   const [isServiceFormOpen, setIsServiceFormOpen] = useState(false);
   const [isFooterFormOpen, setIsFooterFormOpen] = useState(false);
+  const [isCategoryManagerOpen, setIsCategoryManagerOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -50,6 +52,7 @@ const AdminDashboard = () => {
         API.get('/api/services')
       ]);
       setProjects(projRes.data);
+      console.log('DEBUG: Admin Dashboard Projects:', projRes.data);
       setTeam(teamRes.data);
       setInquiries(inqRes.data);
       setTech(techRes.data);
@@ -214,18 +217,30 @@ const AdminDashboard = () => {
           </div>
 
           {activeTab !== 'inquiries' && activeTab !== 'branding' && (
-            <button 
-              onClick={() => {
-                if (activeTab === 'projects') setIsProjectFormOpen(true);
-                else if (activeTab === 'team') setIsTeamFormOpen(true);
-                else if (activeTab === 'services') setIsServiceFormOpen(true);
-                else setIsTechFormOpen(true);
-              }}
-              className="btn-premium flex items-center gap-3 w-full md:w-auto justify-center"
-            >
-              <Plus size={16} /> 
-              {activeTab === 'projects' ? 'New Masterpiece' : activeTab === 'team' ? 'Recruit Agent' : activeTab === 'services' ? 'Add Capability' : 'Integrate Stack'}
-            </button>
+            <div className="flex gap-4">
+              {activeTab === 'projects' && (
+                <button 
+                  onClick={() => setIsCategoryManagerOpen(true)}
+                  className="p-5 bg-white/5 text-brand-text-dim rounded-2xl hover:bg-white/10 transition-all border border-white/5"
+                  title="Manage Segments"
+                >
+                  <Tag size={20} />
+                </button>
+              )}
+              <button 
+                onClick={() => {
+                  if (activeTab === 'projects') setIsProjectFormOpen(true);
+                  if (activeTab === 'team') setIsTeamFormOpen(true);
+                  if (activeTab === 'tech') setIsTechFormOpen(true);
+                  if (activeTab === 'services') setIsServiceFormOpen(true);
+                  setEditingItem(null);
+                }}
+                className="btn-premium px-10 flex items-center gap-3"
+              >
+                <Plus size={18} />
+                <span className="text-[10px] font-bold uppercase tracking-widest hidden sm:inline">Add Asset</span>
+              </button>
+            </div>
           )}
         </header>
 
@@ -302,7 +317,7 @@ const AdminDashboard = () => {
             })
           ) : activeTab === 'services' ? (
             filteredItems().map((item) => {
-              const IconComp = FaIcons[item.icon] || SiIcons[item.icon] || LuIcons[item.icon] || FaIcons.FaCode;
+              const IconComp = FaIcons[item.icon] || SiIcons[item.icon] || FaIcons.FaCode;
               return (
                 <div key={item._id} className="glass-card rounded-[2.5rem] p-8 flex items-center gap-8 group">
                   <div className="w-24 h-24 bg-brand-bg rounded-2xl border border-white/5 flex items-center justify-center text-brand-accent shadow-2xl transition-all duration-500 group-hover:scale-110">
@@ -355,23 +370,54 @@ const AdminDashboard = () => {
             </div>
           ) : (
             filteredItems().map((item) => (
-              <div key={item._id} className="glass-card rounded-[2.5rem] p-6 md:p-8 flex flex-col sm:flex-row gap-8 items-center group">
-                <div className="w-full sm:w-40 h-48 sm:h-40 rounded-3xl overflow-hidden flex-shrink-0 border border-white/5">
+              <div 
+                key={item._id} 
+                onClick={() => navigate(`/project/${item._id}`)}
+                className="glass-card rounded-[2.5rem] p-6 md:p-8 flex flex-col sm:flex-row gap-8 items-center group cursor-pointer transition-all active:scale-[0.98] hover:border-brand-accent/20"
+              >
+                <div className="w-full sm:w-40 h-48 sm:h-40 rounded-3xl overflow-hidden flex-shrink-0 border border-white/5 bg-brand-bg/40 relative">
                   <img 
-                    src={activeTab === 'projects' ? (item.images?.[0] || '') : item.image} 
+                    src={
+                      activeTab === 'projects' 
+                        ? (item.type === 'video'
+                            ? (item.thumbnail 
+                                ? (item.thumbnail.startsWith('http') ? item.thumbnail : `${import.meta.env.VITE_API_URL}/${item.thumbnail}`)
+                                : '/fallback.jpg')
+                            : (item.mediaUrl 
+                                ? (item.mediaUrl.startsWith('http') ? item.mediaUrl : `${import.meta.env.VITE_API_URL}/${item.mediaUrl}`)
+                                : (item.images?.[0] ? (item.images[0].startsWith('http') ? item.images[0] : `${import.meta.env.VITE_API_URL}/${item.images[0]}`) : '/fallback.jpg')
+                              )
+                          ) 
+                        : (item.image?.startsWith('http') ? item.image : `${import.meta.env.VITE_API_URL}/${item.image}`)
+                    } 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                     alt={item.title || item.name}
+                    onError={(e) => {
+                      e.target.src = "/fallback.jpg";
+                      console.log('Admin Preview Error: Image failed to load', item);
+                    }}
                   />
+                  {activeTab === 'projects' && item.type === 'video' && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/5">
+                      <div className="relative flex items-center justify-center">
+                        <div className="absolute w-12 h-12 rounded-full border border-white/10 animate-pulse-slow" />
+                        <div className="w-8 h-8 rounded-full bg-white/[0.05] backdrop-blur-xl border border-white/20 flex items-center justify-center text-white">
+                          <Play size={10} fill="white" className="ml-0.5" />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 
                 <div className="flex-grow w-full">
                   <div className="flex justify-between items-start mb-2">
                     <span className="text-[9px] font-black uppercase tracking-widest text-brand-accent/60 px-3 py-1 bg-brand-accent/5 rounded-lg">
-                      {activeTab === 'projects' ? item.category : item.role}
+                      {activeTab === 'projects' ? (item.category?.name || 'Archive') : item.role}
                     </span>
                     <div className="flex gap-2">
                       <button 
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           setEditingItem(item);
                           activeTab === 'projects' ? setIsProjectFormOpen(true) : setIsTeamFormOpen(true);
                         }}
@@ -380,14 +426,17 @@ const AdminDashboard = () => {
                         <Edit2 size={16} />
                       </button>
                       <button 
-                        onClick={() => handleDelete(item._id, activeTab)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(item._id, activeTab);
+                        }}
                         className="p-3 bg-white/5 rounded-xl hover:bg-red-500 hover:text-white transition-all"
                       >
                         <Trash2 size={16} />
                       </button>
                     </div>
                   </div>
-                  <h3 className="text-2xl font-display font-medium mb-3">{item.title || item.name}</h3>
+                  <h3 className="text-2xl font-display font-medium mb-3 group-hover:text-brand-accent transition-colors">{item.title || item.name}</h3>
                   <p className="text-brand-text-dim text-xs font-light line-clamp-2 italic mb-6">
                     {item.description || `Studio agent specializing in ${item.role}`}
                   </p>
@@ -395,8 +444,26 @@ const AdminDashboard = () => {
                   <div className="flex gap-4">
                     {activeTab === 'projects' ? (
                       <>
-                        {item.liveLink && <ExternalLink size={14} className="text-brand-accent" />}
-                        {item.githubLink && <FaGithub size={14} className="text-brand-text-dim" />}
+                        {item.liveLink && (
+                          <a 
+                            href={item.liveLink} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <ExternalLink size={14} className="text-brand-accent hover:scale-125 transition-transform" />
+                          </a>
+                        )}
+                        {item.githubLink && (
+                          <a 
+                            href={item.githubLink} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <FaGithub size={14} className="text-brand-text-dim hover:text-white transition-colors" />
+                          </a>
+                        )}
                         <span className="text-[8px] font-bold uppercase tracking-widest ml-auto opacity-40">
                           {item.images?.length || 0} Assets
                         </span>
@@ -450,10 +517,15 @@ const AdminDashboard = () => {
             onRefresh={fetchData} 
           />
         )}
+        {isCategoryManagerOpen && (
+          <CategoryManager 
+            onClose={() => setIsCategoryManagerOpen(false)} 
+            onRefresh={fetchData} 
+          />
+        )}
       </AnimatePresence>
     </div>
   );
 };
 
 export default AdminDashboard;
-

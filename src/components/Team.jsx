@@ -92,9 +92,9 @@ const Team = () => {
                   }}
                   transition={{
                     type: "spring",
-                    stiffness: 200,
-                    damping: 30,
-                    mass: 1
+                    stiffness: 150,
+                    damping: 25,
+                    mass: 0.8
                   }}
                   onClick={() => setActiveIndex(index)}
                   className={`absolute w-[240px] md:w-[320px] aspect-[3/4] cursor-pointer group`}

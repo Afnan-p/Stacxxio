@@ -70,27 +70,36 @@ const ProjectDetail = () => {
           >
             {project.type === 'video' ? (
               <div className="relative rounded-[3rem] overflow-hidden border border-white/5 shadow-premium bg-[#0b0f19] aspect-video flex items-center justify-center">
-                {project.videoUrl.includes('youtube.com') || project.videoUrl.includes('youtu.be') ? (
+                {project.mediaUrl && !project.mediaUrl.startsWith('http') ? (
+                  <video 
+                    src={`${import.meta.env.VITE_API_URL}/${project.mediaUrl}`} 
+                    controls 
+                    className="w-full h-full object-contain"
+                    poster={project.thumbnail ? (project.thumbnail.startsWith('http') ? project.thumbnail : `${import.meta.env.VITE_API_URL}/${project.thumbnail}`) : ''}
+                  />
+                ) : project.videoUrl?.includes('youtube.com') || project.videoUrl?.includes('youtu.be') ? (
                   <iframe 
                     src={`https://www.youtube.com/embed/${project.videoUrl.split('v=')[1] || project.videoUrl.split('/').pop()}`}
                     className="w-full h-full"
                     allowFullScreen
                     title={project.title}
                   />
-                ) : project.videoUrl.includes('vimeo.com') ? (
+                ) : project.videoUrl?.includes('vimeo.com') ? (
                   <iframe 
                     src={`https://player.vimeo.com/video/${project.videoUrl.split('/').pop()}`}
                     className="w-full h-full"
                     allowFullScreen
                     title={project.title}
                   />
-                ) : (
+                ) : project.videoUrl ? (
                   <video 
                     src={project.videoUrl} 
                     controls 
                     className="w-full h-full object-contain"
                     poster={project.thumbnail}
                   />
+                ) : (
+                   <div className="text-brand-text-dim italic">Motion Asset Missing</div>
                 )}
               </div>
             ) : (
@@ -99,7 +108,11 @@ const ProjectDetail = () => {
                   <AnimatePresence mode="wait">
                     <motion.img 
                       key={currentImageIndex}
-                      src={project.images[currentImageIndex]}
+                      src={
+                        project.mediaUrl 
+                          ? (project.mediaUrl.startsWith('http') ? project.mediaUrl : `${import.meta.env.VITE_API_URL}/${project.mediaUrl}`)
+                          : (project.images[currentImageIndex]?.startsWith('http') ? project.images[currentImageIndex] : `${import.meta.env.VITE_API_URL}/${project.images[currentImageIndex]}`)
+                      }
                       initial={{ opacity: 0, scale: 0.98 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 1.02 }}
@@ -160,7 +173,7 @@ const ProjectDetail = () => {
               
               <div className="flex gap-4 mb-12">
                 <span className="px-5 py-2 glass-pill text-[9px] font-black uppercase tracking-widest text-brand-accent">
-                  {project.category}
+                  {project.category?.name || 'Uncategorized Masterpiece'}
                 </span>
               </div>
 

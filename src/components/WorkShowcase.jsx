@@ -2,44 +2,45 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ExternalLink, Play } from 'lucide-react';
 import API from '../api/axios';
-import { Link } from 'react-router-dom';
-
-const categories = [
-  'All',
-  'UI Design',
-  'App Dev',
-  'Web Dev',
-  'Branding',
-  'Posters',
-  'Marketing'
-];
+import { Link, useNavigate } from 'react-router-dom';
 
 const WorkShowcase = () => {
   const [projects, setProjects] = useState([]);
   const [filteredProjects, setFilteredProjects] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState('All');
   const [loading, setLoading] = useState(true);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const fetchProjects = async () => {
+    const fetchData = async () => {
       try {
-        const res = await API.get('/api/projects');
-        setProjects(res.data);
-        setFilteredProjects(res.data);
+        const [projectsRes, categoriesRes] = await Promise.all([
+          API.get('/api/projects'),
+          API.get('/api/categories')
+        ]);
+        setProjects(projectsRes.data);
+        console.log('DEBUG: Loaded Projects:', projectsRes.data);
+        projectsRes.data.forEach((item) => console.log('DEBUG: Project Item:', item));
+        setFilteredProjects(projectsRes.data);
+        setCategories(categoriesRes.data);
         setLoading(false);
       } catch (err) {
         console.error(err);
         setLoading(false);
       }
     };
-    fetchProjects();
+    fetchData();
   }, []);
 
   useEffect(() => {
     if (activeCategory === 'All') {
       setFilteredProjects(projects);
     } else {
-      setFilteredProjects(projects.filter(p => p.category === activeCategory));
+      setFilteredProjects(projects.filter(p => 
+        (typeof p.category === 'object' ? p.category._id : p.category) === activeCategory
+      ));
     }
   }, [activeCategory, projects]);
 
@@ -64,15 +65,23 @@ const WorkShowcase = () => {
 
           {/* Category Tabs */}
           <div className="flex flex-wrap justify-center gap-x-10 gap-y-6 mb-16 border-b border-white/5 pb-8">
+            <button
+              onClick={() => setActiveCategory('All')}
+              className={`text-[10px] font-bold uppercase tracking-[0.3em] transition-all duration-500 hover:text-brand-accent ${
+                activeCategory === 'All' ? 'tab-active' : 'text-brand-text-dim'
+              }`}
+            >
+              All
+            </button>
             {categories.map((cat) => (
               <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
+                key={cat._id}
+                onClick={() => setActiveCategory(cat._id)}
                 className={`text-[10px] font-bold uppercase tracking-[0.3em] transition-all duration-500 hover:text-brand-accent ${
-                  activeCategory === cat ? 'tab-active' : 'text-brand-text-dim'
+                  activeCategory === cat._id ? 'tab-active' : 'text-brand-text-dim'
                 }`}
               >
-                {cat}
+                {cat.name}
               </button>
             ))}
           </div>
@@ -86,87 +95,112 @@ const WorkShowcase = () => {
 
           <div className="grid grid-rows-2 grid-flow-col gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth py-4 pb-12">
             <AnimatePresence mode="popLayout">
-              {filteredProjects.map((project, index) => (
-                <motion.div
-                  key={project._id}
-                  initial={{ opacity: 0, x: 30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.6, delay: index * 0.05 }}
-                  className="group glass-card rounded-[2rem] overflow-hidden flex flex-col h-full snap-center min-w-[calc(100vw-2.5rem)] sm:min-w-[280px] lg:min-w-[320px]"
-                >
-                  {/* Image Container */}
-                  <div className="relative h-56 md:h-64 overflow-hidden">
-                    <div className="absolute top-4 left-4 z-20">
-                      <span className="px-3 py-1 bg-brand-accent/90 backdrop-blur-md text-brand-bg text-[7px] font-black uppercase tracking-widest rounded-full shadow-emerald-glow">
-                        {project.category}
-                      </span>
-                    </div>
-                    
-                    <img 
-                      src={project.type === 'video' && project.thumbnail ? project.thumbnail : (project.images && project.images.length > 0 ? project.images[0] : '')} 
-                      alt={project.title} 
-                      className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-105 transition-all duration-700 ease-out"
-                    />
-
-                    {project.type === 'video' && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-all duration-500">
-                        <motion.div 
-                          animate={{ scale: [1, 1.1, 1] }}
-                          transition={{ repeat: Infinity, duration: 2 }}
-                          className="w-16 h-16 rounded-full bg-brand-accent/90 flex items-center justify-center text-brand-bg shadow-emerald-glow group-hover:scale-125 transition-transform duration-500"
-                        >
-                          <Play fill="currentColor" className="ml-1" size={24} />
-                        </motion.div>
-                      </div>
-                    )}
-                    
-                    <div className="absolute inset-0 bg-gradient-to-t from-brand-bg/60 via-transparent to-transparent opacity-40" />
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6 md:p-8 flex flex-col flex-grow">
-                    <h3 className="text-xl font-display font-medium text-brand-text mb-3 group-hover:text-brand-accent transition-colors duration-500">
-                      {project.title}
-                    </h3>
-                    <p className="text-brand-text-dim text-[13px] font-light italic mb-6 line-clamp-2 leading-relaxed">
-                      {project.description}
-                    </p>
-
-                    <div className="flex flex-wrap gap-2 mb-8">
-                      {project.techStack.map(tech => (
-                        <span key={tech} className="text-[7px] font-bold uppercase tracking-widest text-brand-accent/60 bg-brand-accent/5 px-2.5 py-1 rounded-md border border-brand-accent/10">
-                          {tech}
+              {filteredProjects.map((project, index) => {
+                console.log('DEBUG: Rendering Project:', project);
+                return (
+                  <motion.div
+                    key={project._id}
+                    initial={{ opacity: 0, x: 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.6, delay: index * 0.05 }}
+                    onClick={() => navigate(`/project/${project._id}`)}
+                    className="group glass-card rounded-[2rem] overflow-hidden flex flex-col h-full snap-center min-w-[calc(100vw-2.5rem)] sm:min-w-[280px] lg:min-w-[320px] cursor-pointer transition-all active:scale-95"
+                  >
+                    {/* Image Container */}
+                    <div className="relative h-56 md:h-64 overflow-hidden">
+                      <div className="absolute top-4 left-4 z-20">
+                        <span className="px-3 py-1 bg-brand-accent/90 backdrop-blur-md text-brand-bg text-[7px] font-black uppercase tracking-widest rounded-full shadow-emerald-glow">
+                          {project.category?.name || 'Archive'}
                         </span>
-                      ))}
+                      </div>
+                      
+                      <img 
+                        src={
+                          project.type === 'video'
+                            ? (project.thumbnail 
+                                ? (project.thumbnail.startsWith('http') ? project.thumbnail : `${import.meta.env.VITE_API_URL}/${project.thumbnail}`)
+                                : '/fallback.jpg')
+                            : (project.mediaUrl 
+                                ? (project.mediaUrl.startsWith('http') ? project.mediaUrl : `${import.meta.env.VITE_API_URL}/${project.mediaUrl}`)
+                                : (project.images?.[0] 
+                                    ? (project.images[0].startsWith('http') ? project.images[0] : `${import.meta.env.VITE_API_URL}/${project.images[0]}`) 
+                                    : '/fallback.jpg')
+                              )
+                        } 
+                        alt={project.title} 
+                        onError={(e) => {
+                          e.target.src = "/fallback.jpg";
+                        }}
+                        className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-105 transition-all duration-700 ease-out"
+                      />
+
+                      {project.type === 'video' && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/5 group-hover:bg-black/20 transition-all duration-700 z-10">
+                          <motion.div 
+                            initial={false}
+                            whileHover={{ scale: 1.1 }}
+                            className="relative flex items-center justify-center"
+                          >
+                            {/* Outer Ring */}
+                            <div className="absolute w-24 h-24 rounded-full border border-white/10 animate-pulse-slow" />
+                            
+                            {/* Inner Glass Circle */}
+                            <div className="w-16 h-16 rounded-full bg-white/[0.05] backdrop-blur-2xl border border-white/20 flex items-center justify-center text-white shadow-2xl transition-all duration-700 group-hover:bg-white/10">
+                              <Play fill="white" className="ml-1" size={24} />
+                            </div>
+                          </motion.div>
+                        </div>
+                      )}
+                      
+                      <div className="absolute inset-0 bg-gradient-to-t from-brand-bg/60 via-transparent to-transparent opacity-40" />
                     </div>
 
-                    <div className="mt-auto pt-5 border-t border-white/5 flex items-center justify-between">
-                      <Link 
-                        to={`/project/${project._id}`}
-                        className="inline-flex items-center gap-2 text-[8px] font-black uppercase tracking-[0.3em] text-brand-accent group/link"
-                      >
-                        View Project
-                        <ArrowRight size={12} className="group-hover/link:translate-x-2 transition-transform duration-500" />
-                      </Link>
-                      
-                      {project.liveLink && (
-                        <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="text-brand-text-dim hover:text-brand-accent transition-colors">
-                          <ExternalLink size={14} />
-                        </a>
-                      )}
+                    {/* Content */}
+                    <div className="p-6 md:p-8 flex flex-col flex-grow">
+                      <h3 className="text-xl font-display font-medium text-brand-text mb-3 group-hover:text-brand-accent transition-colors duration-500">
+                        {project.title}
+                      </h3>
+                      <p className="text-brand-text-dim text-[13px] font-light italic mb-6 line-clamp-2 leading-relaxed">
+                        {project.description}
+                      </p>
+
+                      <div className="flex flex-wrap gap-2 mb-8">
+                        {project.techStack.map(tech => (
+                          <span key={tech} className="text-[7px] font-bold uppercase tracking-widest text-brand-accent/60 bg-brand-accent/5 px-2.5 py-1 rounded-md border border-brand-accent/10">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="mt-auto pt-5 border-t border-white/5 flex items-center justify-between">
+                        <div className="inline-flex items-center gap-2 text-[8px] font-black uppercase tracking-[0.3em] text-brand-accent group/link">
+                          View Project
+                          <ArrowRight size={12} className="group-hover/link:translate-x-2 transition-transform duration-500" />
+                        </div>
+                        
+                        {project.liveLink && (
+                          <a 
+                            href={project.liveLink} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="text-brand-text-dim hover:text-brand-accent transition-colors p-2"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <ExternalLink size={14} />
+                          </a>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </AnimatePresence>
           </div>
         </div>
 
-
-
-
-        <style jsx>{`
+        <style>{`
           .scrollbar-hide::-webkit-scrollbar {
             display: none;
           }
