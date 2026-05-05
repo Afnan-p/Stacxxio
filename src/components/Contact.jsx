@@ -1,8 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send, Mail, MapPin, Phone } from 'lucide-react';
+import { Send, Mail, CheckCircle2, AlertCircle } from 'lucide-react';
+import API from '../api/axios';
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [status, setStatus] = useState({
+    loading: false,
+    success: false,
+    error: null
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    // Reset status when user starts typing again
+    if (status.error || status.success) {
+      setStatus({ loading: false, success: false, error: null });
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Basic validation
+    if (!formData.name || !formData.email || !formData.message) {
+      setStatus({ ...status, error: 'Please fulfill all fields of the transmission.' });
+      return;
+    }
+
+    setStatus({ loading: true, success: false, error: null });
+
+    try {
+      await API.post('/api/inquiries', formData);
+      setStatus({ loading: false, success: true, error: null });
+      setFormData({ name: '', email: '', message: '' });
+      
+      // Auto-reset success message after 5 seconds
+      setTimeout(() => setStatus(s => ({ ...s, success: false })), 5000);
+    } catch (err) {
+      console.error(err);
+      setStatus({ 
+        loading: false, 
+        success: false, 
+        error: err.response?.data?.message || 'Transmission failed. Please try again.' 
+      });
+    }
+  };
+
   return (
     <section id="contact" className="py-40 bg-brand-surface relative overflow-hidden">
       <div className="absolute top-0 left-0 w-[1000px] h-[1000px] bg-brand-accent/5 rounded-full blur-[250px]" />
@@ -34,11 +82,36 @@ const Contact = () => {
             viewport={{ once: true }}
             className="p-16 glass-green rounded-[3rem] border-white/5"
           >
-            <form className="space-y-10">
+            <form onSubmit={handleSubmit} className="space-y-10">
+              {status.success && (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="p-6 bg-brand-accent/10 border border-brand-accent/20 rounded-2xl flex items-center gap-4 text-brand-accent"
+                >
+                  <CheckCircle2 size={20} />
+                  <span className="text-sm font-medium">Transmission successful. We will respond shortly.</span>
+                </motion.div>
+              )}
+
+              {status.error && (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="p-6 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-4 text-red-500"
+                >
+                  <AlertCircle size={20} />
+                  <span className="text-sm font-medium">{status.error}</span>
+                </motion.div>
+              )}
+
               <div className="space-y-4">
                 <label className="text-[10px] font-bold uppercase tracking-[0.4em] text-brand-text-dim/60 ml-2">Name & Honorific</label>
                 <input 
                   type="text" 
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   className="w-full px-10 py-6 bg-brand-bg/50 border border-white/5 rounded-2xl focus:border-brand-accent/40 outline-none transition-all duration-700 text-brand-text font-light italic" 
                   placeholder="Mr. Jonathan Archer"
                 />
@@ -47,6 +120,9 @@ const Contact = () => {
                 <label className="text-[10px] font-bold uppercase tracking-[0.4em] text-brand-text-dim/60 ml-2">Direct Channel</label>
                 <input 
                   type="email" 
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   className="w-full px-10 py-6 bg-brand-bg/50 border border-white/5 rounded-2xl focus:border-brand-accent/40 outline-none transition-all duration-700 text-brand-text font-light italic" 
                   placeholder="archer@enterprise.com"
                 />
@@ -54,13 +130,20 @@ const Contact = () => {
               <div className="space-y-4">
                 <label className="text-[10px] font-bold uppercase tracking-[0.4em] text-brand-text-dim/60 ml-2">Project Visionary</label>
                 <textarea 
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
                   rows="4" 
                   className="w-full px-10 py-6 bg-brand-bg/50 border border-white/5 rounded-2xl focus:border-brand-accent/40 outline-none transition-all duration-700 text-brand-text font-light italic resize-none" 
                   placeholder="Describe your next architectural digital masterpiece..."
                 />
               </div>
-              <button className="w-full py-8 btn-luxury rounded-full text-[10px] font-bold uppercase tracking-[0.5em] flex items-center justify-center gap-6 hover:scale-[1.02] active:scale-[0.98] transition-all duration-700">
-                Dispatch Transmission <Send size={18} />
+              <button 
+                type="submit"
+                disabled={status.loading}
+                className={`w-full py-8 btn-luxury rounded-full text-[10px] font-bold uppercase tracking-[0.5em] flex items-center justify-center gap-6 hover:scale-[1.02] active:scale-[0.98] transition-all duration-700 ${status.loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                {status.loading ? 'Transmitting...' : 'Dispatch Transmission'} <Send size={18} />
               </button>
             </form>
           </motion.div>

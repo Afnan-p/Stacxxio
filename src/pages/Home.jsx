@@ -3,6 +3,7 @@ import Hero from '../components/Hero';
 import Services from '../components/Services';
 import WorkShowcase from '../components/WorkShowcase';
 import Approach from '../components/Approach';
+import Founders from '../components/Founders';
 import Team from '../components/Team';
 import Contact from '../components/Contact';
 
@@ -13,6 +14,7 @@ const Home = () => {
       <Services />
       <WorkShowcase />
       <Approach />
+      <Founders />
       <Team />
       <Contact />
     </>

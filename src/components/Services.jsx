@@ -31,19 +31,17 @@ const Services = () => {
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-accent/5 rounded-full blur-[200px]" />
       
       <div className="container mx-auto px-10 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-24 items-end mb-32">
-          <div>
-            <h2 className="text-[10px] font-bold uppercase tracking-[0.5em] text-brand-accent mb-6">Expertise</h2>
-            <h3 className="text-6xl md:text-8xl font-display font-medium text-brand-text leading-tight">
-              Curating <span className="text-brand-accent/20 italic">Modern</span> Digital Standards.
-            </h3>
-          </div>
-          <p className="text-xl text-brand-text-dim font-light leading-relaxed mb-4 italic">
+        <div className="flex flex-col items-center text-center mb-32">
+          <h2 className="text-[10px] font-bold uppercase tracking-[0.5em] text-brand-accent mb-6">Expertise</h2>
+          <h3 className="text-6xl md:text-8xl font-display font-medium text-brand-text leading-tight max-w-5xl">
+            Curating <span className="text-brand-accent/20 italic">Modern</span> Digital Standards.
+          </h3>
+          <p className="max-w-2xl text-xl text-brand-text-dim font-light leading-relaxed mt-12 italic">
             "Every project is a study in precision, blending the raw power of code with the elegance of luxury design."
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, index) => (
             <motion.div
               key={service.title}
