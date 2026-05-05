@@ -30,7 +30,7 @@ const Team = () => {
 
   useEffect(() => {
     if (isPaused || team.length === 0) return;
-    const interval = setInterval(nextSlide, 4000);
+    const interval = setInterval(nextSlide, 2000);
     return () => clearInterval(interval);
   }, [isPaused, team.length, nextSlide]);
 
@@ -92,8 +92,9 @@ const Team = () => {
                   }}
                   transition={{
                     type: "spring",
-                    stiffness: 150,
-                    damping: 25
+                    stiffness: 200,
+                    damping: 30,
+                    mass: 1
                   }}
                   onClick={() => setActiveIndex(index)}
                   className={`absolute w-[240px] md:w-[320px] aspect-[3/4] cursor-pointer group`}
