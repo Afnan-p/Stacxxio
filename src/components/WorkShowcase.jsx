@@ -44,7 +44,7 @@ const WorkShowcase = () => {
   }, [activeCategory, projects]);
 
   return (
-    <section id="work" className="py-40 px-20 bg-brand-bg relative luxury-noise overflow-hidden">
+    <section id="work" className="py-40  bg-brand-bg relative luxury-noise overflow-hidden">
       <div className="container mx-auto px-10 relative z-10">
         {/* Header */}
         <div className="mb-24 text-center">
@@ -79,7 +79,7 @@ const WorkShowcase = () => {
         </div>
 
         {/* Projects Horizontal Scroll */}
-        <div className="relative group -mx-10 px-10">
+        <div className="relative group -mx-10 px-20">
           {/* Gradient Masks */}
           <div className="absolute inset-y-0 left-0 w-24 md:w-40 bg-gradient-to-r from-brand-bg via-brand-bg/80 to-transparent z-20 pointer-events-none" />
           <div className="absolute inset-y-0 right-0 w-24 md:w-40 bg-gradient-to-l from-brand-bg via-brand-bg/80 to-transparent z-20 pointer-events-none" />
@@ -96,7 +96,7 @@ const WorkShowcase = () => {
                   className="group glass-card rounded-[2.5rem] overflow-hidden flex flex-col h-full snap-center min-w-[calc(100vw-5rem)] sm:min-w-[calc(50vw-6rem)] lg:min-w-[calc(33.33vw-6rem)]"
                 >
                   {/* Image Container */}
-                  <div className="relative h-64 md:h-72 overflow-hidden">
+                  <div className="relative h-64 md:h-72 overflow-hidden ">
                     <div className="absolute top-6 left-6 z-20">
                       <span className="px-4 py-1.5 bg-brand-accent/90 backdrop-blur-md text-brand-bg text-[8px] font-black uppercase tracking-widest rounded-full shadow-emerald-glow">
                         {project.category}
