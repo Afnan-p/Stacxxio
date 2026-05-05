@@ -15,7 +15,7 @@ const Home = () => {
       <Services />
       <WorkShowcase />
       <Approach />
-      <Founders />
+      {/* <Founders /> */}
       <TechStack />
       <Team />
       <Contact />
