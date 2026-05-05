@@ -70,7 +70,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-[10px] font-bold uppercase tracking-widest text-brand-text-dim/60 mb-2 italic">Electronic mail</p>
-                  <p className="text-xl md:text-3xl font-display font-medium break-all">concierge@stackxxio.studio</p>
+                  <p className="text-xl md:text-3xl font-display font-medium break-all">stackxxioweb@gmail.com</p>
                 </div>
               </div>
             </div>

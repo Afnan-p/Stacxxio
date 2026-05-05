@@ -19,9 +19,9 @@ const Team = () => {
   }, []);
 
   return (
-    <section id="team" className="py-24 bg-brand-bg relative luxury-noise overflow-hidden">
-      <div className="max-w-6xl mx-auto px-10 relative z-10">
-        <div className="mb-32">
+    <section id="team" className="py-16 md:py-24 bg-brand-bg relative luxury-noise overflow-hidden">
+      <div className="max-w-6xl mx-auto px-6 md:px-10 relative z-10">
+        <div className="mb-16 md:mb-32">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -29,10 +29,10 @@ const Team = () => {
             className="flex flex-col items-center text-center"
           >
             <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-brand-accent mb-6">Collective Intelligence</span>
-            <h2 className="text-6xl md:text-8xl font-display font-medium text-brand-text mb-8">
+            <h2 className="text-5xl md:text-8xl font-display font-medium text-brand-text mb-8">
               The <span className="text-brand-accent/20 italic">Architects.</span>
             </h2>
-            <p className="max-w-2xl text-brand-text-dim text-lg font-light italic leading-relaxed">
+            <p className="max-w-2xl text-brand-text-dim text-base md:text-lg font-light italic leading-relaxed">
               We are a specialized unit of designers and engineers, unified by a singular mission: to push the boundaries of digital possibility.
             </p>
           </motion.div>
@@ -41,11 +41,11 @@ const Team = () => {
         {/* Cinematic Horizontal Scroll */}
         <div className="relative -mx-10 overflow-hidden">
           {/* Gradient Masks */}
-          <div className="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-brand-bg via-brand-bg/80 to-transparent z-20 pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-brand-bg via-brand-bg/80 to-transparent z-20 pointer-events-none" />
+          <div className="absolute inset-y-0 left-0 w-24 md:w-40 bg-gradient-to-r from-brand-bg via-brand-bg/80 to-transparent z-20 pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-24 md:w-40 bg-gradient-to-l from-brand-bg via-brand-bg/80 to-transparent z-20 pointer-events-none" />
 
           <motion.div
-            className="flex gap-20 py-10"
+            className="flex gap-12 md:gap-20 py-10"
             animate={{
               x: ["0%", "-50%"]
             }}
@@ -53,7 +53,7 @@ const Team = () => {
               x: {
                 repeat: Infinity,
                 repeatType: "loop",
-                duration: 40,
+                duration: 20,
                 ease: "linear"
               }
             }}
@@ -64,7 +64,7 @@ const Team = () => {
                 key={`${member._id}-${index}`}
                 className="flex-shrink-0 group"
               >
-                <div className="relative w-[280px] h-[420px] rounded-[3rem] overflow-hidden mb-10 border border-white/5 shadow-2xl transition-all duration-700 group-hover:border-brand-accent/20">
+                <div className="relative w-[220px] md:w-[280px] h-[330px] md:h-[420px] rounded-[2rem] md:rounded-[3rem] overflow-hidden mb-10 border border-white/5 shadow-2xl transition-all duration-700 group-hover:border-brand-accent/20">
                   <img
                     src={member.image}
                     alt={member.name}
@@ -94,7 +94,7 @@ const Team = () => {
                 </div>
 
                 <div className="text-center px-6">
-                  <h3 className="text-3xl font-display font-medium text-brand-text mb-3 group-hover:text-brand-accent transition-colors duration-500">
+                  <h3 className="text-2xl md:text-3xl font-display font-medium text-brand-text mb-3 group-hover:text-brand-accent transition-colors duration-500">
                     {member.name}
                   </h3>
                   <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-brand-text-dim">
