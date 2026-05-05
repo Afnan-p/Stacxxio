@@ -27,21 +27,21 @@ const services = [
 
 const Services = () => {
   return (
-    <section id="services" className="py-40 bg-brand-surface relative overflow-hidden">
+    <section id="services" className="py-20 md:py-40 bg-brand-surface relative overflow-hidden">
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-accent/5 rounded-full blur-[200px]" />
       
-      <div className="container mx-auto px-10 relative z-10">
-        <div className="flex flex-col items-center text-center mb-32">
+      <div className="container mx-auto px-6 md:px-10 relative z-10">
+        <div className="flex flex-col items-center text-center mb-16 md:mb-32">
           <h2 className="text-[10px] font-bold uppercase tracking-[0.5em] text-brand-accent mb-6">Expertise</h2>
-          <h3 className="text-6xl md:text-8xl font-display font-medium text-brand-text leading-tight max-w-5xl">
+          <h3 className="text-5xl md:text-8xl font-display font-medium text-brand-text leading-tight max-w-5xl tracking-tighter">
             Curating <span className="text-brand-accent/20 italic">Modern</span> Digital Standards.
           </h3>
-          <p className="max-w-2xl text-xl text-brand-text-dim font-light leading-relaxed mt-12 italic">
+          <p className="max-w-2xl text-lg md:text-xl text-brand-text-dim font-light leading-relaxed mt-10 md:mt-12 italic">
             "Every project is a study in precision, blending the raw power of code with the elegance of luxury design."
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {services.map((service, index) => (
             <motion.div
               key={service.title}
@@ -49,13 +49,13 @@ const Services = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1, delay: index * 0.1 }}
-              className="p-12 glass-green rounded-[3rem] group cursor-default border-white/5"
+              className="p-8 md:p-12 glass-green rounded-[2.5rem] md:rounded-[3rem] group cursor-default border-white/5"
             >
-              <div className="w-20 h-20 bg-brand-bg rounded-2xl flex items-center justify-center mb-10 group-hover:bg-brand-accent group-hover:text-brand-bg transition-all duration-700 shadow-2xl">
+              <div className="w-16 h-16 md:w-20 md:h-20 bg-brand-bg rounded-2xl flex items-center justify-center mb-8 md:mb-10 group-hover:bg-brand-accent group-hover:text-brand-bg transition-all duration-700 shadow-2xl">
                 {service.icon}
               </div>
-              <h4 className="text-3xl font-display font-medium mb-6 text-brand-text">{service.title}</h4>
-              <p className="text-brand-text-dim text-lg leading-relaxed font-light italic">
+              <h4 className="text-2xl md:text-3xl font-display font-medium mb-4 md:mb-6 text-brand-text">{service.title}</h4>
+              <p className="text-brand-text-dim text-base md:text-lg leading-relaxed font-light italic">
                 {service.description}
               </p>
             </motion.div>

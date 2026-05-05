@@ -5,6 +5,7 @@ import WorkShowcase from '../components/WorkShowcase';
 import Approach from '../components/Approach';
 import Founders from '../components/Founders';
 import Team from '../components/Team';
+import TechStack from '../components/TechStack';
 import Contact from '../components/Contact';
 
 const Home = () => {
@@ -16,6 +17,7 @@ const Home = () => {
       <Approach />
       <Founders />
       <Team />
+      <TechStack />
       <Contact />
     </>
   );

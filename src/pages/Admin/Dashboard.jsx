@@ -3,13 +3,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Plus, Edit2, Trash2, LogOut, LayoutGrid, 
   Users, Briefcase, ChevronRight, ExternalLink, 
-  Image as ImageIcon, Search, Mail, Menu, X 
+  Image as ImageIcon, Search, Mail, Menu, X, Cpu
 } from 'lucide-react';
 import { FaGithub } from "react-icons/fa";
+import * as SiIcons from "react-icons/si";
+import * as FaIcons from "react-icons/fa";
 import API from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
 import ProjectForm from '../../components/ProjectForm';
 import TeamForm from '../../components/TeamForm';
+import TechForm from '../../components/TechForm';
 import toast, { Toaster } from 'react-hot-toast';
 
 const AdminDashboard = () => {
@@ -17,8 +20,10 @@ const AdminDashboard = () => {
   const [projects, setProjects] = useState([]);
   const [team, setTeam] = useState([]);
   const [inquiries, setInquiries] = useState([]);
+  const [tech, setTech] = useState([]);
   const [isProjectFormOpen, setIsProjectFormOpen] = useState(false);
   const [isTeamFormOpen, setIsTeamFormOpen] = useState(false);
+  const [isTechFormOpen, setIsTechFormOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -30,16 +35,18 @@ const AdminDashboard = () => {
 
   const fetchData = async () => {
     try {
-      const [projRes, teamRes, inqRes] = await Promise.all([
+      const [projRes, teamRes, inqRes, techRes] = await Promise.all([
         API.get('/api/projects'),
         API.get('/api/team'),
         API.get('/api/inquiries', {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-        })
+        }),
+        API.get('/api/tech')
       ]);
       setProjects(projRes.data);
       setTeam(teamRes.data);
       setInquiries(inqRes.data);
+      setTech(techRes.data);
     } catch (err) {
       toast.error('Failed to synchronize data');
     }
@@ -56,7 +63,7 @@ const AdminDashboard = () => {
     
     try {
       const token = localStorage.getItem('token');
-      const endpoint = type === 'inquiries' ? `/api/inquiries/${id}` : `/api/${type}/${id}`;
+      const endpoint = type === 'inquiries' ? `/api/inquiries/${id}` : type === 'tech' ? `/api/tech/${id}` : `/api/${type}/${id}`;
       
       await API.delete(endpoint, {
         headers: { Authorization: `Bearer ${token}` }
@@ -72,13 +79,14 @@ const AdminDashboard = () => {
     if (activeTab === 'projects') return projects.filter(i => i.title.toLowerCase().includes(searchQuery.toLowerCase()));
     if (activeTab === 'team') return team.filter(i => i.name.toLowerCase().includes(searchQuery.toLowerCase()));
     if (activeTab === 'inquiries') return inquiries.filter(i => i.name.toLowerCase().includes(searchQuery.toLowerCase()) || i.email.toLowerCase().includes(searchQuery.toLowerCase()));
+    if (activeTab === 'tech') return tech.filter(i => i.name.toLowerCase().includes(searchQuery.toLowerCase()));
     return [];
   };
 
   const NavContent = () => (
     <>
       <div className="mb-16 hidden md:block">
-        <h1 className="text-3xl font-display font-bold tracking-tighter mb-2">STACKXXIO</h1>
+        <h1 className="text-3xl font-display font-bold tracking-tighter mb-2 text-brand-text">STACKXXIO</h1>
         <p className="text-[9px] font-black uppercase tracking-[0.4em] text-brand-accent">Control Center</p>
       </div>
 
@@ -96,6 +104,13 @@ const AdminDashboard = () => {
         >
           <Users size={20} />
           <span className="text-xs font-bold uppercase tracking-widest">The Collective</span>
+        </button>
+        <button 
+          onClick={() => { setActiveTab('tech'); setIsSidebarOpen(false); }}
+          className={`w-full flex items-center gap-4 px-6 py-5 rounded-2xl transition-all ${activeTab === 'tech' ? 'bg-brand-accent text-brand-bg' : 'hover:bg-white/5 text-brand-text-dim'}`}
+        >
+          <Cpu size={20} />
+          <span className="text-xs font-bold uppercase tracking-widest">Tech Stack</span>
         </button>
         <button 
           onClick={() => { setActiveTab('inquiries'); setIsSidebarOpen(false); }}
@@ -167,7 +182,7 @@ const AdminDashboard = () => {
         <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
           <div>
             <h2 className="text-4xl md:text-5xl font-display font-medium mb-4">
-              {activeTab === 'projects' ? 'Asset Management' : activeTab === 'team' ? 'Collective Intelligence' : 'Transmission Logs'}
+              {activeTab === 'projects' ? 'Asset Management' : activeTab === 'team' ? 'Collective Intelligence' : activeTab === 'tech' ? 'Technical Architecture' : 'Transmission Logs'}
             </h2>
             <div className="flex items-center gap-3 text-brand-text-dim text-[10px] font-bold uppercase tracking-[0.3em]">
               <LayoutGrid size={14} className="text-brand-accent" />
@@ -177,10 +192,15 @@ const AdminDashboard = () => {
 
           {activeTab !== 'inquiries' && (
             <button 
-              onClick={() => activeTab === 'projects' ? setIsProjectFormOpen(true) : setIsTeamFormOpen(true)}
+              onClick={() => {
+                if (activeTab === 'projects') setIsProjectFormOpen(true);
+                else if (activeTab === 'team') setIsTeamFormOpen(true);
+                else setIsTechFormOpen(true);
+              }}
               className="btn-premium flex items-center gap-3 w-full md:w-auto justify-center"
             >
-              <Plus size={16} /> {activeTab === 'projects' ? 'New Masterpiece' : 'Recruit Agent'}
+              <Plus size={16} /> 
+              {activeTab === 'projects' ? 'New Masterpiece' : activeTab === 'team' ? 'Recruit Agent' : 'Integrate Stack'}
             </button>
           )}
         </header>
@@ -227,6 +247,35 @@ const AdminDashboard = () => {
                 </div>
               </div>
             ))
+          ) : activeTab === 'tech' ? (
+            filteredItems().map((item) => {
+              const IconComp = SiIcons[item.icon] || FaIcons[item.icon];
+              return (
+                <div key={item._id} className="glass-card rounded-[2.5rem] p-8 flex items-center gap-8 group">
+                  <div className="w-24 h-24 bg-brand-bg rounded-2xl border border-white/5 flex items-center justify-center text-brand-accent shadow-2xl transition-all duration-500 group-hover:scale-110">
+                    {IconComp ? <IconComp size={40} /> : <Cpu size={40} />}
+                  </div>
+                  <div className="flex-grow">
+                    <h3 className="text-2xl font-display font-medium mb-2">{item.name}</h3>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-text-dim">Order: {item.order}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button 
+                      onClick={() => { setEditingItem(item); setIsTechFormOpen(true); }}
+                      className="p-4 bg-white/5 rounded-2xl hover:bg-brand-accent hover:text-brand-bg transition-all"
+                    >
+                      <Edit2 size={18} />
+                    </button>
+                    <button 
+                      onClick={() => handleDelete(item._id, 'tech')}
+                      className="p-4 bg-white/5 rounded-2xl hover:bg-red-500 hover:text-white transition-all"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </div>
+                </div>
+              );
+            })
           ) : (
             filteredItems().map((item) => (
               <div key={item._id} className="glass-card rounded-[2.5rem] p-6 md:p-8 flex flex-col sm:flex-row gap-8 items-center group">
@@ -301,6 +350,13 @@ const AdminDashboard = () => {
           <TeamForm 
             editMember={editingItem} 
             onClose={() => { setIsTeamFormOpen(false); setEditingItem(null); }} 
+            onRefresh={fetchData} 
+          />
+        )}
+        {isTechFormOpen && (
+          <TechForm 
+            editTech={editingItem} 
+            onClose={() => { setIsTechFormOpen(false); setEditingItem(null); }} 
             onRefresh={fetchData} 
           />
         )}

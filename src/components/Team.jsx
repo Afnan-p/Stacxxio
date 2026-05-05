@@ -37,14 +37,14 @@ const Team = () => {
   if (team.length === 0) return null;
 
   return (
-    <section id="team" className="py-24 md:py-40 bg-brand-bg relative luxury-noise overflow-hidden">
+    <section id="team" className="py-24 md:py-40 bg-brand-bg relative luxury-noise overflow-hidden mb-20">
       {/* Background Ambience */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-accent/5 rounded-full blur-[200px]" />
       </div>
 
       <div className="container mx-auto px-6 md:px-10 relative z-10">
-        <div className="mb-20 md:mb-32 text-center">
+        <div className="mb-20 md:mb-20 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -147,12 +147,12 @@ const Team = () => {
           </div>
 
           {/* Navigation Controls */}
-          <div className="absolute bottom-0 left-0 right-0 flex justify-center gap-10 md:hidden">
-            <button onClick={prevSlide} className="p-6 rounded-full bg-white/5 border border-white/10 active:scale-90 transition-all">
-              <FaChevronLeft size={16} />
+          <div className="absolute -bottom-20 left-0 right-0 flex justify-center gap-10 md:hidden">
+            <button onClick={prevSlide} className="p-4 rounded-full bg-white/5 border border-white/10 active:scale-90 transition-all">
+              <FaChevronLeft size={14} />
             </button>
-            <button onClick={nextSlide} className="p-6 rounded-full bg-white/5 border border-white/10 active:scale-90 transition-all">
-              <FaChevronRight size={16} />
+            <button onClick={nextSlide} className="p-4 rounded-full bg-white/5 border border-white/10 active:scale-90 transition-all">
+              <FaChevronRight size={14} />
             </button>
           </div>
         </div>
