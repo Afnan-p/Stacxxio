@@ -13,6 +13,9 @@ const ProjectForm = ({ onClose, onRefresh, editProject = null }) => {
     techStack: '',
     liveLink: '',
     githubLink: '',
+    type: 'image',
+    videoUrl: '',
+    thumbnail: '',
   });
   const [images, setImages] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
@@ -27,6 +30,9 @@ const ProjectForm = ({ onClose, onRefresh, editProject = null }) => {
         techStack: editProject.techStack.join(', '),
         liveLink: editProject.liveLink || '',
         githubLink: editProject.githubLink || '',
+        type: editProject.type || 'image',
+        videoUrl: editProject.videoUrl || '',
+        thumbnail: editProject.thumbnail || '',
       });
       setPreviewImages(editProject.images || []);
     }
@@ -62,6 +68,9 @@ const ProjectForm = ({ onClose, onRefresh, editProject = null }) => {
     data.append('techStack', JSON.stringify(formData.techStack.split(',').map(s => s.trim())));
     data.append('liveLink', formData.liveLink);
     data.append('githubLink', formData.githubLink);
+    data.append('type', formData.type);
+    data.append('videoUrl', formData.videoUrl);
+    data.append('thumbnail', formData.thumbnail);
     
     images.forEach((img) => {
       data.append('images', img);
@@ -135,6 +144,48 @@ const ProjectForm = ({ onClose, onRefresh, editProject = null }) => {
                 ))}
               </select>
             </div>
+          </div>
+
+          {/* Media Type Section */}
+          <div className="grid md:grid-cols-3 gap-10">
+            <div className="space-y-4">
+              <label className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-text-dim ml-2">Media Type</label>
+              <select
+                name="type"
+                value={formData.type}
+                onChange={handleChange}
+                className="w-full px-8 py-5 rounded-[1.5rem] bg-white/[0.03] border border-white/10 focus:border-brand-accent outline-none text-white appearance-none"
+              >
+                <option value="image">Still Image</option>
+                <option value="video">Cinematic Video</option>
+              </select>
+            </div>
+            
+            {formData.type === 'video' && (
+              <>
+                <div className="md:col-span-2 space-y-4">
+                  <label className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-text-dim ml-2">Video URL (YouTube / Vimeo / MP4)</label>
+                  <input
+                    name="videoUrl"
+                    value={formData.videoUrl}
+                    onChange={handleChange}
+                    className="w-full px-8 py-5 rounded-[1.5rem] bg-white/[0.03] border border-white/10 focus:border-brand-accent outline-none text-white transition-all"
+                    placeholder="https://youtube.com/watch?v=..."
+                    required={formData.type === 'video'}
+                  />
+                </div>
+                <div className="md:col-span-3 space-y-4">
+                  <label className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-text-dim ml-2">Video Cover Thumbnail URL (Optional)</label>
+                  <input
+                    name="thumbnail"
+                    value={formData.thumbnail}
+                    onChange={handleChange}
+                    className="w-full px-8 py-5 rounded-[1.5rem] bg-white/[0.03] border border-white/10 focus:border-brand-accent outline-none text-white transition-all"
+                    placeholder="https://masterpiece.com/cover.jpg"
+                  />
+                </div>
+              </>
+            )}
           </div>
 
           <div className="space-y-4">

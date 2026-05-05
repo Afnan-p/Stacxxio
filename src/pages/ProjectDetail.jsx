@@ -62,59 +62,88 @@ const ProjectDetail = () => {
         </Link>
 
         <div className="grid lg:grid-cols-12 gap-16 xl:gap-24 items-start">
-          {/* Gallery Sidebar / Carousel */}
+          {/* Media Section: Video or Image Gallery */}
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             className="lg:col-span-7 space-y-8"
           >
-            <div className="relative rounded-[3rem] overflow-hidden border border-white/5 shadow-premium group bg-[#0b0f19] flex items-center justify-center p-4 md:p-8 min-h-[400px]">
-              <AnimatePresence mode="wait">
-                <motion.img 
-                  key={currentImageIndex}
-                  src={project.images[currentImageIndex]}
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 1.02 }}
-                  transition={{ duration: 0.4 }}
-                  className="max-w-full max-h-[80vh] w-auto h-auto object-contain rounded-2xl shadow-2xl"
-                />
-              </AnimatePresence>
-              
-              {project.images.length > 1 && (
-                <>
-                  <button onClick={prevImage} className="absolute left-6 top-1/2 -translate-y-1/2 p-4 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full text-white opacity-0 group-hover:opacity-100 transition-all hover:bg-brand-accent hover:text-brand-bg z-30">
-                    <ChevronLeft size={24} />
-                  </button>
-                  <button onClick={nextImage} className="absolute right-6 top-1/2 -translate-y-1/2 p-4 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full text-white opacity-0 group-hover:opacity-100 transition-all hover:bg-brand-accent hover:text-brand-bg z-30">
-                    <ChevronRight size={24} />
-                  </button>
+            {project.type === 'video' ? (
+              <div className="relative rounded-[3rem] overflow-hidden border border-white/5 shadow-premium bg-[#0b0f19] aspect-video flex items-center justify-center">
+                {project.videoUrl.includes('youtube.com') || project.videoUrl.includes('youtu.be') ? (
+                  <iframe 
+                    src={`https://www.youtube.com/embed/${project.videoUrl.split('v=')[1] || project.videoUrl.split('/').pop()}`}
+                    className="w-full h-full"
+                    allowFullScreen
+                    title={project.title}
+                  />
+                ) : project.videoUrl.includes('vimeo.com') ? (
+                  <iframe 
+                    src={`https://player.vimeo.com/video/${project.videoUrl.split('/').pop()}`}
+                    className="w-full h-full"
+                    allowFullScreen
+                    title={project.title}
+                  />
+                ) : (
+                  <video 
+                    src={project.videoUrl} 
+                    controls 
+                    className="w-full h-full object-contain"
+                    poster={project.thumbnail}
+                  />
+                )}
+              </div>
+            ) : (
+              <>
+                <div className="relative rounded-[3rem] overflow-hidden border border-white/5 shadow-premium group bg-[#0b0f19] flex items-center justify-center p-4 md:p-8 min-h-[400px]">
+                  <AnimatePresence mode="wait">
+                    <motion.img 
+                      key={currentImageIndex}
+                      src={project.images[currentImageIndex]}
+                      initial={{ opacity: 0, scale: 0.98 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 1.02 }}
+                      transition={{ duration: 0.4 }}
+                      className="max-w-full max-h-[80vh] w-auto h-auto object-contain rounded-2xl shadow-2xl"
+                    />
+                  </AnimatePresence>
                   
-                  <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 px-4 py-2 bg-black/40 backdrop-blur-xl rounded-full border border-white/10 z-30">
-                    {project.images.map((_, i) => (
-                      <button 
-                        key={i}
-                        onClick={() => setCurrentImageIndex(i)}
-                        className={`w-2 h-2 rounded-full transition-all ${i === currentImageIndex ? 'bg-brand-accent w-6' : 'bg-white/20'}`}
-                      />
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
+                  {project.images.length > 1 && (
+                    <>
+                      <button onClick={prevImage} className="absolute left-6 top-1/2 -translate-y-1/2 p-4 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full text-white opacity-0 group-hover:opacity-100 transition-all hover:bg-brand-accent hover:text-brand-bg z-30">
+                        <ChevronLeft size={24} />
+                      </button>
+                      <button onClick={nextImage} className="absolute right-6 top-1/2 -translate-y-1/2 p-4 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full text-white opacity-0 group-hover:opacity-100 transition-all hover:bg-brand-accent hover:text-brand-bg z-30">
+                        <ChevronRight size={24} />
+                      </button>
+                      
+                      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 px-4 py-2 bg-black/40 backdrop-blur-xl rounded-full border border-white/10 z-30">
+                        {project.images.map((_, i) => (
+                          <button 
+                            key={i}
+                            onClick={() => setCurrentImageIndex(i)}
+                            className={`w-2 h-2 rounded-full transition-all ${i === currentImageIndex ? 'bg-brand-accent w-6' : 'bg-white/20'}`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
 
-            {/* Thumbnails */}
-            <div className="grid grid-cols-4 gap-4">
-              {project.images.map((img, i) => (
-                <button 
-                  key={i}
-                  onClick={() => setCurrentImageIndex(i)}
-                  className={`aspect-video rounded-2xl overflow-hidden border-2 transition-all ${i === currentImageIndex ? 'border-brand-accent shadow-emerald-glow' : 'border-transparent opacity-40 hover:opacity-100'}`}
-                >
-                  <img src={img} className="w-full h-full object-cover" />
-                </button>
-              ))}
-            </div>
+                {/* Thumbnails */}
+                <div className="grid grid-cols-4 gap-4">
+                  {project.images.map((img, i) => (
+                    <button 
+                      key={i}
+                      onClick={() => setCurrentImageIndex(i)}
+                      className={`aspect-video rounded-2xl overflow-hidden border-2 transition-all ${i === currentImageIndex ? 'border-brand-accent shadow-emerald-glow' : 'border-transparent opacity-40 hover:opacity-100'}`}
+                    >
+                      <img src={img} className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
           </motion.div>
 
           {/* Project Details */}

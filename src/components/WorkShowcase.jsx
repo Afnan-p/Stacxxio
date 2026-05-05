@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, ExternalLink } from 'lucide-react';
+import { ArrowRight, ExternalLink, Play } from 'lucide-react';
 import API from '../api/axios';
 import { Link } from 'react-router-dom';
 
@@ -104,10 +104,22 @@ const WorkShowcase = () => {
                     </div>
                     
                     <img 
-                      src={project.images && project.images.length > 0 ? project.images[0] : ''} 
+                      src={project.type === 'video' && project.thumbnail ? project.thumbnail : (project.images && project.images.length > 0 ? project.images[0] : '')} 
                       alt={project.title} 
                       className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-105 transition-all duration-700 ease-out"
                     />
+
+                    {project.type === 'video' && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-all duration-500">
+                        <motion.div 
+                          animate={{ scale: [1, 1.1, 1] }}
+                          transition={{ repeat: Infinity, duration: 2 }}
+                          className="w-16 h-16 rounded-full bg-brand-accent/90 flex items-center justify-center text-brand-bg shadow-emerald-glow group-hover:scale-125 transition-transform duration-500"
+                        >
+                          <Play fill="currentColor" className="ml-1" size={24} />
+                        </motion.div>
+                      </div>
+                    )}
                     
                     <div className="absolute inset-0 bg-gradient-to-t from-brand-bg/60 via-transparent to-transparent opacity-40" />
                   </div>
