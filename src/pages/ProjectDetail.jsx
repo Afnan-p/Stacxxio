@@ -68,29 +68,29 @@ const ProjectDetail = () => {
             animate={{ opacity: 1, x: 0 }}
             className="lg:col-span-7 space-y-8"
           >
-            <div className="relative aspect-video rounded-[3rem] overflow-hidden border border-white/5 shadow-premium group">
+            <div className="relative rounded-[3rem] overflow-hidden border border-white/5 shadow-premium group bg-[#0b0f19] flex items-center justify-center p-4 md:p-8 min-h-[400px]">
               <AnimatePresence mode="wait">
                 <motion.img 
                   key={currentImageIndex}
                   src={project.images[currentImageIndex]}
-                  initial={{ opacity: 0, scale: 1.1 }}
+                  initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.8 }}
-                  className="w-full h-full object-cover"
+                  exit={{ opacity: 0, scale: 1.02 }}
+                  transition={{ duration: 0.4 }}
+                  className="max-w-full max-h-[80vh] w-auto h-auto object-contain rounded-2xl shadow-2xl"
                 />
               </AnimatePresence>
               
               {project.images.length > 1 && (
                 <>
-                  <button onClick={prevImage} className="absolute left-6 top-1/2 -translate-y-1/2 p-4 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full text-white opacity-0 group-hover:opacity-100 transition-all hover:bg-brand-accent hover:text-brand-bg">
+                  <button onClick={prevImage} className="absolute left-6 top-1/2 -translate-y-1/2 p-4 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full text-white opacity-0 group-hover:opacity-100 transition-all hover:bg-brand-accent hover:text-brand-bg z-30">
                     <ChevronLeft size={24} />
                   </button>
-                  <button onClick={nextImage} className="absolute right-6 top-1/2 -translate-y-1/2 p-4 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full text-white opacity-0 group-hover:opacity-100 transition-all hover:bg-brand-accent hover:text-brand-bg">
+                  <button onClick={nextImage} className="absolute right-6 top-1/2 -translate-y-1/2 p-4 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full text-white opacity-0 group-hover:opacity-100 transition-all hover:bg-brand-accent hover:text-brand-bg z-30">
                     <ChevronRight size={24} />
                   </button>
                   
-                  <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 px-4 py-2 bg-black/40 backdrop-blur-xl rounded-full border border-white/10">
+                  <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 px-4 py-2 bg-black/40 backdrop-blur-xl rounded-full border border-white/10 z-30">
                     {project.images.map((_, i) => (
                       <button 
                         key={i}
