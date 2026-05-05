@@ -44,7 +44,7 @@ const WorkShowcase = () => {
   }, [activeCategory, projects]);
 
   return (
-    <section id="work" className="py-40 bg-brand-bg relative luxury-noise overflow-hidden">
+    <section id="work" className="py-40 px-20 bg-brand-bg relative luxury-noise overflow-hidden">
       <div className="container mx-auto px-10 relative z-10">
         {/* Header */}
         <div className="mb-24 text-center">
