@@ -78,73 +78,84 @@ const WorkShowcase = () => {
           </div>
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                layout
-                key={project._id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                className="group glass-card rounded-[2.5rem] overflow-hidden flex flex-col h-full"
-              >
-                {/* Image Container */}
-                <div className="relative h-72 overflow-hidden">
-                  <div className="absolute top-6 left-6 z-20">
-                    <span className="px-4 py-1.5 bg-brand-accent/90 backdrop-blur-md text-brand-bg text-[8px] font-black uppercase tracking-widest rounded-full shadow-emerald-glow">
-                      {project.category}
-                    </span>
-                  </div>
-                  
-                  <img 
-                    src={project.images && project.images.length > 0 ? project.images[0] : ''} 
-                    alt={project.title} 
-                    className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110 transition-all duration-1000 ease-out"
-                  />
-                  
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-bg/80 via-transparent to-transparent opacity-60" />
-                </div>
+        {/* Projects Horizontal Scroll */}
+        <div className="relative group -mx-10 px-10">
+          {/* Gradient Masks */}
+          <div className="absolute inset-y-0 left-0 w-24 md:w-40 bg-gradient-to-r from-brand-bg via-brand-bg/80 to-transparent z-20 pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-24 md:w-40 bg-gradient-to-l from-brand-bg via-brand-bg/80 to-transparent z-20 pointer-events-none" />
 
-                {/* Content */}
-                <div className="p-10 flex flex-col flex-grow">
-                  <h3 className="text-2xl font-display font-medium text-brand-text mb-4 group-hover:text-brand-accent transition-colors duration-500">
-                    {project.title}
-                  </h3>
-                  <p className="text-brand-text-dim text-sm font-light italic mb-8 line-clamp-2 leading-relaxed">
-                    {project.description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 mb-10">
-                    {project.techStack.map(tech => (
-                      <span key={tech} className="text-[8px] font-bold uppercase tracking-widest text-brand-accent/60 bg-brand-accent/5 px-3 py-1 rounded-md border border-brand-accent/10">
-                        {tech}
+          <div className="grid grid-rows-2 grid-flow-col gap-8 overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth py-4 pb-12">
+            <AnimatePresence mode="popLayout">
+              {filteredProjects.map((project, index) => (
+                <motion.div
+                  key={project._id}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.8, delay: index * 0.05 }}
+                  className="group glass-card rounded-[2.5rem] overflow-hidden flex flex-col h-full snap-center min-w-[calc(100vw-5rem)] sm:min-w-[calc(50vw-6rem)] lg:min-w-[calc(33.33vw-6rem)]"
+                >
+                  {/* Image Container */}
+                  <div className="relative h-64 md:h-72 overflow-hidden">
+                    <div className="absolute top-6 left-6 z-20">
+                      <span className="px-4 py-1.5 bg-brand-accent/90 backdrop-blur-md text-brand-bg text-[8px] font-black uppercase tracking-widest rounded-full shadow-emerald-glow">
+                        {project.category}
                       </span>
-                    ))}
+                    </div>
+                    
+                    <img 
+                      src={project.images && project.images.length > 0 ? project.images[0] : ''} 
+                      alt={project.title} 
+                      className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110 transition-all duration-1000 ease-out"
+                    />
+                    
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-bg/80 via-transparent to-transparent opacity-60" />
                   </div>
 
-                  <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
-                    <Link 
-                      to={`/project/${project._id}`}
-                      className="inline-flex items-center gap-3 text-[9px] font-black uppercase tracking-[0.3em] text-brand-accent group/link"
-                    >
-                      View Project
-                      <ArrowRight size={14} className="group-hover/link:translate-x-2 transition-transform duration-500" />
-                    </Link>
-                    
-                    {project.liveLink && (
-                      <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="text-brand-text-dim hover:text-brand-accent transition-colors">
-                        <ExternalLink size={16} />
-                      </a>
-                    )}
+                  {/* Content */}
+                  <div className="p-8 md:p-10 flex flex-col flex-grow">
+                    <h3 className="text-2xl font-display font-medium text-brand-text mb-4 group-hover:text-brand-accent transition-colors duration-500">
+                      {project.title}
+                    </h3>
+                    <p className="text-brand-text-dim text-sm font-light italic mb-8 line-clamp-2 leading-relaxed">
+                      {project.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-2 mb-10">
+                      {project.techStack.map(tech => (
+                        <span key={tech} className="text-[8px] font-bold uppercase tracking-widest text-brand-accent/60 bg-brand-accent/5 px-3 py-1 rounded-md border border-brand-accent/10">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
+                      <Link 
+                        to={`/project/${project._id}`}
+                        className="inline-flex items-center gap-3 text-[9px] font-black uppercase tracking-[0.3em] text-brand-accent group/link"
+                      >
+                        View Project
+                        <ArrowRight size={14} className="group-hover/link:translate-x-2 transition-transform duration-500" />
+                      </Link>
+                      
+                      {project.liveLink && (
+                        <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="text-brand-text-dim hover:text-brand-accent transition-colors">
+                          <ExternalLink size={16} />
+                        </a>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
         </div>
+
+        <style jsx>{`
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+          }
+        `}</style>
 
         {/* Empty State */}
         {!loading && filteredProjects.length === 0 && (
