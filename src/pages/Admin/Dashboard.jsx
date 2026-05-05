@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Plus, Edit2, Trash2, LogOut, LayoutGrid, 
   Users, Briefcase, ChevronRight, ExternalLink, 
-  Image as ImageIcon, Search, Mail, Menu, X, Cpu, Layers
+  Image as ImageIcon, Search, Mail, Menu, X, Cpu, Layers, Globe
 } from 'lucide-react';
 import { FaGithub } from "react-icons/fa";
 import * as SiIcons from "react-icons/si";
@@ -14,6 +14,7 @@ import ProjectForm from '../../components/ProjectForm';
 import TeamForm from '../../components/TeamForm';
 import TechForm from '../../components/TechForm';
 import ServiceForm from '../../components/ServiceForm';
+import FooterForm from '../../components/FooterForm';
 import toast, { Toaster } from 'react-hot-toast';
 
 const AdminDashboard = () => {
@@ -27,6 +28,7 @@ const AdminDashboard = () => {
   const [isTeamFormOpen, setIsTeamFormOpen] = useState(false);
   const [isTechFormOpen, setIsTechFormOpen] = useState(false);
   const [isServiceFormOpen, setIsServiceFormOpen] = useState(false);
+  const [isFooterFormOpen, setIsFooterFormOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -86,6 +88,7 @@ const AdminDashboard = () => {
     if (activeTab === 'inquiries') return inquiries.filter(i => i.name.toLowerCase().includes(searchQuery.toLowerCase()) || i.email.toLowerCase().includes(searchQuery.toLowerCase()));
     if (activeTab === 'tech') return tech.filter(i => i.name.toLowerCase().includes(searchQuery.toLowerCase()));
     if (activeTab === 'services') return services.filter(i => i.title.toLowerCase().includes(searchQuery.toLowerCase()));
+    if (activeTab === 'branding') return []; // Special tab
     return [];
   };
 
@@ -124,6 +127,13 @@ const AdminDashboard = () => {
         >
           <Layers size={20} />
           <span className="text-xs font-bold uppercase tracking-widest">Capabilities</span>
+        </button>
+        <button 
+          onClick={() => { setActiveTab('branding'); setIsSidebarOpen(false); }}
+          className={`w-full flex items-center gap-4 px-6 py-5 rounded-2xl transition-all ${activeTab === 'branding' ? 'bg-brand-accent text-brand-bg' : 'hover:bg-white/5 text-brand-text-dim'}`}
+        >
+          <Globe size={20} />
+          <span className="text-xs font-bold uppercase tracking-widest">Global Branding</span>
         </button>
         <button 
           onClick={() => { setActiveTab('inquiries'); setIsSidebarOpen(false); }}
@@ -195,7 +205,7 @@ const AdminDashboard = () => {
         <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
           <div>
             <h2 className="text-4xl md:text-5xl font-display font-medium mb-4">
-              {activeTab === 'projects' ? 'Asset Management' : activeTab === 'team' ? 'Collective Intelligence' : activeTab === 'tech' ? 'Technical Architecture' : activeTab === 'services' ? 'Service Portfolio' : 'Transmission Logs'}
+              {activeTab === 'projects' ? 'Asset Management' : activeTab === 'team' ? 'Collective Intelligence' : activeTab === 'tech' ? 'Technical Architecture' : activeTab === 'services' ? 'Service Portfolio' : activeTab === 'branding' ? 'Global Identity' : 'Transmission Logs'}
             </h2>
             <div className="flex items-center gap-3 text-brand-text-dim text-[10px] font-bold uppercase tracking-[0.3em]">
               <LayoutGrid size={14} className="text-brand-accent" />
@@ -203,7 +213,7 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {activeTab !== 'inquiries' && (
+          {activeTab !== 'inquiries' && activeTab !== 'branding' && (
             <button 
               onClick={() => {
                 if (activeTab === 'projects') setIsProjectFormOpen(true);
@@ -327,6 +337,22 @@ const AdminDashboard = () => {
                 </div>
               );
             })
+          ) : activeTab === 'branding' ? (
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+              <div className="w-32 h-32 bg-brand-accent/5 rounded-full flex items-center justify-center text-brand-accent mb-8 shadow-[0_0_50px_rgba(16,185,129,0.1)]">
+                <Globe size={48} />
+              </div>
+              <h3 className="text-3xl font-display font-medium mb-4">Global Site Protocols</h3>
+              <p className="text-brand-text-dim text-lg italic font-light max-w-md mb-12">
+                "Control the global narrative, social connectivity, and architectural branding of the studio."
+              </p>
+              <button 
+                onClick={() => setIsFooterFormOpen(true)}
+                className="btn-premium px-12"
+              >
+                Modify Identity
+              </button>
+            </div>
           ) : (
             filteredItems().map((item) => (
               <div key={item._id} className="glass-card rounded-[2.5rem] p-6 md:p-8 flex flex-col sm:flex-row gap-8 items-center group">
@@ -415,6 +441,12 @@ const AdminDashboard = () => {
           <ServiceForm 
             editService={editingItem} 
             onClose={() => { setIsServiceFormOpen(false); setEditingItem(null); }} 
+            onRefresh={fetchData} 
+          />
+        )}
+        {isFooterFormOpen && (
+          <FooterForm 
+            onClose={() => { setIsFooterFormOpen(false); }} 
             onRefresh={fetchData} 
           />
         )}
