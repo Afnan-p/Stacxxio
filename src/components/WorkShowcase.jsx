@@ -6,43 +6,64 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const WorkShowcase = () => {
   const [projects, setProjects] = useState([]);
-  const [filteredProjects, setFilteredProjects] = useState([]);
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState('All');
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchCategories = async () => {
       try {
-        const [projectsRes, categoriesRes] = await Promise.all([
-          API.get('/api/projects'),
-          API.get('/api/categories')
-        ]);
-        setProjects(projectsRes.data);
-        console.log('DEBUG: Loaded Projects:', projectsRes.data);
-        projectsRes.data.forEach((item) => console.log('DEBUG: Project Item:', item));
-        setFilteredProjects(projectsRes.data);
-        setCategories(categoriesRes.data);
-        setLoading(false);
+        const res = await API.get('/api/categories');
+        setCategories(res.data);
       } catch (err) {
-        console.error(err);
-        setLoading(false);
+        console.error('Error fetching categories:', err);
       }
     };
-    fetchData();
+    fetchCategories();
   }, []);
 
-  useEffect(() => {
-    if (activeCategory === 'All') {
-      setFilteredProjects(projects);
-    } else {
-      setFilteredProjects(projects.filter(p => 
-        (typeof p.category === 'object' ? p.category._id : p.category) === activeCategory
-      ));
+  const fetchProjects = async (pageNum, category, isNew) => {
+    try {
+      if (isNew) setLoading(true);
+      else setLoadingMore(true);
+
+      const res = await API.get(`/api/projects?page=${pageNum}&limit=6&category=${category}`);
+      
+      const responseData = Array.isArray(res.data) ? res.data : (res.data.projects || []);
+      const moreData = !Array.isArray(res.data) ? res.data.hasMore : false;
+
+      if (isNew) {
+        setProjects(responseData);
+      } else {
+        setProjects(prev => [...prev, ...responseData]);
+      }
+      
+      setHasMore(moreData);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+      setLoadingMore(false);
     }
-  }, [activeCategory, projects]);
+  };
+
+  useEffect(() => {
+    setPage(1);
+    fetchProjects(1, activeCategory, true);
+  }, [activeCategory]);
+
+  const handleLoadMore = () => {
+    if (!loadingMore && hasMore) {
+      const nextPage = page + 1;
+      setPage(nextPage);
+      fetchProjects(nextPage, activeCategory, false);
+    }
+  };
 
   return (
     <section id="work" className="py-24 md:py-40 bg-brand-bg relative luxury-noise overflow-hidden">
@@ -95,21 +116,20 @@ const WorkShowcase = () => {
 
           <div className="grid grid-rows-2 grid-flow-col gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth py-4 pb-12">
             <AnimatePresence mode="popLayout">
-              {filteredProjects.map((project, index) => {
-                console.log('DEBUG: Rendering Project:', project);
+              {projects.map((project, index) => {
                 return (
                   <motion.div
-                    key={project._id}
+                    key={`${project._id}-${index}`}
                     initial={{ opacity: 0, x: 30 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, scale: 0.9 }}
                     whileTap={{ scale: 0.98 }}
-                    transition={{ duration: 0.6, delay: index * 0.05 }}
+                    transition={{ duration: 0.6, delay: (index % 6) * 0.05 }}
                     onClick={() => navigate(`/project/${project._id}`)}
                     className="group glass-card rounded-[2rem] overflow-hidden flex flex-col h-full snap-center min-w-[calc(100vw-2.5rem)] sm:min-w-[280px] lg:min-w-[320px] cursor-pointer transition-all active:scale-95"
                   >
                     {/* Image Container */}
-                    <div className="relative h-56 md:h-64 overflow-hidden">
+                    <div className="relative h-56 md:h-64 overflow-hidden bg-brand-surface/50">
                       <div className="absolute top-4 left-4 z-20">
                         <span className="px-3 py-1 bg-brand-accent/90 backdrop-blur-md text-brand-bg text-[7px] font-black uppercase tracking-widest rounded-full shadow-emerald-glow">
                           {project.category?.name || 'Archive'}
@@ -130,6 +150,7 @@ const WorkShowcase = () => {
                               )
                         } 
                         alt={project.title} 
+                        loading="lazy"
                         onError={(e) => {
                           e.target.src = "/fallback.jpg";
                         }}
@@ -143,10 +164,7 @@ const WorkShowcase = () => {
                             whileHover={{ scale: 1.1 }}
                             className="relative flex items-center justify-center"
                           >
-                            {/* Outer Ring */}
                             <div className="absolute w-24 h-24 rounded-full border border-white/10 animate-pulse-slow" />
-                            
-                            {/* Inner Glass Circle */}
                             <div className="w-16 h-16 rounded-full bg-white/[0.05] backdrop-blur-2xl border border-white/20 flex items-center justify-center text-white shadow-2xl transition-all duration-700 group-hover:bg-white/10">
                               <Play fill="white" className="ml-1" size={24} />
                             </div>
@@ -196,6 +214,27 @@ const WorkShowcase = () => {
                   </motion.div>
                 );
               })}
+              
+              {hasMore && (
+                <div className="flex items-center justify-center h-full snap-center min-w-[200px] px-8">
+                  <button 
+                    onClick={handleLoadMore} 
+                    disabled={loadingMore}
+                    className="flex flex-col items-center gap-4 text-brand-text-dim hover:text-brand-accent transition-colors group"
+                  >
+                    <div className="w-16 h-16 rounded-full border border-white/10 group-hover:border-brand-accent/50 flex items-center justify-center bg-white/5 group-hover:bg-brand-accent/10 transition-all">
+                      {loadingMore ? (
+                        <div className="w-6 h-6 border-2 border-brand-accent/30 border-t-brand-accent rounded-full animate-spin" />
+                      ) : (
+                        <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
+                      )}
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.3em]">
+                      {loadingMore ? 'Loading...' : 'Load More'}
+                    </span>
+                  </button>
+                </div>
+              )}
             </AnimatePresence>
           </div>
         </div>
@@ -207,7 +246,7 @@ const WorkShowcase = () => {
         `}</style>
 
         {/* Empty State */}
-        {!loading && filteredProjects.length === 0 && (
+        {!loading && projects.length === 0 && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

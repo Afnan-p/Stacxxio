@@ -43,7 +43,7 @@ const AdminDashboard = () => {
   const fetchData = async () => {
     try {
       const [projRes, teamRes, inqRes, techRes, servRes] = await Promise.all([
-        API.get('/api/projects'),
+        API.get('/api/projects?paginate=false'),
         API.get('/api/team'),
         API.get('/api/inquiries', {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }

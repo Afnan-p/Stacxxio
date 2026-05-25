@@ -41,8 +41,8 @@ const Projects = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await API.get('/api/projects');
-        setProjects(res.data);
+        const responseData = Array.isArray(res.data) ? res.data.slice(0, 3) : (res.data.projects || []);
+        setProjects(responseData);
       } catch (err) {
         console.error('Failed to fetch projects:', err);
       } finally {
