@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const words = [
-  "Branding",
   "Web Development",
   "App Development",
   "Video Editing",
   "SEO & Marketing",
+  "Branding",
   "STACKXXIO"
 ];
 
