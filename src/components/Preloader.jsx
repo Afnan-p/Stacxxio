@@ -14,18 +14,18 @@ const Preloader = ({ onComplete }) => {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    // Change the word every 1.2 seconds to create a fast-paced energetic feel
+    // Change the word every 2.0 seconds to give enough time to read on all devices
     if (index === words.length - 1) {
       // For the last word (STACKXXIO logo), hold it a bit longer
       const timeout = setTimeout(() => {
         onComplete();
-      }, 2500); 
+      }, 3500); 
       return () => clearTimeout(timeout);
     }
 
     const timeout = setTimeout(() => {
       setIndex((prev) => prev + 1);
-    }, 1200);
+    }, 2000);
 
     return () => clearTimeout(timeout);
   }, [index, onComplete]);
@@ -101,7 +101,7 @@ const Preloader = ({ onComplete }) => {
                className="absolute top-0 left-0 h-full bg-brand-accent shadow-[0_0_10px_var(--color-brand-accent)]"
                initial={{ width: "0%" }}
                animate={{ width: `${((index + 1) / words.length) * 100}%` }}
-               transition={{ duration: index === words.length - 1 ? 2.5 : 1.2, ease: "linear" }}
+               transition={{ duration: index === words.length - 1 ? 3.5 : 2.0, ease: "linear" }}
              />
            </div>
            <div className="text-[9px] text-brand-text-dim font-mono tracking-widest uppercase opacity-50">

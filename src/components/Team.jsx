@@ -30,7 +30,7 @@ const Team = () => {
 
   useEffect(() => {
     if (isPaused || team.length === 0) return;
-    const interval = setInterval(nextSlide, 1500);
+    const interval = setInterval(nextSlide, 3000);
     return () => clearInterval(interval);
   }, [isPaused, team.length, nextSlide]);
 
