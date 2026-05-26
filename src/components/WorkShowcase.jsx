@@ -27,41 +27,62 @@ const WorkShowcase = () => {
     fetchCategories();
   }, []);
 
-  const fetchProjects = async (pageNum, category, isNew) => {
-    try {
-      if (isNew) setLoading(true);
-      else setLoadingMore(true);
-
-      const res = await API.get(`/api/projects?page=${pageNum}&limit=6&category=${category}`);
-      
-      const responseData = Array.isArray(res.data) ? res.data : (res.data.projects || []);
-      const moreData = !Array.isArray(res.data) ? res.data.hasMore : false;
-
-      if (isNew) {
-        setProjects(responseData);
-      } else {
-        setProjects(prev => [...prev, ...responseData]);
-      }
-      
-      setHasMore(moreData);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-      setLoadingMore(false);
-    }
-  };
-
   useEffect(() => {
-    setPage(1);
-    fetchProjects(1, activeCategory, true);
+    const controller = new AbortController();
+    
+    const loadProjects = async () => {
+      try {
+        setLoading(true);
+        setProjects([]);
+        setPage(1);
+        
+        const res = await API.get('/api/projects', {
+          params: { page: 1, limit: 8, category: activeCategory },
+          signal: controller.signal
+        });
+        
+        const responseData = Array.isArray(res.data) ? res.data : (res.data.projects || []);
+        const moreData = !Array.isArray(res.data) ? res.data.hasMore : false;
+        
+        setProjects(responseData);
+        setHasMore(moreData);
+      } catch (err) {
+        if (!API.isCancel(err) && err.name !== 'CanceledError') {
+          console.error(err);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProjects();
+
+    return () => {
+      controller.abort();
+    };
   }, [activeCategory]);
 
-  const handleLoadMore = () => {
+  const handleLoadMore = async () => {
     if (!loadingMore && hasMore) {
-      const nextPage = page + 1;
-      setPage(nextPage);
-      fetchProjects(nextPage, activeCategory, false);
+      try {
+        setLoadingMore(true);
+        const nextPage = page + 1;
+        
+        const res = await API.get('/api/projects', {
+          params: { page: nextPage, limit: 8, category: activeCategory }
+        });
+        
+        const responseData = Array.isArray(res.data) ? res.data : (res.data.projects || []);
+        const moreData = !Array.isArray(res.data) ? res.data.hasMore : false;
+
+        setProjects(prev => [...prev, ...responseData]);
+        setHasMore(moreData);
+        setPage(nextPage);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoadingMore(false);
+      }
     }
   };
 
@@ -109,12 +130,12 @@ const WorkShowcase = () => {
         </div>
 
         {/* Projects Horizontal Scroll */}
-        <div className="relative group">
+        <div className="relative">
           {/* Softer Gradient Masks */}
           <div className="absolute inset-y-0 -left-4 w-20 md:w-32 bg-gradient-to-r from-brand-bg/40 via-brand-bg/10 to-transparent z-20 pointer-events-none" />
           <div className="absolute inset-y-0 -right-4 w-20 md:w-32 bg-gradient-to-l from-brand-bg/40 via-brand-bg/10 to-transparent z-20 pointer-events-none" />
 
-          <div className="grid grid-rows-2 grid-flow-col gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth py-4 pb-12">
+          <div className="grid grid-rows-2 grid-flow-col gap-3 lg:gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth py-4 pb-12">
             <AnimatePresence mode="popLayout">
               {projects.map((project, index) => {
                 return (
@@ -126,7 +147,7 @@ const WorkShowcase = () => {
                     whileTap={{ scale: 0.98 }}
                     transition={{ duration: 0.6, delay: (index % 6) * 0.05 }}
                     onClick={() => navigate(`/project/${project._id}`)}
-                    className="group glass-card rounded-[2rem] overflow-hidden flex flex-col h-full snap-center min-w-[calc(100vw-2.5rem)] sm:min-w-[280px] lg:min-w-[320px] cursor-pointer transition-all active:scale-95"
+                    className="group glass-card rounded-[2rem] overflow-hidden flex flex-col h-full snap-center w-[calc(100vw-2.5rem)] sm:w-[320px] lg:w-[380px] max-w-[420px] cursor-pointer transition-all active:scale-95"
                   >
                     {/* Image Container */}
                     <div className="relative h-56 md:h-64 overflow-hidden bg-brand-surface/50">
@@ -215,29 +236,30 @@ const WorkShowcase = () => {
                 );
               })}
               
-              {hasMore && (
-                <div className="flex items-center justify-center h-full snap-center min-w-[200px] px-8">
-                  <button 
-                    onClick={handleLoadMore} 
-                    disabled={loadingMore}
-                    className="flex flex-col items-center gap-4 text-brand-text-dim hover:text-brand-accent transition-colors group"
-                  >
-                    <div className="w-16 h-16 rounded-full border border-white/10 group-hover:border-brand-accent/50 flex items-center justify-center bg-white/5 group-hover:bg-brand-accent/10 transition-all">
-                      {loadingMore ? (
-                        <div className="w-6 h-6 border-2 border-brand-accent/30 border-t-brand-accent rounded-full animate-spin" />
-                      ) : (
-                        <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
-                      )}
-                    </div>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.3em]">
-                      {loadingMore ? 'Loading...' : 'Load More'}
-                    </span>
-                  </button>
-                </div>
-              )}
             </AnimatePresence>
           </div>
         </div>
+
+        {hasMore && (
+          <div className="flex items-center justify-center mt-12 w-full">
+            <button 
+              onClick={handleLoadMore} 
+              disabled={loadingMore}
+              className="flex items-center gap-4 text-brand-text-dim hover:text-brand-accent transition-colors group px-8 py-4 glass-card rounded-full"
+            >
+              <div className="w-10 h-10 rounded-full border border-white/10 group-hover:border-brand-accent/50 flex items-center justify-center bg-white/5 group-hover:bg-brand-accent/10 transition-all">
+                {loadingMore ? (
+                  <div className="w-4 h-4 border-2 border-brand-accent/30 border-t-brand-accent rounded-full animate-spin" />
+                ) : (
+                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                )}
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-[0.3em]">
+                {loadingMore ? 'Loading...' : 'Load More Works'}
+              </span>
+            </button>
+          </div>
+        )}
 
         <style>{`
           .scrollbar-hide::-webkit-scrollbar {
