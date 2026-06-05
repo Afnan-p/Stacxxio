@@ -6,12 +6,12 @@ import API from '../api/axios';
 const Footer = () => {
   const [footerData, setFooterData] = useState({
     logoText: 'STACKXXIO.',
-    tagline: 'LUXURY TECH ARCHITECTURES • EST. 2024',
+    tagline: 'PREMIUM SOFTWARE AGENCY • EST. 2024',
     twitter: '#',
     linkedin: '#',
     instagram: '#',
     whatsapp: '',
-    copyright: `© ${new Date().getFullYear()} STACKXXIO STUDIO. ALL RIGHTS RESERVED.`
+    copyright: `© ${new Date().getFullYear()} STACKXXIO. ALL RIGHTS RESERVED.`
   });
 
   useEffect(() => {
@@ -30,39 +30,30 @@ const Footer = () => {
 
   return (
     <>
-      <motion.footer 
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="py-20 bg-brand-bg border-t border-white/5 relative overflow-hidden"
-      >
-        {/* Subtle Ambience */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-brand-accent/[0.01] pointer-events-none" />
-
-        <div className="container mx-auto px-6 md:px-10 relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
+      <footer className="py-12 bg-white border-t border-[#E5E7EB] relative overflow-hidden">
+        <div className="container mx-auto px-6 md:px-10">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
             <div>
-              <div className="text-3xl font-display font-medium tracking-tighter mb-4 text-brand-text">
-                {footerData.logoText}<span className="text-brand-accent">.</span>
+              <div className="text-2xl font-display font-bold tracking-tight mb-2 text-brand-text">
+                {footerData.logoText}
               </div>
-              <p className="text-brand-text-dim/60 text-[10px] font-bold uppercase tracking-[0.4em] italic">
+              <p className="text-brand-text-dim text-xs font-medium uppercase tracking-wider">
                 {footerData.tagline}
               </p>
             </div>
             
-            <div className="flex flex-wrap justify-center gap-8 md:gap-12 text-[9px] font-bold uppercase tracking-[0.4em] text-brand-text-dim/60">
-              <a href={footerData.twitter} target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors duration-500">Twitter</a>
-              <a href={footerData.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors duration-500">LinkedIn</a>
-              <a href={footerData.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors duration-500">Instagram</a>
+            <div className="flex flex-wrap justify-center gap-6 text-sm font-medium text-brand-text-dim">
+              <a href={footerData.twitter} target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors">Twitter</a>
+              <a href={footerData.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors">LinkedIn</a>
+              <a href={footerData.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors">Instagram</a>
             </div>
 
-            <p className="text-[10px] text-brand-text-dim/40 uppercase tracking-[0.2em] font-medium max-w-[200px] md:max-w-none">
+            <p className="text-sm font-medium text-brand-text-dim">
               {footerData.copyright}
             </p>
           </div>
         </div>
-      </motion.footer>
+      </footer>
 
       {/* Floating WhatsApp Button */}
       {footerData.whatsapp && (
@@ -74,19 +65,9 @@ const Footer = () => {
           animate={{ scale: 1, opacity: 1 }}
           whileHover={{ scale: 1.1, y: -5 }}
           whileTap={{ scale: 0.9 }}
-          className="fixed bottom-8 right-8 z-[100] w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(37,211,102,0.4)] hover:shadow-[0_15px_40px_rgba(37,211,102,0.6)] transition-all duration-300 group"
+          className="fixed bottom-8 right-8 z-[100] w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300"
         >
-          <motion.div
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-          >
-            <MessageCircle size={28} fill="currentColor" className="text-white" />
-          </motion.div>
-          
-          {/* Tooltip */}
-          <span className="absolute right-full mr-4 bg-white/10 backdrop-blur-md border border-white/10 px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap">
-            Secure Channel
-          </span>
+          <MessageCircle size={28} fill="currentColor" className="text-white" />
         </motion.a>
       )}
     </>

@@ -26,32 +26,32 @@ const steps = [
 
 const Approach = () => {
   return (
-    <section id="approach" className="py-32 bg-brand-bg relative overflow-hidden">
+    <section id="approach" className="py-24 md:py-32 bg-brand-surface relative overflow-hidden border-y border-[#E5E7EB]">
       <div className="container mx-auto px-6">
-        <div className="mb-24 text-center">
-          <h2 className="text-xs font-bold uppercase tracking-[0.4em] text-white/30 mb-4">Our Method</h2>
-          <h3 className="text-5xl md:text-7xl font-display font-bold">The Studio Process</h3>
+        <div className="mb-20 text-center max-w-3xl mx-auto">
+          <span className="text-brand-accent font-medium uppercase tracking-wider text-sm mb-4 block">Our Process</span>
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-brand-text mb-6">How We Work</h2>
+          <p className="text-brand-text-dim text-lg">A structured, proven approach to delivering high-quality software solutions on time.</p>
         </div>
 
-        <div className="grid md:grid-cols-4 gap-12">
+        <div className="grid md:grid-cols-4 gap-8">
           {steps.map((step, index) => (
             <motion.div
               key={step.title}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30, filter: "blur(5px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: index * 0.1 }}
-              className="relative"
+              transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="relative p-8 bg-white border border-[#E5E7EB] rounded-2xl hover:shadow-premium transition-shadow duration-300"
             >
-              <div className="text-8xl font-display font-black text-white/5 absolute -top-12 -left-4 z-0">
+              <div className="text-6xl font-display font-bold text-brand-surface absolute top-4 right-6 z-0 pointer-events-none select-none">
                 {step.step}
               </div>
-              <div className="relative z-10 pt-8">
-                <h4 className="text-2xl font-bold mb-6 flex items-center gap-4">
-                  <span className="w-8 h-px bg-white/20" />
+              <div className="relative z-10 pt-4">
+                <h4 className="text-xl font-bold mb-4 text-brand-text">
                   {step.title}
                 </h4>
-                <p className="text-white/40 leading-relaxed text-lg font-light">
+                <p className="text-brand-text-dim leading-relaxed text-sm">
                   {step.description}
                 </p>
               </div>

@@ -6,8 +6,7 @@ import {
   Image as ImageIcon, Search, Mail, Menu, X, Cpu, Layers, Globe, Tag, Play
 } from 'lucide-react';
 import { FaGithub } from "react-icons/fa";
-import * as SiIcons from "react-icons/si";
-import * as FaIcons from "react-icons/fa";
+import { getIcon } from '../../utils/IconMap';
 import API from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
 import ProjectForm from '../../components/ProjectForm';
@@ -288,11 +287,11 @@ const AdminDashboard = () => {
             ))
           ) : activeTab === 'tech' ? (
             filteredItems().map((item) => {
-              const IconComp = SiIcons[item.icon] || FaIcons[item.icon];
+              const IconComp = getIcon(item.icon);
               return (
                 <div key={item._id} className="glass-card rounded-[2.5rem] p-8 flex items-center gap-8 group">
                   <div className="w-24 h-24 bg-brand-bg rounded-2xl border border-white/5 flex items-center justify-center text-brand-accent shadow-2xl transition-all duration-500 group-hover:scale-110">
-                    {IconComp ? <IconComp size={40} /> : <Cpu size={40} />}
+                    <IconComp size={40} />
                   </div>
                   <div className="flex-grow">
                     <h3 className="text-2xl font-display font-medium mb-2">{item.name}</h3>
@@ -317,11 +316,11 @@ const AdminDashboard = () => {
             })
           ) : activeTab === 'services' ? (
             filteredItems().map((item) => {
-              const IconComp = FaIcons[item.icon] || SiIcons[item.icon] || FaIcons.FaCode;
+              const IconComp = getIcon(item.icon);
               return (
                 <div key={item._id} className="glass-card rounded-[2.5rem] p-8 flex items-center gap-8 group">
                   <div className="w-24 h-24 bg-brand-bg rounded-2xl border border-white/5 flex items-center justify-center text-brand-accent shadow-2xl transition-all duration-500 group-hover:scale-110">
-                    {IconComp ? <IconComp size={40} /> : <Layers size={40} />}
+                    <IconComp size={40} />
                   </div>
                   <div className="flex-grow">
                     <div className="flex items-center gap-4 mb-2">

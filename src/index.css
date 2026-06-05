@@ -1,78 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800&f[]=general-sans@500,600&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-brand-bg: #020617;
-  --color-brand-surface: #0B0F1A;
-  --color-brand-accent: #10B981; /* Emerald 500 */
-  --color-brand-accent-glow: #34D399; /* Emerald 400 */
-  --color-brand-text: #F8FAFC;
-  --color-brand-text-dim: #94A3B8;
+  --color-brand-bg: #FFFFFF;
+  --color-brand-surface: #F8F9FA;
+  --color-brand-accent: #000000;
+  --color-brand-accent-glow: #222222;
+  --color-brand-text: #111111;
+  --color-brand-text-dim: #555555;
+  --color-border: #E5E7EB;
   
-  --font-display: "Playfair Display", serif;
+  --font-display: "Cabinet Grotesk", sans-serif;
+  --font-heading: "General Sans", sans-serif;
+  --font-sans: "Inter", sans-serif;
   --font-body: "Inter", sans-serif;
 
-  --shadow-premium: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  --shadow-emerald-glow: 0 0 20px rgba(16, 185, 129, 0.2);
+  --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+  --shadow-emerald-glow: none;
 }
 
 @layer base {
   body {
-    @apply text-brand-text font-body antialiased selection:bg-brand-accent/20 selection:text-brand-accent;
-    background: radial-gradient(circle at 50% 50%, #0B1120 0%, #0A0F1C 50%, #05070D 100%);
-    background-attachment: fixed;
+    @apply text-brand-text font-body antialiased selection:bg-brand-accent/10 selection:text-brand-accent;
+    background: var(--color-brand-bg);
     position: relative;
     min-height: 100vh;
   }
 
-  /* Cinematic Vignette Overlay */
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(circle at center, transparent 0%, rgba(2, 6, 23, 0.6) 100%);
-    pointer-events: none;
-    z-index: 1;
-  }
-
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display tracking-tight;
+    @apply font-display tracking-tight text-brand-text;
   }
 }
 
 /* Custom Utilities */
 .glass-card {
-  @apply bg-white/[0.02] backdrop-blur-2xl border border-white/5 transition-all duration-500 hover:bg-white/[0.04] hover:border-white/10 shadow-premium;
+  @apply bg-white border border-[#E5E7EB] transition-all duration-300 hover:shadow-premium;
 }
 
-
 .glass-pill {
-  @apply bg-white/[0.03] backdrop-blur-md border border-white/5 px-6 py-2 rounded-full;
+  @apply bg-brand-surface border border-[#E5E7EB] px-6 py-2 rounded-full text-brand-text text-sm font-medium;
 }
 
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-brand-accent;
+  @apply text-brand-text;
 }
 
 .btn-premium {
-  @apply px-8 py-4 rounded-full bg-brand-accent text-brand-bg font-bold uppercase tracking-[0.2em] text-[10px] shadow-emerald-glow hover:scale-105 hover:bg-brand-accent-glow active:scale-95 transition-all duration-300;
+  @apply px-8 py-4 rounded-full bg-brand-accent text-white font-medium hover:bg-[#222222] transition-colors duration-300;
 }
 
 .btn-luxury-outline {
-  @apply px-8 py-4 rounded-full border border-brand-accent/30 text-brand-accent font-bold uppercase tracking-[0.2em] text-[10px] hover:bg-brand-accent/10 transition-all duration-300;
+  @apply px-8 py-4 rounded-full border border-brand-accent text-brand-accent font-medium hover:bg-brand-surface transition-colors duration-300;
 }
 
 .tab-active {
-  @apply text-brand-accent relative;
+  @apply text-brand-accent relative font-medium;
 }
 
 .tab-active::after {
   content: "";
-  @apply absolute -bottom-2 left-0 w-full h-0.5 bg-brand-accent shadow-[0_0_10px_rgba(16,185,129,0.5)];
+  @apply absolute -bottom-2 left-0 w-full h-0.5 bg-brand-accent;
 }
 
 /* Image Hover Zoom */
 .hover-zoom {
-  @apply transition-transform duration-1000 ease-out group-hover:scale-110;
+  @apply transition-transform duration-700 ease-out group-hover:scale-105;
 }
 
 /* Custom Scrollbar */
@@ -80,18 +73,27 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  @apply bg-brand-bg;
+  @apply bg-brand-surface;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-white/10 rounded-full hover:bg-brand-accent/40 transition-colors;
+  @apply bg-[#555555]/30 rounded-full hover:bg-[#555555]/50 transition-colors;
 }
 
 /* Custom Animations */
-@keyframes pulse-slow {
-  0%, 100% { opacity: 0.1; transform: scale(1); }
-  50% { opacity: 0.3; transform: scale(1.1); }
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
-.animate-pulse-slow {
-  animation: pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+@keyframes slide-up {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.8s ease-out forwards;
 }

@@ -10,6 +10,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Footer from './components/Footer';
 import { Toaster } from 'react-hot-toast';
 import Preloader from './components/Preloader';
+import Portfolio from './pages/Portfolio';
 
 const AppContent = () => {
   const location = useLocation();
@@ -22,6 +23,7 @@ const AppContent = () => {
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/project/:id" element={<ProjectDetail />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route 
@@ -49,6 +51,7 @@ function App() {
   const handleComplete = React.useCallback(() => {
     setLoading(false);
     document.body.style.overflow = 'auto'; // Restore scroll
+    window.dispatchEvent(new Event('preloaderComplete'));
   }, []);
 
   return (
