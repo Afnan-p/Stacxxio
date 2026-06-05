@@ -26,20 +26,11 @@ const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const handlePreloaderComplete = () => {
-      setTimeout(() => {
-        setIsLoaded(true);
-      }, 900); 
-    };
-    
-    window.addEventListener('preloaderComplete', handlePreloaderComplete);
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 100); 
 
-    const fallback = setTimeout(() => setIsLoaded(true), 6000);
-
-    return () => {
-      window.removeEventListener('preloaderComplete', handlePreloaderComplete);
-      clearTimeout(fallback);
-    };
+    return () => clearTimeout(timer);
   }, []);
 
   return (

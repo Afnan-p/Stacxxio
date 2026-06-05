@@ -42,26 +42,9 @@ const AppContent = () => {
 };
 
 function App() {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    document.body.style.overflow = 'hidden'; // Prevent scroll during load
-  }, []);
-
-  const handleComplete = React.useCallback(() => {
-    setLoading(false);
-    document.body.style.overflow = 'auto'; // Restore scroll
-    window.dispatchEvent(new Event('preloaderComplete'));
-  }, []);
-
   return (
     <Router>
       <Toaster position="top-center" reverseOrder={false} />
-      
-      <AnimatePresence mode="wait">
-        {loading && <Preloader key="preloader" onComplete={handleComplete} />}
-      </AnimatePresence>
-
       <AppContent />
     </Router>
   );
