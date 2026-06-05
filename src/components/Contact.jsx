@@ -47,7 +47,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-24 md:py-32 bg-brand-surface relative overflow-hidden">
+    <section id="contact" className="py-16 md:py-20 bg-brand-surface relative overflow-hidden">
       <div className="container mx-auto px-6 md:px-10 max-w-7xl relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 md:gap-24 items-center">
           <div>

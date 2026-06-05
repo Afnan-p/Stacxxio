@@ -21,7 +21,7 @@ const Team = () => {
   if (team.length === 0) return null;
 
   return (
-    <section id="team" className="py-24 md:py-32 bg-white relative overflow-hidden mb-20">
+    <section id="team" className="py-16 md:py-20 bg-white relative overflow-hidden mb-12 md:mb-16">
       <div className="container mx-auto px-6 md:px-10">
         <div className="mb-16 md:mb-20 text-center max-w-3xl mx-auto">
           <motion.div

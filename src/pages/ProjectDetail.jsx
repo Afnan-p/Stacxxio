@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ExternalLink, ChevronRight, ChevronLeft, Maximize2, X } from 'lucide-react';
 import { FaGithub } from "react-icons/fa";
 import API from '../api/axios';
+import { getOptimizedMedia } from '../utils/cloudinary';
 
 const ProjectDetail = () => {
   const { id } = useParams();
@@ -110,9 +111,8 @@ const ProjectDetail = () => {
     </div>
   );
 
-  const getImageUrl = (img) => {
-    if (!img) return '';
-    return img.startsWith('http') ? img : `${import.meta.env.VITE_API_URL}/${img}`;
+  const getImageUrl = (img, type = 'hero') => {
+    return getOptimizedMedia(img, type);
   };
 
   return (
@@ -170,6 +170,7 @@ const ProjectDetail = () => {
                     <video 
                       src={finalSrc} 
                       controls 
+                      preload="none"
                       className="w-full h-full object-contain"
                       poster={finalPoster}
                     />
@@ -196,7 +197,8 @@ const ProjectDetail = () => {
                       }}
                     >
                       <img 
-                        src={getImageUrl(gallery[currentImageIndex])}
+                        src={getImageUrl(gallery[currentImageIndex], 'hero')}
+                        loading="lazy"
                         className="max-w-full max-h-[60vh] md:max-h-[75vh] w-auto h-auto object-contain rounded-xl md:rounded-2xl shadow-2xl cursor-zoom-in"
                         alt={`${project.title} - ${currentImageIndex + 1}`}
                         onClick={() => setIsFullscreen(true)}
@@ -246,7 +248,8 @@ const ProjectDetail = () => {
                       className={`aspect-square rounded-xl md:rounded-2xl overflow-hidden border-2 transition-all duration-500 relative group ${i === currentImageIndex ? 'border-brand-accent shadow-emerald-glow scale-[1.02]' : 'border-white/5 opacity-40 hover:opacity-100'}`}
                     >
                       <img 
-                        src={getImageUrl(img)} 
+                        src={getImageUrl(img, 'thumbnail')} 
+                        loading="lazy"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                         alt={`Preview ${i}`}
                         onError={(e) => { e.target.src = '/fallback.jpg'; }}
@@ -343,7 +346,8 @@ const ProjectDetail = () => {
               <AnimatePresence mode="wait">
                 <motion.img 
                   key={currentImageIndex}
-                  src={getImageUrl(gallery[currentImageIndex])}
+                  src={getImageUrl(gallery[currentImageIndex], 'hero')}
+                  loading="lazy"
                   initial={{ opacity: 0, scale: 0.9, y: 20 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 1.1, y: -20 }}

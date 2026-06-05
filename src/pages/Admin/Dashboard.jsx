@@ -15,6 +15,7 @@ import TechForm from '../../components/TechForm';
 import ServiceForm from '../../components/ServiceForm';
 import FooterForm from '../../components/FooterForm';
 import CategoryManager from '../../components/CategoryManager';
+import ManageStats from './ManageStats';
 import toast, { Toaster } from 'react-hot-toast';
 
 const AdminDashboard = () => {
@@ -138,6 +139,13 @@ const AdminDashboard = () => {
           <span className="text-xs font-bold uppercase tracking-widest">Global Branding</span>
         </button>
         <button 
+          onClick={() => { setActiveTab('stats'); setIsSidebarOpen(false); }}
+          className={`w-full flex items-center gap-4 px-6 py-5 rounded-2xl transition-all ${activeTab === 'stats' ? 'bg-brand-accent text-brand-bg' : 'hover:bg-white/5 text-brand-text-dim'}`}
+        >
+          <Search size={20} />
+          <span className="text-xs font-bold uppercase tracking-widest">Metrics</span>
+        </button>
+        <button 
           onClick={() => { setActiveTab('inquiries'); setIsSidebarOpen(false); }}
           className={`w-full flex items-center gap-4 px-6 py-5 rounded-2xl transition-all ${activeTab === 'inquiries' ? 'bg-brand-accent text-brand-bg' : 'hover:bg-white/5 text-brand-text-dim'}`}
         >
@@ -174,7 +182,7 @@ const AdminDashboard = () => {
       </div>
 
       {/* Desktop Sidebar */}
-      <div className="hidden md:flex w-80 border-r border-white/5 bg-brand-surface p-10 flex-col h-screen sticky top-0">
+      <div className="hidden md:flex w-80 shrink-0 border-r border-white/5 bg-brand-surface p-10 flex-col h-screen sticky top-0 overflow-y-auto custom-scrollbar">
         <NavContent />
       </div>
 
@@ -207,7 +215,7 @@ const AdminDashboard = () => {
         <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
           <div>
             <h2 className="text-4xl md:text-5xl font-display font-medium mb-4">
-              {activeTab === 'projects' ? 'Asset Management' : activeTab === 'team' ? 'Collective Intelligence' : activeTab === 'tech' ? 'Technical Architecture' : activeTab === 'services' ? 'Service Portfolio' : activeTab === 'branding' ? 'Global Identity' : 'Transmission Logs'}
+              {activeTab === 'projects' ? 'Asset Management' : activeTab === 'team' ? 'Collective Intelligence' : activeTab === 'tech' ? 'Technical Architecture' : activeTab === 'services' ? 'Service Portfolio' : activeTab === 'branding' ? 'Global Identity' : activeTab === 'stats' ? 'Performance Metrics' : 'Transmission Logs'}
             </h2>
             <div className="flex items-center gap-3 text-brand-text-dim text-[10px] font-bold uppercase tracking-[0.3em]">
               <LayoutGrid size={14} className="text-brand-accent" />
@@ -215,7 +223,7 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {activeTab !== 'inquiries' && activeTab !== 'branding' && (
+          {activeTab !== 'inquiries' && activeTab !== 'branding' && activeTab !== 'stats' && (
             <div className="flex gap-4">
               {activeTab === 'projects' && (
                 <button 
@@ -244,20 +252,24 @@ const AdminDashboard = () => {
         </header>
 
         {/* Search & Filters */}
-        <div className="mb-12 relative group">
-          <Search className="absolute left-8 top-1/2 -translate-y-1/2 text-brand-text-dim group-focus-within:text-brand-accent transition-colors" size={20} />
+        {activeTab !== 'branding' && activeTab !== 'stats' && (
+          <div className="mb-12 relative group">
+            <Search className="absolute left-8 top-1/2 -translate-y-1/2 text-[#9CA3AF] group-focus-within:text-[#111111] transition-colors" size={24} />
           <input 
             type="text"
             placeholder={`Search ${activeTab}...`}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white/[0.02] border border-white/5 rounded-3xl py-5 md:py-6 pl-20 pr-10 outline-none focus:border-brand-accent focus:bg-white/[0.04] transition-all text-base md:text-lg font-light italic"
+            className="w-full h-[72px] bg-[#FFFFFF] border-[1.5px] border-[#D1D5DB] text-[#111111] placeholder-[#9CA3AF] rounded-[24px] pl-20 pr-10 outline-none focus:border-[#111111] focus:ring-4 focus:ring-black/5 transition-all text-lg font-medium"
           />
         </div>
+        )}
 
         {/* Asset Grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-8">
-          {activeTab === 'inquiries' ? (
+        <div className={activeTab === 'stats' ? '' : "grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-8"}>
+          {activeTab === 'stats' ? (
+            <ManageStats />
+          ) : activeTab === 'inquiries' ? (
             filteredItems().map((inquiry) => (
               <div key={inquiry._id} className="glass-card rounded-[2.5rem] p-8 md:p-10 group relative border border-white/5">
                 <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-8">
@@ -300,13 +312,13 @@ const AdminDashboard = () => {
                   <div className="flex gap-2">
                     <button 
                       onClick={() => { setEditingItem(item); setIsTechFormOpen(true); }}
-                      className="p-4 bg-white/5 rounded-2xl hover:bg-brand-accent hover:text-brand-bg transition-all"
+                      className="p-4 bg-gray-100 text-gray-500 rounded-2xl hover:bg-gray-900 hover:text-white transition-all"
                     >
                       <Edit2 size={18} />
                     </button>
                     <button 
                       onClick={() => handleDelete(item._id, 'tech')}
-                      className="p-4 bg-white/5 rounded-2xl hover:bg-red-500 hover:text-white transition-all"
+                      className="p-4 bg-red-50 text-red-500 rounded-2xl hover:bg-red-500 hover:text-white transition-all"
                     >
                       <Trash2 size={18} />
                     </button>
@@ -315,12 +327,23 @@ const AdminDashboard = () => {
               );
             })
           ) : activeTab === 'services' ? (
-            filteredItems().map((item) => {
-              const IconComp = getIcon(item.icon);
+            filteredItems().map((item, index) => {
+              const fallbackImages = [
+                'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80',
+                'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80',
+                'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
+                'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80',
+                'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80',
+                'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'
+              ];
+              const displayImage = item.image 
+                ? (item.image.startsWith('http') ? item.image : `${import.meta.env.VITE_API_URL}/${item.image}`)
+                : fallbackImages[index % fallbackImages.length];
+
               return (
                 <div key={item._id} className="glass-card rounded-[2.5rem] p-8 flex items-center gap-8 group">
-                  <div className="w-24 h-24 bg-brand-bg rounded-2xl border border-white/5 flex items-center justify-center text-brand-accent shadow-2xl transition-all duration-500 group-hover:scale-110">
-                    <IconComp size={40} />
+                  <div className="w-24 h-24 bg-brand-bg rounded-2xl border border-white/5 flex items-center justify-center shadow-2xl transition-all duration-500 group-hover:scale-110 overflow-hidden shrink-0">
+                    <img src={displayImage} alt={item.title} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-grow">
                     <div className="flex items-center gap-4 mb-2">
@@ -337,13 +360,13 @@ const AdminDashboard = () => {
                   <div className="flex gap-2">
                     <button 
                       onClick={() => { setEditingItem(item); setIsServiceFormOpen(true); }}
-                      className="p-4 bg-white/5 rounded-2xl hover:bg-brand-accent hover:text-brand-bg transition-all"
+                      className="p-4 bg-gray-100 text-gray-500 rounded-2xl hover:bg-gray-900 hover:text-white transition-all"
                     >
                       <Edit2 size={18} />
                     </button>
                     <button 
                       onClick={() => handleDelete(item._id, 'services')}
-                      className="p-4 bg-white/5 rounded-2xl hover:bg-red-500 hover:text-white transition-all"
+                      className="p-4 bg-red-50 text-red-500 rounded-2xl hover:bg-red-500 hover:text-white transition-all"
                     >
                       <Trash2 size={18} />
                     </button>
@@ -420,7 +443,7 @@ const AdminDashboard = () => {
                           setEditingItem(item);
                           activeTab === 'projects' ? setIsProjectFormOpen(true) : setIsTeamFormOpen(true);
                         }}
-                        className="p-3 bg-white/5 rounded-xl hover:bg-brand-accent hover:text-brand-bg transition-all"
+                        className="p-3 bg-gray-100 text-gray-500 rounded-xl hover:bg-gray-900 hover:text-white transition-all"
                       >
                         <Edit2 size={16} />
                       </button>
@@ -429,7 +452,7 @@ const AdminDashboard = () => {
                           e.stopPropagation();
                           handleDelete(item._id, activeTab);
                         }}
-                        className="p-3 bg-white/5 rounded-xl hover:bg-red-500 hover:text-white transition-all"
+                        className="p-3 bg-red-50 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all"
                       >
                         <Trash2 size={16} />
                       </button>

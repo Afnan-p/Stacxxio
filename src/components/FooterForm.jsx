@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { X, Save, Share2 } from 'lucide-react';
+import { X, Check } from 'lucide-react';
 import API from '../api/axios';
 import toast from 'react-hot-toast';
 
@@ -15,6 +15,7 @@ const FooterForm = ({ onClose, onRefresh }) => {
     copyright: ''
   });
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     const fetchFooter = async () => {
@@ -34,6 +35,7 @@ const FooterForm = ({ onClose, onRefresh }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSaving(true);
     try {
       const token = localStorage.getItem('token');
       await API.put('/api/footer', formData, {
@@ -44,113 +46,136 @@ const FooterForm = ({ onClose, onRefresh }) => {
       onClose();
     } catch (err) {
       toast.error('Identity synchronization failed');
+    } finally {
+      setSaving(false);
     }
   };
+
+  // --- Reusable UI ---
+  const InputLabel = ({ children, required }) => (
+    <label className="block text-[#111111] font-semibold text-[13px] tracking-[0.04em] mb-2 flex items-center gap-1.5">
+      {children} {required && <span className="text-red-500">*</span>}
+    </label>
+  );
+
+  const inputClass = "w-full h-[56px] bg-[#FFFFFF] border-[1.5px] border-[#D1D5DB] text-[#111111] placeholder-[#9CA3AF] rounded-[14px] px-[18px] font-medium transition-all duration-250 ease-in-out focus:border-[#111111] focus:ring-4 focus:ring-black/5 focus:outline-none";
 
   if (loading) return null;
 
   return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="fixed inset-0 bg-black/90 backdrop-blur-xl z-[100] flex items-center justify-center p-6"
-    >
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/35 backdrop-blur-[10px] overflow-y-auto">
       <motion.div 
-        initial={{ scale: 0.95, y: 20 }}
-        animate={{ scale: 1, y: 0 }}
-        className="bg-brand-surface border border-white/5 w-full max-w-2xl rounded-[3rem] p-12 relative overflow-hidden"
+        initial={{ scale: 0.96, y: 20, opacity: 0 }}
+        animate={{ scale: 1, y: 0, opacity: 1 }}
+        exit={{ scale: 0.96, y: 20, opacity: 0 }}
+        className="bg-[#FFFFFF] w-full max-w-[700px] rounded-[24px] shadow-[0_30px_80px_rgba(0,0,0,0.12)] relative flex flex-col my-auto max-h-[90vh]"
       >
-        <button onClick={onClose} className="absolute top-10 right-10 text-brand-text-dim hover:text-white transition-colors">
-          <X size={24} />
-        </button>
-
-        <div className="mb-12 text-center md:text-left">
-          <h2 className="text-3xl font-display font-medium mb-2">Global Identity</h2>
-          <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-brand-accent">Branding & Protocols</p>
+        {/* Header */}
+        <div className="flex items-center justify-between p-8 pb-6 border-b border-gray-100 shrink-0">
+          <div>
+            <h2 className="text-2xl font-display font-bold text-gray-900">
+              Global Identity Settings
+            </h2>
+          </div>
+          <button onClick={onClose} className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors">
+            <X size={20} />
+          </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-8">
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="space-y-4">
-              <label className="text-[9px] font-bold uppercase tracking-[0.3em] text-brand-text-dim">Logo Identifier</label>
+        {/* Form Content */}
+        <div className="p-8 overflow-y-auto flex-grow">
+          <form id="footer-form" onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid sm:grid-cols-2 gap-6">
+              <div>
+                <InputLabel required>Logo Text</InputLabel>
+                <input 
+                  type="text"
+                  required
+                  value={formData.logoText}
+                  onChange={(e) => setFormData({...formData, logoText: e.target.value})}
+                  className={inputClass}
+                />
+              </div>
+              <div>
+                <InputLabel>WhatsApp Channel</InputLabel>
+                <input 
+                  type="text"
+                  placeholder="e.g. 919876543210"
+                  value={formData.whatsapp}
+                  onChange={(e) => setFormData({...formData, whatsapp: e.target.value})}
+                  className={inputClass}
+                />
+              </div>
+            </div>
+
+            <div>
+              <InputLabel required>Global Tagline</InputLabel>
               <input 
                 type="text"
                 required
-                value={formData.logoText}
-                onChange={(e) => setFormData({...formData, logoText: e.target.value})}
-                className="w-full bg-white/[0.02] border border-white/10 rounded-2xl py-5 px-8 outline-none focus:border-brand-accent transition-all"
+                value={formData.tagline}
+                onChange={(e) => setFormData({...formData, tagline: e.target.value})}
+                className={inputClass}
               />
             </div>
-            <div className="space-y-4">
-              <label className="text-[9px] font-bold uppercase tracking-[0.3em] text-brand-text-dim">WhatsApp Channel</label>
+
+            <div className="grid sm:grid-cols-3 gap-6">
+              <div>
+                <InputLabel>Twitter (X)</InputLabel>
+                <input 
+                  type="text"
+                  value={formData.twitter}
+                  onChange={(e) => setFormData({...formData, twitter: e.target.value})}
+                  className={inputClass}
+                />
+              </div>
+              <div>
+                <InputLabel>LinkedIn</InputLabel>
+                <input 
+                  type="text"
+                  value={formData.linkedin}
+                  onChange={(e) => setFormData({...formData, linkedin: e.target.value})}
+                  className={inputClass}
+                />
+              </div>
+              <div>
+                <InputLabel>Instagram</InputLabel>
+                <input 
+                  type="text"
+                  value={formData.instagram}
+                  onChange={(e) => setFormData({...formData, instagram: e.target.value})}
+                  className={inputClass}
+                />
+              </div>
+            </div>
+
+            <div>
+              <InputLabel required>Legal Notice (Copyright)</InputLabel>
               <input 
                 type="text"
-                placeholder="e.g. 919876543210"
-                value={formData.whatsapp}
-                onChange={(e) => setFormData({...formData, whatsapp: e.target.value})}
-                className="w-full bg-white/[0.02] border border-white/10 rounded-2xl py-5 px-8 outline-none focus:border-brand-accent transition-all"
+                required
+                value={formData.copyright}
+                onChange={(e) => setFormData({...formData, copyright: e.target.value})}
+                className={inputClass}
               />
             </div>
-          </div>
+          </form>
+        </div>
 
-          <div className="space-y-4">
-            <label className="text-[9px] font-bold uppercase tracking-[0.3em] text-brand-text-dim">Global Tagline</label>
-            <input 
-              type="text"
-              required
-              value={formData.tagline}
-              onChange={(e) => setFormData({...formData, tagline: e.target.value})}
-              className="w-full bg-white/[0.02] border border-white/10 rounded-2xl py-5 px-8 outline-none focus:border-brand-accent transition-all"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="space-y-4">
-              <label className="text-[9px] font-bold uppercase tracking-[0.3em] text-brand-text-dim">Twitter (X)</label>
-              <input 
-                type="text"
-                value={formData.twitter}
-                onChange={(e) => setFormData({...formData, twitter: e.target.value})}
-                className="w-full bg-white/[0.02] border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-brand-accent transition-all"
-              />
-            </div>
-            <div className="space-y-4">
-              <label className="text-[9px] font-bold uppercase tracking-[0.3em] text-brand-text-dim">LinkedIn</label>
-              <input 
-                type="text"
-                value={formData.linkedin}
-                onChange={(e) => setFormData({...formData, linkedin: e.target.value})}
-                className="w-full bg-white/[0.02] border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-brand-accent transition-all"
-              />
-            </div>
-            <div className="space-y-4">
-              <label className="text-[9px] font-bold uppercase tracking-[0.3em] text-brand-text-dim">Instagram</label>
-              <input 
-                type="text"
-                value={formData.instagram}
-                onChange={(e) => setFormData({...formData, instagram: e.target.value})}
-                className="w-full bg-white/[0.02] border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-brand-accent transition-all"
-              />
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <label className="text-[9px] font-bold uppercase tracking-[0.3em] text-brand-text-dim">Legal Notice (Copyright)</label>
-            <input 
-              type="text"
-              required
-              value={formData.copyright}
-              onChange={(e) => setFormData({...formData, copyright: e.target.value})}
-              className="w-full bg-white/[0.02] border border-white/10 rounded-2xl py-5 px-8 outline-none focus:border-brand-accent transition-all"
-            />
-          </div>
-
-          <button type="submit" className="w-full py-6 btn-premium flex items-center justify-center gap-4">
-            <Save size={18} /> Synchronize Identity
+        {/* Footer Actions */}
+        <div className="p-8 border-t border-gray-100 flex items-center justify-end shrink-0 bg-gray-50/30 rounded-b-[24px]">
+          <button 
+            type="submit"
+            form="footer-form"
+            disabled={saving}
+            className="h-[56px] px-8 bg-gray-900 text-white font-semibold rounded-[14px] hover:bg-black hover:shadow-lg transition-all flex items-center gap-2 disabled:opacity-50 shadow-md w-full sm:w-auto justify-center"
+          >
+            {saving ? 'Saving...' : 'Save Settings'} 
+            {!saving && <Check size={18} />}
           </button>
-        </form>
+        </div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MessageCircle } from 'lucide-react';
+import { FaLinkedinIn, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 import API from '../api/axios';
 
 const Footer = () => {
@@ -55,21 +56,66 @@ const Footer = () => {
         </div>
       </footer>
 
-      {/* Floating WhatsApp Button */}
-      {footerData.whatsapp && (
-        <motion.a
-          href={`https://wa.me/${footerData.whatsapp.replace(/\D/g, '')}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          whileHover={{ scale: 1.1, y: -5 }}
-          whileTap={{ scale: 0.9 }}
-          className="fixed bottom-8 right-8 z-[100] w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300"
-        >
-          <MessageCircle size={28} fill="currentColor" className="text-white" />
-        </motion.a>
-      )}
+      {/* Floating Social Dock */}
+      <div className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-[100] flex flex-col gap-3 md:gap-4 items-center">
+        
+        {/* LinkedIn */}
+        {footerData.linkedin && footerData.linkedin !== '#' && (
+          <motion.a
+            href={footerData.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            className="group relative w-12 h-12 md:w-[52px] md:h-[52px] bg-white text-brand-text rounded-full flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-xl hover:bg-brand-text hover:text-white transition-all duration-300 border border-[#E5E7EB]"
+          >
+            <FaLinkedinIn size={20} className="md:w-[22px] md:h-[22px]" />
+            <span className="absolute right-full mr-4 bg-gray-900 text-white text-[10px] font-semibold tracking-wider px-3 py-1.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-lg">
+              LinkedIn
+            </span>
+          </motion.a>
+        )}
+
+        {/* Instagram */}
+        {footerData.instagram && footerData.instagram !== '#' && (
+          <motion.a
+            href={footerData.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            className="group relative w-12 h-12 md:w-[52px] md:h-[52px] bg-white text-brand-text rounded-full flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-xl hover:bg-brand-text hover:text-white transition-all duration-300 border border-[#E5E7EB]"
+          >
+            <FaInstagram size={20} className="md:w-[22px] md:h-[22px]" />
+            <span className="absolute right-full mr-4 bg-gray-900 text-white text-[10px] font-semibold tracking-wider px-3 py-1.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-lg">
+              Instagram
+            </span>
+          </motion.a>
+        )}
+
+        {/* WhatsApp */}
+        {footerData.whatsapp && (
+          <motion.a
+            href={`https://wa.me/${footerData.whatsapp.replace(/\D/g, '')}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            className="group relative w-14 h-14 md:w-[60px] md:h-[60px] bg-brand-text text-white rounded-full flex items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:shadow-xl hover:bg-black transition-all duration-300 mt-1 md:mt-2"
+          >
+            <FaWhatsapp size={28} className="md:w-[32px] md:h-[32px]" />
+            <span className="absolute right-full mr-4 bg-gray-900 text-white text-[10px] font-semibold tracking-wider px-3 py-1.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-lg">
+              WhatsApp
+            </span>
+          </motion.a>
+        )}
+      </div>
     </>
   );
 };

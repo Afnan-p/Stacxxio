@@ -1,8 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { X, Upload, Plus, Trash2, Globe, ChevronRight, ChevronLeft, Check, Video, Image, Link as LinkIcon, FileText, Layout } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, UploadCloud, Plus, Trash2, Globe, ChevronRight, ChevronLeft, Check, Video, Image, Link as LinkIcon, FileText, Layout } from 'lucide-react';
 import { FaGithub } from "react-icons/fa";
 import API from '../api/axios';
 import toast from 'react-hot-toast';
+
+const STEPS = [
+  { id: 1, title: 'Basic Info', icon: <Layout size={14} /> },
+  { id: 2, title: 'Media', icon: <Video size={14} /> },
+  { id: 3, title: 'Details', icon: <FileText size={14} /> },
+  { id: 4, title: 'Links', icon: <Globe size={14} /> },
+];
 
 const ProjectForm = ({ onClose, onRefresh, editProject = null }) => {
   const [step, setStep] = useState(1);
@@ -29,6 +37,13 @@ const ProjectForm = ({ onClose, onRefresh, editProject = null }) => {
   const [loading, setLoading] = useState(false);
   const [isAddingCategory, setIsAddingCategory] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
+  
+  const [dragActiveMedia, setDragActiveMedia] = useState(false);
+  const [dragActiveThumb, setDragActiveThumb] = useState(false);
+
+  const mediaRef = useRef(null);
+  const thumbRef = useRef(null);
+  const galleryRef = useRef(null);
 
   useEffect(() => {
     fetchCategories();
@@ -83,7 +98,7 @@ const ProjectForm = ({ onClose, onRefresh, editProject = null }) => {
   };
 
   const handleMediaChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
     if (file) {
       setMediaFile(file);
       setMediaPreview(URL.createObjectURL(file));
@@ -96,7 +111,7 @@ const ProjectForm = ({ onClose, onRefresh, editProject = null }) => {
   };
 
   const handleThumbnailChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
     if (file) {
       setThumbnailFile(file);
       setThumbnailPreview(URL.createObjectURL(file));
@@ -104,7 +119,7 @@ const ProjectForm = ({ onClose, onRefresh, editProject = null }) => {
   };
 
   const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
+    const files = Array.from(e.target.files || []);
     setImages([...images, ...files]);
     const previews = files.map(file => URL.createObjectURL(file));
     setPreviewImages([...previewImages, ...previews]);
@@ -128,7 +143,7 @@ const ProjectForm = ({ onClose, onRefresh, editProject = null }) => {
       setFormData({ ...formData, category: res.data._id });
       setNewCategoryName('');
       setIsAddingCategory(false);
-      toast.success('New segment initialized');
+      toast.success('Category created');
     } catch (err) {
       toast.error('Failed to create category');
     }
@@ -136,50 +151,31 @@ const ProjectForm = ({ onClose, onRefresh, editProject = null }) => {
 
   const validateStep = () => {
     if (step === 1) {
-      if (!formData.title.trim()) {
-        toast.error('Project Title is required');
-        return false;
-      }
-      if (!formData.category) {
-        toast.error('Please select a category');
-        return false;
-      }
+      if (!formData.title.trim()) { toast.error('Project Title is required'); return false; }
+      if (!formData.category) { toast.error('Please select a category'); return false; }
     } else if (step === 2) {
       if (formData.type === 'image' && !mediaPreview && uploadMode === 'file') {
-        toast.error('Please upload a primary image');
-        return false;
+        toast.error('Please upload a primary image'); return false;
       }
       if (formData.type === 'video') {
         if (uploadMode === 'url' && !formData.videoUrl.trim()) {
-          toast.error('Video URL is required');
-          return false;
+          toast.error('Video URL is required'); return false;
         }
         if (uploadMode === 'file' && !mediaFile && !editProject) {
-          toast.error('Please upload a video file');
-          return false;
+          toast.error('Please upload a video file'); return false;
         }
         if (!thumbnailPreview && !formData.thumbnail.trim()) {
-          toast.error('Thumbnail is required for cinematic videos');
-          return false;
+          toast.error('Thumbnail is required for videos'); return false;
         }
       }
     } else if (step === 3) {
-      if (!formData.techStack.trim()) {
-        toast.error('Tech stack is required');
-        return false;
-      }
-      if (!formData.description.trim()) {
-        toast.error('Description is required');
-        return false;
-      }
+      if (!formData.techStack.trim()) { toast.error('Tech stack is required'); return false; }
+      if (!formData.description.trim()) { toast.error('Description is required'); return false; }
     }
     return true;
   };
 
-  const nextStep = () => {
-    if (validateStep()) setStep(prev => prev + 1);
-  };
-
+  const nextStep = () => { if (validateStep()) setStep(prev => prev + 1); };
   const prevStep = () => setStep(prev => prev - 1);
 
   const handleSubmit = async (e) => {
@@ -205,432 +201,430 @@ const ProjectForm = ({ onClose, onRefresh, editProject = null }) => {
 
     try {
       const token = localStorage.getItem('token');
-      const config = {
-        headers: { 
-          'Authorization': `Bearer ${token}`
-        },
-      };
+      const config = { headers: { 'Authorization': `Bearer ${token}` } };
 
       if (editProject) {
         await API.put(`/api/projects/${editProject._id}`, data, config);
-        toast.success('Masterpiece refined successfully');
+        toast.success('Project updated successfully');
       } else {
         await API.post('/api/projects', data, config);
-        toast.success('New masterpiece added to gallery');
+        toast.success('Project created successfully');
       }
       
       onRefresh();
       onClose();
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Evolution failed');
+      toast.error(err.response?.data?.message || 'Operation failed');
     } finally {
       setLoading(false);
     }
   };
 
-  const steps = [
-    { id: 1, title: 'Basic Info', icon: <Layout size={14} /> },
-    { id: 2, title: 'Media Selection', icon: <Video size={14} /> },
-    { id: 3, title: 'Details', icon: <FileText size={14} /> },
-    { id: 4, title: 'Links & Preview', icon: <Globe size={14} /> },
-  ];
+  // --- Reusable UI ---
+  const InputLabel = ({ children, required }) => (
+    <label className="block text-[#111111] font-semibold text-[13px] tracking-[0.04em] mb-2">
+      {children} {required && <span className="text-red-500">*</span>}
+    </label>
+  );
+
+  const inputClass = "w-full h-[56px] bg-[#FFFFFF] border-[1.5px] border-[#D1D5DB] text-[#111111] placeholder-[#9CA3AF] rounded-[14px] px-[18px] font-medium transition-all duration-250 ease-in-out focus:border-[#111111] focus:ring-4 focus:ring-black/5 focus:outline-none";
+  const textareaClass = "w-full min-h-[140px] bg-[#FFFFFF] border-[1.5px] border-[#D1D5DB] text-[#111111] placeholder-[#9CA3AF] rounded-[14px] px-[18px] py-[16px] font-medium transition-all duration-250 ease-in-out focus:border-[#111111] focus:ring-4 focus:ring-black/5 focus:outline-none resize-y";
 
   return (
-    <div className="fixed inset-0 bg-brand-bg/95 backdrop-blur-2xl z-[200] flex items-center justify-center p-4 md:p-6 overflow-y-auto">
-      <div className="bg-brand-surface w-full max-w-4xl rounded-[2.5rem] md:rounded-[3.5rem] border border-white/5 shadow-premium overflow-hidden relative flex flex-col max-h-[90vh]">
-        
-        <div className="p-8 md:p-10 border-b border-white/5 flex justify-between items-center bg-white/[0.01]">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/35 backdrop-blur-[10px] overflow-y-auto">
+      <motion.div 
+        initial={{ scale: 0.96, y: 20, opacity: 0 }}
+        animate={{ scale: 1, y: 0, opacity: 1 }}
+        exit={{ scale: 0.96, y: 20, opacity: 0 }}
+        className="bg-[#FFFFFF] w-full max-w-[700px] rounded-[24px] shadow-[0_30px_80px_rgba(0,0,0,0.12)] relative flex flex-col max-h-[90vh]"
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-8 pb-6 border-b border-gray-100 shrink-0">
           <div>
-            <h2 className="text-2xl md:text-3xl font-display font-bold text-white tracking-tight">
-              {editProject ? 'Refine Masterpiece' : 'Project Blueprint'}
+            <h2 className="text-2xl font-display font-bold text-gray-900">
+              {editProject ? 'Edit Project' : 'Create Project'}
             </h2>
-            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-brand-accent mt-2">Evolution Step {step} of 4</p>
           </div>
-          <button onClick={onClose} className="p-3 md:p-4 hover:bg-white/5 rounded-full transition-all text-white/40 hover:text-white group">
-            <X className="w-5 h-5 md:w-6 md:h-6 group-hover:rotate-90 transition-transform duration-300" />
+          <button onClick={onClose} className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors">
+            <X size={20} />
           </button>
         </div>
 
-        <div className="px-10 py-6 bg-white/[0.01] border-b border-white/5">
-          <div className="flex justify-between items-center mb-4">
-            {steps.map((s) => (
-              <div key={s.id} className="flex flex-col items-center gap-2 relative z-10">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-500 ${step >= s.id ? 'bg-brand-accent text-brand-bg shadow-[0_0_15px_rgba(0,255,157,0.3)]' : 'bg-white/5 text-brand-text-dim border border-white/5'}`}>
-                  {step > s.id ? <Check size={16} /> : s.icon}
-                </div>
-                <span className={`text-[8px] font-bold uppercase tracking-widest transition-colors duration-300 ${step >= s.id ? 'text-brand-accent' : 'text-brand-text-dim'}`}>
-                  {s.title}
-                </span>
-              </div>
-            ))}
-            <div className="absolute left-[10%] right-[10%] h-[1px] bg-white/5 -z-0 top-[118px] md:top-[138px]"></div>
+        {/* Multi-Step Indicator */}
+        <div className="px-8 py-6 bg-gray-50/50 border-b border-gray-100 shrink-0">
+          <div className="flex items-center justify-between relative">
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[2px] bg-gray-200 z-0" />
             <div 
-              className="absolute left-[10%] h-[1px] bg-brand-accent shadow-[0_0_10px_rgba(0,255,157,0.5)] -z-0 top-[118px] md:top-[138px] transition-all duration-500 ease-out" 
-              style={{ width: `${(step - 1) * 26.66}%` }}
-            ></div>
+              className="absolute left-0 top-1/2 -translate-y-1/2 h-[2px] bg-gray-900 z-0 transition-all duration-500"
+              style={{ width: `${((step - 1) / (STEPS.length - 1)) * 100}%` }}
+            />
+            
+            {STEPS.map((s) => {
+              const isCompleted = step > s.id;
+              const isCurrent = step === s.id;
+              return (
+                <div key={s.id} className="relative z-10 flex flex-col items-center gap-2">
+                  <div 
+                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-colors duration-300 bg-white ${
+                      isCompleted ? 'border-gray-900 text-gray-900' : 
+                      isCurrent ? 'border-gray-900 text-gray-900' : 
+                      'border-gray-300 text-gray-400'
+                    }`}
+                  >
+                    {isCompleted ? <Check size={14} /> : s.icon}
+                  </div>
+                  <span className={`text-xs font-semibold tracking-wide ${isCurrent || isCompleted ? 'text-gray-900' : 'text-gray-400'}`}>
+                    {s.title}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        <div className="flex-grow overflow-y-auto custom-scrollbar p-8 md:p-12">
-          <form onSubmit={(e) => e.preventDefault()} className="space-y-8">
+        {/* Form Content */}
+        <div className="p-8 overflow-y-auto flex-grow">
+          <AnimatePresence mode="wait">
             
             {step === 1 && (
-              <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <div className="space-y-4">
-                  <label className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-text-dim ml-2">Project Title</label>
+              <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                <div>
+                  <InputLabel required>Project Title</InputLabel>
                   <input
                     name="title"
                     value={formData.title}
                     onChange={handleChange}
-                    className="w-full px-8 py-5 rounded-2xl md:rounded-[1.5rem] bg-white/[0.03] border border-white/10 focus:border-brand-accent outline-none text-white transition-all placeholder:text-white/10"
-                    placeholder="Enter project name..."
+                    className={inputClass}
+                    placeholder="e.g. Modern E-commerce Dashboard"
                   />
                 </div>
 
-                <div className="space-y-4">
-                  <label className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-text-dim ml-2">Category Segment</label>
+                <div>
+                  <InputLabel required>Category Segment</InputLabel>
                   {!isAddingCategory ? (
-                    <div className="flex gap-4">
-                      <div className="relative flex-grow">
-                        <select
-                          name="category"
-                          value={formData.category}
-                          onChange={handleChange}
-                          className="w-full px-8 py-5 rounded-2xl md:rounded-[1.5rem] bg-white/[0.03] border border-white/10 focus:border-brand-accent outline-none text-white appearance-none transition-all cursor-pointer"
-                        >
-                          <option value="" disabled>Select a segment</option>
-                          {categories.map(cat => (
-                            <option key={cat._id} value={cat._id} className="bg-brand-surface">{cat.name}</option>
-                          ))}
-                        </select>
-                        <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-brand-text-dim">
-                          <ChevronLeft className="-rotate-90" size={16} />
-                        </div>
-                      </div>
+                    <div className="flex gap-3">
+                      <select
+                        name="category"
+                        value={formData.category}
+                        onChange={handleChange}
+                        className={inputClass}
+                      >
+                        <option value="" disabled>Select a category</option>
+                        {categories.map(cat => (
+                          <option key={cat._id} value={cat._id}>{cat.name}</option>
+                        ))}
+                      </select>
                       <button 
                         type="button"
                         onClick={() => setIsAddingCategory(true)}
-                        className="p-5 bg-white/5 hover:bg-white/10 text-brand-accent rounded-2xl md:rounded-[1.5rem] border border-white/5 transition-all group"
+                        className="w-[56px] h-[56px] shrink-0 bg-gray-50 border-[1.5px] border-gray-200 text-gray-700 flex items-center justify-center rounded-[14px] hover:bg-gray-100 transition-colors"
                       >
-                        <Plus className="group-hover:scale-125 transition-transform" size={20} />
+                        <Plus size={20} />
                       </button>
                     </div>
                   ) : (
-                    <div className="flex gap-4 animate-in fade-in zoom-in-95 duration-300">
+                    <div className="flex gap-3">
                       <input
                         value={newCategoryName}
                         onChange={(e) => setNewCategoryName(e.target.value)}
-                        className="flex-grow px-8 py-5 rounded-2xl md:rounded-[1.5rem] bg-white/[0.05] border border-brand-accent/30 focus:border-brand-accent outline-none text-white transition-all"
+                        className={inputClass}
                         placeholder="New category name..."
                         autoFocus
                       />
                       <button 
                         type="button"
                         onClick={handleAddCategory}
-                        className="px-6 bg-brand-accent text-brand-bg rounded-2xl md:rounded-[1.5rem] font-bold text-[10px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-lg shadow-brand-accent/20"
+                        className="h-[56px] px-6 shrink-0 bg-gray-900 text-white font-semibold rounded-[14px] hover:bg-black transition-colors"
                       >
-                        Initialize
+                        Add
                       </button>
                       <button 
                         type="button"
                         onClick={() => setIsAddingCategory(false)}
-                        className="p-5 bg-white/5 hover:bg-red-500/10 text-white/40 hover:text-red-500 rounded-2xl md:rounded-[1.5rem] transition-all"
+                        className="w-[56px] h-[56px] shrink-0 bg-red-50 text-red-500 flex items-center justify-center rounded-[14px] hover:bg-red-100 transition-colors"
                       >
                         <X size={20} />
                       </button>
                     </div>
                   )}
                 </div>
-              </div>
+              </motion.div>
             )}
 
             {step === 2 && (
-              <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <div className="flex justify-between items-center px-2">
-                  <div className="flex bg-white/5 p-1.5 rounded-2xl border border-white/5">
-                    <button 
-                      type="button"
-                      onClick={() => setFormData({...formData, type: 'image'})}
-                      className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[9px] font-bold uppercase tracking-widest transition-all ${formData.type === 'image' ? 'bg-brand-accent text-brand-bg shadow-lg shadow-brand-accent/20' : 'text-brand-text-dim hover:text-white'}`}
-                    >
-                      <Image size={14} /> Still Image
-                    </button>
-                    <button 
-                      type="button"
-                      onClick={() => setFormData({...formData, type: 'video'})}
-                      className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[9px] font-bold uppercase tracking-widest transition-all ${formData.type === 'video' ? 'bg-brand-accent text-brand-bg shadow-lg shadow-brand-accent/20' : 'text-brand-text-dim hover:text-white'}`}
-                    >
-                      <Video size={14} /> Motion Piece
-                    </button>
-                  </div>
-                  
-                  <div className="flex bg-white/5 p-1 rounded-xl">
-                    <button 
-                      type="button"
-                      onClick={() => setUploadMode('file')}
-                      className={`px-4 py-1.5 rounded-lg text-[8px] font-bold uppercase tracking-widest transition-all ${uploadMode === 'file' ? 'bg-white/10 text-white' : 'text-brand-text-dim hover:text-white'}`}
-                    >
-                      Upload
-                    </button>
-                    <button 
-                      type="button"
-                      onClick={() => setUploadMode('url')}
-                      className={`px-4 py-1.5 rounded-lg text-[8px] font-bold uppercase tracking-widest transition-all ${uploadMode === 'url' ? 'bg-white/10 text-white' : 'text-brand-text-dim hover:text-white'}`}
-                    >
-                      Remote
-                    </button>
-                  </div>
+              <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                
+                <div className="flex bg-gray-100 p-1 rounded-[14px] w-fit">
+                  <button 
+                    type="button"
+                    onClick={() => setFormData({...formData, type: 'image'})}
+                    className={`px-6 py-2.5 rounded-[10px] text-[13px] font-bold transition-all ${formData.type === 'image' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+                  >
+                    Image Asset
+                  </button>
+                  <button 
+                    type="button"
+                    onClick={() => setFormData({...formData, type: 'video'})}
+                    className={`px-6 py-2.5 rounded-[10px] text-[13px] font-bold transition-all ${formData.type === 'video' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+                  >
+                    Video Asset
+                  </button>
+                </div>
+
+                <div className="flex bg-gray-100 p-1 rounded-[14px] w-fit mt-4">
+                  <button 
+                    type="button"
+                    onClick={() => setUploadMode('file')}
+                    className={`px-6 py-2.5 rounded-[10px] text-[13px] font-bold transition-all ${uploadMode === 'file' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+                  >
+                    Upload File
+                  </button>
+                  <button 
+                    type="button"
+                    onClick={() => setUploadMode('url')}
+                    className={`px-6 py-2.5 rounded-[10px] text-[13px] font-bold transition-all ${uploadMode === 'url' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+                  >
+                    Remote URL
+                  </button>
                 </div>
 
                 {uploadMode === 'file' ? (
-                  <label className="group relative block aspect-video w-full rounded-[2rem] md:rounded-[3rem] border-2 border-dashed border-white/10 hover:border-brand-accent/40 bg-white/[0.02] overflow-hidden cursor-pointer transition-all">
-                    <input type="file" onChange={handleMediaChange} className="hidden" accept={formData.type === 'video' ? "video/*" : "image/*"} />
-                    {mediaPreview ? (
-                      <div className="w-full h-full relative">
-                        {formData.type === 'video' ? (
-                          <video src={mediaPreview} className="w-full h-full object-cover" muted autoPlay loop />
-                        ) : (
-                          <img src={mediaPreview} className="w-full h-full object-cover" />
-                        )}
-                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all backdrop-blur-sm">
-                          <div className="flex flex-col items-center gap-3 scale-90 group-hover:scale-100 transition-transform">
-                            <Upload className="text-brand-accent" size={32} />
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-white">Substitute Asset</span>
+                  <div>
+                    <InputLabel required>Primary Media</InputLabel>
+                    <div 
+                      className={`mt-2 border-2 border-dashed rounded-[14px] transition-all duration-300 ${dragActiveMedia ? 'border-gray-900 bg-gray-50' : 'border-[#D1D5DB] bg-[#FFFFFF] hover:border-gray-400'} flex flex-col items-center justify-center p-8 relative overflow-hidden`}
+                      onDragEnter={(e) => { e.preventDefault(); setDragActiveMedia(true); }}
+                      onDragLeave={(e) => { e.preventDefault(); setDragActiveMedia(false); }}
+                      onDragOver={(e) => { e.preventDefault(); setDragActiveMedia(true); }}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        setDragActiveMedia(false);
+                        if (e.dataTransfer.files?.[0]) {
+                          mediaRef.current.files = e.dataTransfer.files;
+                          handleMediaChange({ target: { files: e.dataTransfer.files } });
+                        }
+                      }}
+                    >
+                      <input ref={mediaRef} type="file" onChange={handleMediaChange} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" accept={formData.type === 'video' ? "video/*" : "image/*"} />
+                      
+                      {mediaPreview ? (
+                        <div className="relative w-full z-20">
+                          {formData.type === 'video' ? (
+                            <video src={mediaPreview} className="w-full h-[240px] object-cover rounded-xl shadow-sm bg-black" autoPlay muted loop />
+                          ) : (
+                            <img src={mediaPreview} className="w-full h-[240px] object-cover rounded-xl shadow-sm bg-gray-100" />
+                          )}
+                          <div className="mt-4 flex justify-center">
+                            <button type="button" onClick={() => mediaRef.current?.click()} className="px-4 py-2 bg-white border border-gray-200 text-gray-700 font-semibold text-sm rounded-lg hover:bg-gray-50">
+                              Replace Media
+                            </button>
                           </div>
                         </div>
-                      </div>
-                    ) : (
-                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-brand-text-dim group-hover:text-brand-accent transition-all">
-                        <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center group-hover:scale-110 group-hover:bg-brand-accent/10 transition-all duration-500">
-                          <Upload size={28} />
+                      ) : (
+                        <div className="text-center pointer-events-none">
+                          <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-100">
+                            <UploadCloud className="w-8 h-8 text-gray-400" />
+                          </div>
+                          <p className="text-gray-900 font-semibold mb-1">Upload {formData.type}</p>
+                          <p className="text-gray-500 text-sm">Drag and drop or click to browse</p>
                         </div>
-                        <div className="text-center">
-                          <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-2">Select High-Fidelity {formData.type}</p>
-                          <p className="text-[8px] font-medium opacity-40 uppercase tracking-widest">Max 50MB • Premium Assets Only</p>
-                        </div>
-                      </div>
-                    )}
-                  </label>
-                ) : (
-                  <div className="space-y-6 animate-in fade-in duration-500">
-                    <div className="space-y-4">
-                      <label className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-text-dim ml-2">Remote {formData.type === 'video' ? 'Video' : 'Asset'} URL</label>
-                      <div className="relative">
-                        <input
-                          name={formData.type === 'video' ? "videoUrl" : "mediaUrl"}
-                          value={formData.type === 'video' ? formData.videoUrl : formData.mediaUrl}
-                          onChange={handleChange}
-                          required={formData.type === 'video'}
-                          className="w-full px-8 py-5 rounded-[1.5rem] bg-white/[0.03] border border-white/10 focus:border-brand-accent outline-none text-white transition-all pr-14"
-                          placeholder={formData.type === 'video' ? "https://youtube.com/watch?v=..." : "https://masterpiece.com/asset.jpg"}
-                        />
-                        <LinkIcon className="absolute right-6 top-1/2 -translate-y-1/2 text-white/10" size={18} />
-                      </div>
+                      )}
                     </div>
+                  </div>
+                ) : (
+                  <div>
+                    <InputLabel required>Remote URL</InputLabel>
+                    <input
+                      name={formData.type === 'video' ? "videoUrl" : "mediaUrl"}
+                      value={formData.type === 'video' ? formData.videoUrl : formData.mediaUrl}
+                      onChange={handleChange}
+                      className={inputClass}
+                      placeholder={formData.type === 'video' ? "https://youtube.com/watch?v=..." : "https://example.com/image.jpg"}
+                    />
                   </div>
                 )}
 
                 {formData.type === 'video' && (
-                  <div className="space-y-4 animate-in slide-in-from-top-4 duration-500">
-                    <label className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-text-dim ml-2">Cinematic Cover Thumbnail <span className="text-brand-accent font-black">*</span></label>
-                    <div className="grid md:grid-cols-2 gap-8 items-center">
-                      <label className="aspect-video rounded-2xl md:rounded-[1.5rem] border-2 border-dashed border-white/10 hover:border-brand-accent/40 bg-white/[0.02] flex items-center justify-center cursor-pointer transition-all overflow-hidden relative group">
-                        <input type="file" onChange={handleThumbnailChange} className="hidden" accept="image/*" />
-                        {thumbnailPreview ? (
-                          <>
-                            <img src={thumbnailPreview} className="w-full h-full object-cover" />
-                            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all backdrop-blur-sm">
-                              <Upload className="text-brand-accent" size={24} />
-                            </div>
-                          </>
-                        ) : (
-                          <div className="flex flex-col items-center gap-3 text-brand-text-dim group-hover:text-brand-accent transition-colors">
-                            <Plus size={20} />
-                            <span className="text-[8px] font-bold uppercase tracking-widest">Select Thumbnail</span>
+                  <div>
+                    <InputLabel required>Video Thumbnail</InputLabel>
+                    <div 
+                      className={`mt-2 border-2 border-dashed rounded-[14px] transition-all duration-300 ${dragActiveThumb ? 'border-gray-900 bg-gray-50' : 'border-[#D1D5DB] bg-[#FFFFFF] hover:border-gray-400'} flex flex-col items-center justify-center p-8 relative overflow-hidden`}
+                      onDragEnter={(e) => { e.preventDefault(); setDragActiveThumb(true); }}
+                      onDragLeave={(e) => { e.preventDefault(); setDragActiveThumb(false); }}
+                      onDragOver={(e) => { e.preventDefault(); setDragActiveThumb(true); }}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        setDragActiveThumb(false);
+                        if (e.dataTransfer.files?.[0]) {
+                          thumbRef.current.files = e.dataTransfer.files;
+                          handleThumbnailChange({ target: { files: e.dataTransfer.files } });
+                        }
+                      }}
+                    >
+                      <input ref={thumbRef} type="file" onChange={handleThumbnailChange} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" accept="image/*" />
+                      {thumbnailPreview ? (
+                        <div className="relative w-full z-20">
+                          <img src={thumbnailPreview} className="w-full h-[180px] object-cover rounded-xl shadow-sm" />
+                          <div className="mt-4 flex justify-center">
+                            <button type="button" onClick={() => thumbRef.current?.click()} className="px-4 py-2 bg-white border border-gray-200 text-gray-700 font-semibold text-sm rounded-lg hover:bg-gray-50">
+                              Replace Thumbnail
+                            </button>
                           </div>
-                        )}
-                      </label>
-                      <div className="space-y-4">
-                        <p className="text-[9px] text-brand-text-dim leading-relaxed font-medium uppercase tracking-wider italic">
-                          Required for motion pieces. Choose a high-impact frame that represents the masterpiece in the gallery.
-                        </p>
-                        <input
-                          name="thumbnail"
-                          value={formData.thumbnail}
-                          onChange={handleChange}
-                          className="w-full px-6 py-4 rounded-xl bg-white/[0.03] border border-white/10 focus:border-brand-accent outline-none text-white text-[10px] placeholder:text-white/10"
-                          placeholder="Or remote thumbnail URL..."
-                        />
-                      </div>
+                        </div>
+                      ) : (
+                        <div className="text-center pointer-events-none">
+                          <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3 border border-gray-100">
+                            <Image className="w-6 h-6 text-gray-400" />
+                          </div>
+                          <p className="text-gray-900 font-semibold text-sm">Upload Thumbnail Image</p>
+                        </div>
+                      )}
+                    </div>
+                    <div className="mt-3">
+                      <input
+                        name="thumbnail"
+                        value={formData.thumbnail}
+                        onChange={handleChange}
+                        className={inputClass}
+                        placeholder="Or provide remote thumbnail URL..."
+                      />
                     </div>
                   </div>
                 )}
-              </div>
+              </motion.div>
             )}
 
             {step === 3 && (
-              <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <div className="space-y-4">
-                  <label className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-text-dim ml-2">Architectural Stack</label>
-                  <div className="relative">
-                    <input
-                      name="techStack"
-                      value={formData.techStack}
-                      onChange={handleChange}
-                      className="w-full px-8 py-5 rounded-[1.5rem] bg-white/[0.03] border border-white/10 focus:border-brand-accent outline-none text-white transition-all placeholder:text-white/10"
-                      placeholder="React, Framer Motion, Tailwind CSS"
-                    />
-                    <div className="absolute right-6 top-1/2 -translate-y-1/2 text-[8px] font-bold text-brand-text-dim uppercase tracking-tighter">Comma Separated</div>
-                  </div>
+              <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                <div>
+                  <InputLabel required>Tech Stack (Comma Separated)</InputLabel>
+                  <input
+                    name="techStack"
+                    value={formData.techStack}
+                    onChange={handleChange}
+                    className={inputClass}
+                    placeholder="React, Tailwind, Node.js"
+                  />
                 </div>
 
-                <div className="space-y-4">
-                  <label className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-text-dim ml-2">The Narrative</label>
+                <div>
+                  <InputLabel required>Description</InputLabel>
                   <textarea
                     name="description"
                     value={formData.description}
                     onChange={handleChange}
-                    rows="6"
-                    className="w-full px-8 py-6 rounded-[2rem] bg-white/[0.03] border border-white/10 focus:border-brand-accent outline-none text-white resize-none transition-all placeholder:text-white/10 leading-relaxed"
-                    placeholder="Tell the cinematic story of this creation. Focus on the problem solved and the unique execution..."
+                    className={textareaClass}
+                    placeholder="Describe the project..."
                   />
                 </div>
 
-                <div className="space-y-6">
-                  <label className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-text-dim ml-2">Visual Gallery (Upload multiple)</label>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div>
+                  <InputLabel>Additional Gallery Images</InputLabel>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
                     {previewImages.map((src, index) => (
-                      <div key={index} className="relative aspect-square rounded-2xl overflow-hidden group border border-white/5 shadow-lg">
-                        <img src={src} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                      <div key={index} className="relative aspect-square rounded-2xl overflow-hidden group border border-gray-200">
+                        <img src={src} className="w-full h-full object-cover" />
                         <button 
                           type="button"
                           onClick={() => removeImage(index)}
-                          className="absolute inset-0 bg-red-500/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm"
+                          className="absolute inset-0 bg-red-500/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
                         >
-                          <Trash2 className="text-white scale-75 group-hover:scale-100 transition-transform" />
+                          <Trash2 className="text-white" />
                         </button>
                       </div>
                     ))}
-                    <label className="aspect-square rounded-2xl border-2 border-dashed border-white/10 flex flex-col items-center justify-center cursor-pointer hover:border-brand-accent/40 hover:bg-brand-accent/[0.02] transition-all group active:scale-95">
-                      <input type="file" multiple onChange={handleImageChange} className="hidden" />
-                      <Plus className="w-6 h-6 text-brand-text-dim group-hover:text-brand-accent group-hover:rotate-90 transition-all duration-300" />
-                      <span className="text-[8px] font-bold uppercase tracking-widest text-brand-text-dim mt-2 group-hover:text-brand-accent">Add Asset</span>
+                    <label className="aspect-square rounded-[14px] border-2 border-dashed border-[#D1D5DB] flex flex-col items-center justify-center cursor-pointer hover:border-gray-900 hover:bg-gray-50 transition-all bg-white">
+                      <input type="file" multiple onChange={handleImageChange} className="hidden" accept="image/*" />
+                      <Plus className="w-8 h-8 text-gray-400 mb-2" />
+                      <span className="text-xs font-semibold text-gray-500">Add Images</span>
                     </label>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             )}
 
             {step === 4 && (
-              <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div className="space-y-4">
-                    <label className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-text-dim ml-2 flex items-center gap-2">
-                      <Globe size={12} className="text-brand-accent" /> Live Deployment
-                    </label>
-                    <input
-                      name="liveLink"
-                      value={formData.liveLink}
-                      onChange={handleChange}
-                      className="w-full px-8 py-5 rounded-[1.5rem] bg-white/[0.03] border border-white/10 focus:border-brand-accent outline-none text-white transition-all placeholder:text-white/10"
-                      placeholder="https://masterpiece.com"
-                    />
-                  </div>
-                  <div className="space-y-4">
-                    <label className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-text-dim ml-2 flex items-center gap-2">
-                      <FaGithub size={12} className="text-brand-accent" /> Source Repository
-                    </label>
-                    <input
-                      name="githubLink"
-                      value={formData.githubLink}
-                      onChange={handleChange}
-                      className="w-full px-8 py-5 rounded-[1.5rem] bg-white/[0.03] border border-white/10 focus:border-brand-accent outline-none text-white transition-all placeholder:text-white/10"
-                      placeholder="https://github.com/stackxxio/repo"
-                    />
-                  </div>
+              <motion.div key="step4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                <div>
+                  <InputLabel>Live Deployment URL</InputLabel>
+                  <input
+                    name="liveLink"
+                    value={formData.liveLink}
+                    onChange={handleChange}
+                    className={inputClass}
+                    placeholder="https://yourproject.com"
+                  />
                 </div>
-
-                <div className="p-8 rounded-[2.5rem] bg-white/[0.02] border border-white/5 space-y-6">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="text-xl font-display font-bold text-white mb-2">{formData.title || 'Untitled Project'}</h3>
-                      <p className="text-[9px] font-bold text-brand-accent uppercase tracking-widest">
-                        {categories.find(c => c._id === formData.category)?.name || 'Uncategorized'}
-                      </p>
-                    </div>
-                    <div className="px-4 py-1.5 rounded-full bg-brand-accent/10 border border-brand-accent/20 text-brand-accent text-[8px] font-black uppercase tracking-widest">
-                      Ready for Production
-                    </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="aspect-video rounded-xl overflow-hidden border border-white/5">
-                      {mediaPreview ? (
-                        formData.type === 'video' ? (
-                          <video src={mediaPreview} className="w-full h-full object-cover" muted />
-                        ) : (
-                          <img src={mediaPreview} className="w-full h-full object-cover" />
-                        )
+                <div>
+                  <InputLabel>Source Repository (GitHub)</InputLabel>
+                  <input
+                    name="githubLink"
+                    value={formData.githubLink}
+                    onChange={handleChange}
+                    className={inputClass}
+                    placeholder="https://github.com/..."
+                  />
+                </div>
+                
+                <div className="p-6 rounded-[20px] bg-gray-50 border border-gray-200 mt-6 flex items-center gap-6">
+                  <div className="w-24 h-24 shrink-0 rounded-[14px] overflow-hidden bg-gray-200 border border-gray-300">
+                    {mediaPreview ? (
+                      formData.type === 'video' ? (
+                        <video src={mediaPreview} className="w-full h-full object-cover" muted />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-white/5 text-[10px] text-brand-text-dim uppercase font-bold italic">No Asset</div>
-                      )}
-                    </div>
-                    <div className="space-y-3">
-                      <div className="space-y-1">
-                        <span className="text-[8px] font-bold text-brand-text-dim uppercase tracking-widest">Core Stack</span>
-                        <p className="text-[10px] text-white/80 line-clamp-1">{formData.techStack || 'Not defined'}</p>
-                      </div>
-                      <div className="space-y-1">
-                        <span className="text-[8px] font-bold text-brand-text-dim uppercase tracking-widest">Narrative</span>
-                        <p className="text-[10px] text-white/60 line-clamp-2 leading-relaxed">{formData.description || 'No narrative provided...'}</p>
-                      </div>
-                    </div>
+                        <img src={mediaPreview} className="w-full h-full object-cover" />
+                      )
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs font-bold uppercase">No Image</div>
+                    )}
+                  </div>
+                  <div className="flex-grow">
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">{formData.title || 'Untitled Project'}</h3>
+                    <p className="text-brand-accent text-xs font-bold uppercase tracking-wider mb-2">
+                      {categories.find(c => c._id === formData.category)?.name || 'Uncategorized'}
+                    </p>
+                    <p className="text-gray-500 text-sm line-clamp-2">{formData.description || 'No description provided'}</p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             )}
-          </form>
+
+          </AnimatePresence>
         </div>
 
-        <div className="p-8 md:p-10 border-t border-white/5 bg-white/[0.01] flex justify-between items-center">
-          <div>
-            {step > 1 && (
-              <button
-                type="button"
-                onClick={prevStep}
-                className="flex items-center gap-3 px-8 py-4 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-bold text-[10px] uppercase tracking-widest transition-all hover:-translate-x-1 active:scale-95"
-              >
-                <ChevronLeft size={16} /> Back
-              </button>
-            )}
-          </div>
-          
-          <div className="flex gap-4">
-            {step < 4 ? (
-              <button
-                type="button"
-                onClick={nextStep}
-                className="flex items-center gap-3 px-10 py-4 rounded-2xl bg-brand-accent text-brand-bg font-black text-[10px] uppercase tracking-widest transition-all hover:scale-105 active:scale-95 shadow-lg shadow-brand-accent/20"
-              >
-                Next Step <ChevronRight size={16} />
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleSubmit}
-                disabled={loading}
-                className="flex items-center gap-3 px-12 py-5 rounded-2xl bg-brand-accent text-brand-bg font-black text-[12px] uppercase tracking-widest transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(0,255,157,0.4)] active:scale-95 disabled:opacity-50"
-              >
-                {loading ? (
-                  <>Transmitting <div className="w-4 h-4 border-2 border-brand-bg/30 border-t-brand-bg rounded-full animate-spin" /></>
-                ) : (
-                  <>Initialize Production <Check size={18} /> </>
-                )}
-              </button>
-            )}
-          </div>
+        {/* Footer Actions */}
+        <div className="p-8 border-t border-gray-100 flex items-center justify-between shrink-0 bg-gray-50/30 rounded-b-[24px]">
+          {step > 1 ? (
+            <button 
+              onClick={prevStep}
+              className="h-[56px] px-6 bg-white border-2 border-gray-200 text-gray-900 font-semibold rounded-[14px] hover:border-gray-900 hover:bg-gray-50 transition-all flex items-center gap-2"
+            >
+              <ChevronLeft size={18} /> Back
+            </button>
+          ) : (
+            <div />
+          )}
+
+          {step < STEPS.length ? (
+            <button 
+              onClick={nextStep}
+              className="h-[56px] px-8 bg-gray-900 text-white font-semibold rounded-[14px] hover:bg-black hover:shadow-lg transition-all flex items-center gap-2 shadow-md"
+            >
+              Next Step <ChevronRight size={18} />
+            </button>
+          ) : (
+            <button 
+              onClick={handleSubmit}
+              disabled={loading}
+              className="h-[56px] px-8 bg-brand-accent text-white font-semibold rounded-[14px] hover:bg-black hover:shadow-lg transition-all flex items-center gap-2 disabled:opacity-50 shadow-md"
+            >
+              {loading ? 'Saving...' : (editProject ? 'Save Changes' : 'Create Project')} 
+              {!loading && <Check size={18} />}
+            </button>
+          )}
         </div>
-      </div>
+
+      </motion.div>
     </div>
   );
 };

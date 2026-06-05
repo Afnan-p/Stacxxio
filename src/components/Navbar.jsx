@@ -11,7 +11,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 40);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -45,8 +45,12 @@ const Navbar = () => {
   };
 
   return (
-    <nav style={{ zIndex: 9999 }} className={`fixed top-0 left-0 right-0 transition-all duration-300 ${isScrolled || mobileMenuOpen ? 'py-4 bg-white/95 backdrop-blur-md border-b border-[#E5E7EB] shadow-sm' : 'py-6 md:py-8 bg-transparent border-b border-transparent'}`}>
-      <div className="container mx-auto px-6 md:px-10 flex justify-between items-center h-full relative z-[10001]">
+    <nav style={{ zIndex: 9999 }} className={`fixed left-0 right-0 w-full flex justify-center transition-all duration-500 ease-[0.16,1,0.3,1] ${isScrolled ? 'top-4 px-4' : 'top-0 px-6 md:px-10'}`}>
+      <div className={`flex items-center justify-between w-full max-w-6xl transition-all duration-500 ${
+        isScrolled 
+          ? 'px-6 md:px-8 py-3.5 bg-white/80 backdrop-blur-2xl border border-gray-200/80 shadow-[0_16px_40px_rgb(0,0,0,0.08)] rounded-full' 
+          : 'py-6 md:py-8 bg-transparent border border-transparent rounded-none'
+      }`}>
         {/* Logo */}
         <Link 
           to="/" 
@@ -57,19 +61,19 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center space-x-2 font-sans">
+        <div className="hidden md:flex items-center space-x-1 font-sans">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="px-5 py-2 text-sm font-medium text-gray-500 hover:text-brand-text transition-colors duration-300"
+              className="px-5 py-2.5 text-sm font-semibold text-gray-500 hover:text-brand-text hover:bg-gray-50 rounded-full transition-all duration-300"
             >
               {link.name}
             </a>
           ))}
           <a
             href={isHome ? "#contact" : "/#contact"}
-            className="ml-4 px-6 py-2.5 bg-brand-accent text-white rounded-full text-sm font-semibold hover:bg-[#222222] transition-colors duration-300"
+            className="ml-2 px-7 py-3 bg-brand-text text-white rounded-full text-sm font-bold hover:bg-brand-accent hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
           >
             Start Project
           </a>
@@ -77,7 +81,7 @@ const Navbar = () => {
 
         {/* Mobile Toggle */}
         <button 
-          className="md:hidden p-2 -mr-2 text-brand-text hover:text-brand-accent transition-colors duration-300" 
+          className={`md:hidden p-2 -mr-2 rounded-full transition-colors duration-300 ${isScrolled ? 'text-brand-text hover:bg-gray-100' : 'text-brand-text'}`} 
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle Menu"
         >
@@ -89,21 +93,27 @@ const Navbar = () => {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 h-[100dvh] bg-white z-[10000] flex flex-col items-center justify-center md:hidden p-10"
+            initial={{ opacity: 0, y: -20, filter: "blur(10px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            exit={{ opacity: 0, y: -20, filter: "blur(10px)" }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 h-[100dvh] bg-white/95 backdrop-blur-3xl z-[10000] flex flex-col items-center justify-center md:hidden p-10"
           >
-            <div className="flex flex-col items-center space-y-8 w-full">
+            <button 
+              className="absolute top-8 right-8 p-3 bg-gray-100 rounded-full text-brand-text hover:bg-gray-200 transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <X size={24} />
+            </button>
+            <div className="flex flex-col items-center space-y-6 w-full">
               {navLinks.map((link, index) => (
                 <motion.a 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ delay: index * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                   key={link.name} 
                   href={link.href} 
-                  className="text-3xl font-display font-medium text-brand-text hover:text-brand-text-dim transition-colors duration-300"
+                  className="text-4xl font-display font-medium text-brand-text hover:text-brand-accent transition-colors duration-300"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {link.name}
@@ -112,9 +122,9 @@ const Navbar = () => {
               <motion.a 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
+                transition={{ delay: 0.4, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 href={isHome ? "#contact" : "/#contact"} 
-                className="w-full max-w-xs py-4 bg-brand-accent text-white rounded-full text-center text-sm font-medium mt-4 hover:bg-[#222222] transition-colors"
+                className="w-full max-w-xs py-5 bg-brand-text text-white rounded-full text-center text-lg font-bold mt-8 hover:bg-brand-accent shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Start Project

@@ -34,7 +34,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen w-full flex flex-col items-center justify-center bg-white overflow-hidden pt-28 md:pt-32 pb-12">
+    <section className="relative min-h-screen w-full flex flex-col items-center justify-center bg-white overflow-hidden pt-24 pb-8 md:pb-12">
       {/* Soft Background Accent */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-brand-surface -skew-x-12 transform origin-top-right z-0" />
       
@@ -46,19 +46,18 @@ const Hero = () => {
             variants={containerVariants}
             initial="hidden"
             animate={isLoaded ? "visible" : "hidden"}
-            className="text-[14vw] md:text-7xl lg:text-[7.5rem] font-display font-extrabold text-brand-text tracking-tighter leading-[0.95] mb-8"
+            className="text-[12vw] md:text-6xl lg:text-7xl xl:text-[6rem] font-display font-extrabold text-brand-text tracking-tighter leading-[1.05] mb-6 md:mb-8"
           >
-            <span className="block overflow-hidden"><motion.span variants={textVariants} className="block pb-2">We build modern</motion.span></span>
-            <span className="block overflow-hidden"><motion.span variants={textVariants} className="block pb-2">websites</motion.span></span>
-            <span className="block overflow-hidden"><motion.span variants={textVariants} className="block pb-2">and software</motion.span></span>
-            <span className="block overflow-hidden"><motion.span variants={textVariants} className="block text-gray-400 pb-2">solutions.</motion.span></span>
+            <span className="block overflow-hidden"><motion.span variants={textVariants} className="block pb-1 md:pb-2">We build modern</motion.span></span>
+            <span className="block overflow-hidden"><motion.span variants={textVariants} className="block pb-1 md:pb-2">websites and software</motion.span></span>
+            <span className="block overflow-hidden"><motion.span variants={textVariants} className="block pb-1 md:pb-2 text-gray-400">solutions.</motion.span></span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20, filter: "blur(5px)" }}
             animate={isLoaded ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 20, filter: "blur(5px)" }}
-            transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-lg md:text-xl text-gray-500 font-sans font-normal max-w-2xl mb-12 leading-relaxed tracking-tight"
+            transition={{ duration: 1.2, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="text-base md:text-lg lg:text-xl text-gray-500 font-sans font-normal max-w-2xl mb-8 md:mb-12 leading-relaxed tracking-tight"
           >
             Custom websites, e-commerce platforms, and software solutions engineered for performance, scalability, and growth.
           </motion.p>

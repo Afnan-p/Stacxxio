@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { getIcon } from '../utils/IconMap';
 import API from '../api/axios';
 
@@ -76,9 +77,10 @@ const Services = () => {
   useEffect(() => {
     const fetchServicesAndStats = async () => {
       try {
-        const [servRes, projRes] = await Promise.all([
+        const [servRes, projRes, statsRes] = await Promise.all([
           API.get('/api/services'),
-          API.get('/api/projects?paginate=false')
+          API.get('/api/projects?paginate=false'),
+          API.get('/api/stats').catch(() => ({ data: [] }))
         ]);
         
         if (servRes.data && servRes.data.length > 0) {
@@ -87,18 +89,24 @@ const Services = () => {
           setServices(fallbackServices);
         }
 
-        // Dynamically calculate stats based on actual database numbers
-        const projectsCount = projRes.data ? (Array.isArray(projRes.data) ? projRes.data.length : (projRes.data.projects?.length || 50)) : 50;
-        const servicesCount = servRes.data ? servRes.data.length : 5;
-        // Estimate clients as approx 85% of projects, assuming some repeat clients
-        const clientsCount = Math.max(20, Math.floor(projectsCount * 0.85));
+        if (statsRes.data && statsRes.data.length > 0) {
+          setStats(statsRes.data.map(stat => ({
+            value: stat.number,
+            label: stat.label
+          })));
+        } else {
+          // Fallback to dynamic calculation
+          const projectsCount = projRes.data ? (Array.isArray(projRes.data) ? projRes.data.length : (projRes.data.projects?.length || 50)) : 50;
+          const servicesCount = servRes.data ? servRes.data.length : 5;
+          const clientsCount = Math.max(20, Math.floor(projectsCount * 0.85));
 
-        setStats([
-          { value: `${projectsCount}+`, label: 'Projects Delivered' },
-          { value: `${clientsCount}+`, label: 'Happy Clients' },
-          { value: `${servicesCount}+`, label: 'Core Services' },
-          { value: '100%', label: 'Commitment' }
-        ]);
+          setStats([
+            { value: `${projectsCount}+`, label: 'Projects Delivered' },
+            { value: `${clientsCount}+`, label: 'Happy Clients' },
+            { value: `${servicesCount}+`, label: 'Core Services' },
+            { value: '100%', label: 'Commitment' }
+          ]);
+        }
 
       } catch (err) {
         console.error('Failed to fetch dynamic services and stats:', err);
@@ -114,7 +122,7 @@ const Services = () => {
   if (loading) return null;
 
   return (
-    <section id="services" className="py-24 md:py-32 bg-[#FAFAFA] relative overflow-hidden font-sans border-y border-gray-100">
+    <section id="services" className="py-16 md:py-20 bg-[#FAFAFA] relative overflow-hidden font-sans border-y border-gray-100">
       <div className="container mx-auto px-6 md:px-10">
         <div className="max-w-7xl mx-auto">
           
@@ -140,52 +148,66 @@ const Services = () => {
           </div>
 
           {/* Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-16">
             {services.map((service, index) => {
-              const IconComponent = getIcon(service.icon);
-              const serviceNumber = service.number || `0${index + 1}`;
-              const hoverBorder = service.hoverBorder || 'group-hover:border-brand-accent';
-              const iconColor = service.iconColor || 'text-brand-accent';
-              const bgHover = service.bgHover || 'group-hover:bg-brand-accent/5';
               
+              // High-quality fallback images based on index/title
+              const fallbackImages = [
+                'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80', // Web Dev
+                'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80', // E-Commerce
+                'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80', // Digital Showcase
+                'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80', // App Dev
+                'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80', // Branding / Poster
+                'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'  // SEO
+              ];
+              const displayImage = service.image 
+                ? (service.image.startsWith('http') ? service.image : `${import.meta.env.VITE_API_URL}/${service.image}`)
+                : fallbackImages[index % fallbackImages.length];
+
+              // Generate a short 1-line subtitle if tag isn't available
+              const subTitle = service.tag || service.description.split('.')[0] || "Premium Digital Solution";
+
               return (
                 <motion.div
                   key={service._id || index}
-                  initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-                  whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  className="h-full"
+                  transition={{ duration: 0.5, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <div className={`relative h-full p-8 bg-white border border-gray-200 rounded-2xl transition-all duration-500 group overflow-hidden cursor-pointer hover:-translate-y-1 hover:shadow-xl ${hoverBorder}`}>
-                    
-                    {/* Background Number */}
-                    <div className="absolute -bottom-4 -right-2 text-[120px] font-black text-gray-50 opacity-60 select-none pointer-events-none group-hover:scale-110 transition-transform duration-700 ease-out">
-                      {serviceNumber}
+                  <Link
+                    to={`/services/${service.slug || service._id}`}
+                    className="block h-[240px] relative rounded-xl overflow-hidden group cursor-pointer border border-gray-200 shadow-sm hover:shadow-[0_15px_30px_rgba(0,0,0,0.06)] hover:-translate-y-1 transition-all duration-500"
+                  >
+                    {/* Atmospheric Background Image */}
+                    <div className="absolute inset-0 bg-white">
+                      <img 
+                        src={displayImage} 
+                        alt={service.title} 
+                        className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
+                      />
                     </div>
 
-                    <div className="relative z-10 flex flex-col h-full">
-                      {/* Icon */}
-                      <div className={`w-14 h-14 rounded-xl flex items-center justify-center bg-gray-50 border border-gray-100 mb-8 transition-colors duration-500 ${bgHover} group-hover:scale-110`}>
-                        {IconComponent && <IconComponent className={`w-6 h-6 text-gray-700 transition-colors duration-500 ${iconColor}`} />}
-                      </div>
+                    {/* Soft White Gradient Overlay (adjusted for max image visibility) */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-white/60 to-white/10 group-hover:from-white/90 group-hover:via-white/40 transition-colors duration-500" />
+
+                    {/* Centered Typography Content */}
+                    <div className="relative z-10 w-full h-full flex flex-col justify-center items-center text-center p-6">
                       
-                      {/* Content */}
-                      <h4 className="text-xl font-bold text-gray-900 mb-3 tracking-tight transition-colors duration-300">
+                      <h3 className="text-xl font-display font-bold text-gray-900 mb-2 group-hover:text-brand-accent transition-colors duration-300">
                         {service.title}
-                      </h4>
+                      </h3>
                       
-                      <p className="text-gray-500 text-[15px] leading-relaxed mb-8 flex-grow pr-4">
-                        {service.description}
+                      <p className="text-gray-600 text-[10px] font-semibold tracking-[0.2em] uppercase line-clamp-2 px-2 max-w-[90%]">
+                        {subTitle}
                       </p>
                       
-                      {/* CTA */}
-                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-900 group-hover:text-gray-600 transition-colors mt-auto">
-                        Learn More 
-                        <ArrowRight className="w-4 h-4 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out" />
+                      {/* CTA positioned at bottom */}
+                      <div className="absolute bottom-5 flex items-center gap-1.5 text-[10px] font-bold text-gray-900 group-hover:text-brand-accent transition-colors uppercase tracking-widest">
+                        Learn More <span className="transform group-hover:translate-x-1.5 transition-transform duration-300">→</span>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 </motion.div>
               );
             })}

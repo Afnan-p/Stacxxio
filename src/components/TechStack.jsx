@@ -123,7 +123,7 @@ const features = [
 
 const TechStack = () => {
   return (
-    <section className="py-24 md:py-32 bg-[#FAFAFA] relative overflow-hidden font-sans border-y border-gray-100">
+    <section className="py-16 md:py-20 bg-[#FAFAFA] relative overflow-hidden font-sans border-y border-gray-100">
       <div className="container mx-auto px-6 md:px-10 max-w-7xl relative z-10">
         
         {/* Section Header */}

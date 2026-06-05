@@ -4,6 +4,7 @@ import { Search, ArrowUpRight, ExternalLink } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import API from '../api/axios';
+import { getOptimizedMedia } from '../utils/cloudinary';
 
 const Portfolio = () => {
   const [projects, setProjects] = useState([]);
@@ -56,11 +57,11 @@ const Portfolio = () => {
         const res = await API.get(`/api/projects?page=${page}&limit=6${categoryQuery}${searchQuery}`);
         
         if (res.data.projects) {
-          setProjects(res.data.projects);
+          setProjects(prev => page === 1 ? res.data.projects : [...prev, ...res.data.projects]);
           setTotalPages(res.data.totalPages || 1);
           setTotalProjects(res.data.totalProjects || 0);
         } else {
-          setProjects(Array.isArray(res.data) ? res.data : []);
+          setProjects(prev => page === 1 ? (Array.isArray(res.data) ? res.data : []) : prev);
           setTotalPages(1);
         }
       } catch (err) {
@@ -186,17 +187,11 @@ const Portfolio = () => {
                           <img 
                             src={
                               project.type === 'video'
-                                ? (project.thumbnail 
-                                    ? (project.thumbnail.startsWith('http') ? project.thumbnail : `${import.meta.env.VITE_API_URL}/${project.thumbnail}`)
-                                    : '/fallback.jpg')
-                                : (project.mediaUrl 
-                                    ? (project.mediaUrl.startsWith('http') ? project.mediaUrl : `${import.meta.env.VITE_API_URL}/${project.mediaUrl}`)
-                                    : (project.images?.[0] 
-                                        ? (project.images[0].startsWith('http') ? project.images[0] : `${import.meta.env.VITE_API_URL}/${project.images[0]}`) 
-                                        : '/fallback.jpg')
-                                  )
+                                ? getOptimizedMedia(project.thumbnail || '/fallback.jpg', 'thumbnail')
+                                : getOptimizedMedia(project.mediaUrl || project.images?.[0] || '/fallback.jpg', 'thumbnail')
                             } 
                             alt={project.title}
+                            loading="lazy"
                             onError={(e) => {
                               e.target.src = "/fallback.jpg";
                             }}
@@ -261,44 +256,13 @@ const Portfolio = () => {
                 </div>
 
                 {/* Pagination Controls */}
-                {totalPages > 1 && (
-                  <div className="flex justify-center items-center gap-4 mt-16">
+                {page < totalPages && (
+                  <div className="flex justify-center items-center mt-16">
                     <button
-                      onClick={() => {
-                        setPage(p => Math.max(1, p - 1));
-                        document.getElementById('projects-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                      }}
-                      disabled={page === 1}
-                      className={`px-6 py-3 rounded-full text-sm font-semibold transition-all ${page === 1 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white border border-[#E5E7EB] text-brand-text hover:border-brand-accent hover:text-brand-accent shadow-sm'}`}
+                      onClick={() => setPage(p => p + 1)}
+                      className="px-8 py-3 rounded-full text-sm font-semibold transition-all bg-white border border-[#E5E7EB] text-brand-text hover:border-brand-accent hover:text-brand-accent shadow-sm"
                     >
-                      Previous
-                    </button>
-                    <div className="flex items-center gap-2 hidden sm:flex">
-                      {[...Array(totalPages)].map((_, i) => (
-                        <button
-                          key={i}
-                          onClick={() => {
-                            setPage(i + 1);
-                            document.getElementById('projects-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                          }}
-                          className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all ${page === i + 1 ? 'bg-brand-accent text-white shadow-md' : 'bg-white border border-[#E5E7EB] text-brand-text-dim hover:border-brand-accent hover:text-brand-accent'}`}
-                        >
-                          {i + 1}
-                        </button>
-                      ))}
-                    </div>
-                    <span className="sm:hidden text-sm font-medium text-brand-text-dim">
-                      Page {page} of {totalPages}
-                    </span>
-                    <button
-                      onClick={() => {
-                        setPage(p => Math.min(totalPages, p + 1));
-                        document.getElementById('projects-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                      }}
-                      disabled={page === totalPages}
-                      className={`px-6 py-3 rounded-full text-sm font-semibold transition-all ${page === totalPages ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white border border-[#E5E7EB] text-brand-text hover:border-brand-accent hover:text-brand-accent shadow-sm'}`}
-                    >
-                      Next
+                      {loading ? 'Loading...' : 'Load More'}
                     </button>
                   </div>
                 )}
