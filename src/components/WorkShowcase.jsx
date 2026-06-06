@@ -89,8 +89,8 @@ const WorkShowcase = () => {
             <div className="text-sm font-medium text-gray-400 mb-4 animate-pulse">Loading Projects...</div>
             <div className="flex flex-wrap justify-center gap-6 lg:gap-8">
               {[...Array(4)].map((_, index) => (
-                <div key={`skel-${index}`} className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)] group bg-white rounded-2xl overflow-hidden flex flex-col h-[420px] border border-gray-100 shadow-sm">
-                  <div className="aspect-[16/10] w-full bg-gray-200 animate-shimmer"></div>
+                <div key={`skel-${index}`} className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)] group bg-white rounded-2xl overflow-hidden flex flex-col h-[460px] border border-gray-100 shadow-sm">
+                  <div className="aspect-[16/10] w-full bg-gray-200 animate-shimmer shrink-0"></div>
                   <div className="p-5 flex flex-col flex-grow">
                     <div className="w-1/4 h-3 bg-gray-200 animate-shimmer rounded mb-4"></div>
                     <div className="w-3/4 h-6 bg-gray-200 animate-shimmer rounded mb-2"></div>
@@ -112,10 +112,10 @@ const WorkShowcase = () => {
                 whileHover={{ y: -6 }}
                 transition={{ duration: 0.5, delay: (index % 4) * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => navigate(`/project/${project._id}`)}
-                className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)] group bg-white rounded-2xl overflow-hidden flex flex-col h-[420px] cursor-pointer transition-all border border-gray-100 shadow-sm hover:shadow-xl hover:border-gray-200"
+                className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)] group bg-white rounded-2xl overflow-hidden flex flex-col h-[460px] cursor-pointer transition-all border border-gray-100 shadow-sm hover:shadow-xl hover:border-gray-200"
               >
                 {/* Image Area - Reduced Height 16:10 */}
-                <div className="aspect-[16/10] w-full relative overflow-hidden bg-gray-50">
+                <div className="aspect-[16/10] w-full relative overflow-hidden bg-gray-50 shrink-0">
                   <ImageLoad
                     src={
                       project.type === 'video'

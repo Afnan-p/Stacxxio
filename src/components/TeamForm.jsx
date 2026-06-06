@@ -180,6 +180,7 @@ const TeamForm = ({ onClose, onRefresh, editMember = null }) => {
                 <div className="relative">
                   <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"><FaInstagram size={20} /></div>
                   <input 
+                    type="url"
                     name="instagram" 
                     value={formData.instagram} 
                     onChange={handleChange} 
@@ -190,6 +191,7 @@ const TeamForm = ({ onClose, onRefresh, editMember = null }) => {
                 <div className="relative">
                   <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"><FaLinkedin size={20} /></div>
                   <input 
+                    type="url"
                     name="linkedin" 
                     value={formData.linkedin} 
                     onChange={handleChange} 
@@ -200,6 +202,7 @@ const TeamForm = ({ onClose, onRefresh, editMember = null }) => {
                 <div className="relative">
                   <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"><FaGithub size={20} /></div>
                   <input 
+                    type="url"
                     name="github" 
                     value={formData.github} 
                     onChange={handleChange} 

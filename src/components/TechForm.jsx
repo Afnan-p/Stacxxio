@@ -8,6 +8,7 @@ const TechForm = ({ editTech, onClose, onRefresh }) => {
   const [formData, setFormData] = useState({
     name: '',
     icon: '',
+    category: 'frontend',
     order: 0
   });
   const [loading, setLoading] = useState(false);
@@ -96,6 +97,22 @@ const TechForm = ({ editTech, onClose, onRefresh }) => {
                 className={inputClass}
               />
               <p className="text-xs text-gray-500 mt-2 font-medium">Use Si[Name] or Fa[Name] from react-icons.</p>
+            </div>
+
+            <div>
+              <InputLabel required>Category</InputLabel>
+              <select 
+                required
+                value={formData.category}
+                onChange={(e) => setFormData({...formData, category: e.target.value})}
+                className={inputClass}
+              >
+                <option value="frontend">Frontend Development</option>
+                <option value="backend">Backend Development</option>
+                <option value="database">Database</option>
+                <option value="design">UI/UX Design</option>
+                <option value="cloud">Deployment & Cloud</option>
+              </select>
             </div>
 
             <div>

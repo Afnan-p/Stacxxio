@@ -70,22 +70,22 @@ const Team = () => {
                     src={member.image ? (member.image.startsWith('http') ? member.image : `${import.meta.env.VITE_API_URL}/${member.image}`) : '/fallback.jpg'}
                     alt={member.name}
                     wrapperClassName="w-full h-full"
-                    className="w-full h-full object-cover grayscale opacity-90 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700 ease-out"
                   />
                   
                   {/* Social Overlay */}
                   <div className="absolute inset-0 z-20 bg-white/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-3">
-                    {member.socialLinks?.instagram && (
+                    {member.socialLinks?.instagram && typeof member.socialLinks.instagram === 'string' && member.socialLinks.instagram.trim() !== '' && member.socialLinks.instagram.trim() !== '#' && (
                       <a href={member.socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="p-3 bg-white text-brand-accent rounded-full border border-[#E5E7EB] hover:bg-brand-accent hover:text-white transition-colors shadow-sm">
                         <FaInstagram size={16} />
                       </a>
                     )}
-                    {member.socialLinks?.linkedin && (
+                    {member.socialLinks?.linkedin && typeof member.socialLinks.linkedin === 'string' && member.socialLinks.linkedin.trim() !== '' && member.socialLinks.linkedin.trim() !== '#' && (
                       <a href={member.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="p-3 bg-white text-brand-accent rounded-full border border-[#E5E7EB] hover:bg-brand-accent hover:text-white transition-colors shadow-sm">
                         <FaLinkedin size={16} />
                       </a>
                     )}
-                    {member.socialLinks?.github && (
+                    {member.socialLinks?.github && typeof member.socialLinks.github === 'string' && member.socialLinks.github.trim() !== '' && member.socialLinks.github.trim() !== '#' && (
                       <a href={member.socialLinks.github} target="_blank" rel="noopener noreferrer" className="p-3 bg-white text-brand-accent rounded-full border border-[#E5E7EB] hover:bg-brand-accent hover:text-white transition-colors shadow-sm">
                         <FaGithub size={16} />
                       </a>

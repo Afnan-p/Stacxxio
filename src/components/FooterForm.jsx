@@ -123,7 +123,7 @@ const FooterForm = ({ onClose, onRefresh }) => {
               <div>
                 <InputLabel>Twitter (X)</InputLabel>
                 <input 
-                  type="text"
+                  type="url"
                   value={formData.twitter}
                   onChange={(e) => setFormData({...formData, twitter: e.target.value})}
                   className={inputClass}
@@ -132,7 +132,7 @@ const FooterForm = ({ onClose, onRefresh }) => {
               <div>
                 <InputLabel>LinkedIn</InputLabel>
                 <input 
-                  type="text"
+                  type="url"
                   value={formData.linkedin}
                   onChange={(e) => setFormData({...formData, linkedin: e.target.value})}
                   className={inputClass}
@@ -141,7 +141,7 @@ const FooterForm = ({ onClose, onRefresh }) => {
               <div>
                 <InputLabel>Instagram</InputLabel>
                 <input 
-                  type="text"
+                  type="url"
                   value={formData.instagram}
                   onChange={(e) => setFormData({...formData, instagram: e.target.value})}
                   className={inputClass}

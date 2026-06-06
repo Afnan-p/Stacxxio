@@ -75,7 +75,7 @@ const Portfolio = () => {
   }, [page, activeCategory, debouncedSearch]);
 
   return (
-    <div className="min-h-screen bg-brand-surface pt-32 pb-24">
+    <div className="min-h-screen bg-brand-surface pt-40 md:pt-48 pb-24">
       <div className="container mx-auto px-6 md:px-10 max-w-7xl">
         
         {/* Page Header */}
@@ -157,8 +157,8 @@ const Portfolio = () => {
             <div className="text-sm font-medium text-gray-400 mb-4 animate-pulse text-center">Loading Projects...</div>
             <div className="flex flex-wrap justify-center gap-8">
               {[...Array(6)].map((_, index) => (
-                <div key={`skel-${index}`} className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-[420px] group bg-white rounded-3xl overflow-hidden border border-[#E5E7EB] shadow-sm flex flex-col h-[420px]">
-                  <div className="aspect-[4/3] w-full bg-gray-200 animate-shimmer"></div>
+                <div key={`skel-${index}`} className="w-full group bg-white rounded-3xl overflow-hidden border border-[#E5E7EB] shadow-sm flex flex-col h-[460px]">
+                  <div className="aspect-[16/10] w-full bg-gray-200 animate-shimmer shrink-0"></div>
                   <div className="p-6 md:p-8 flex flex-col flex-grow">
                     <div className="w-1/4 h-3 bg-gray-200 animate-shimmer rounded mb-4"></div>
                     <div className="w-3/4 h-6 bg-gray-200 animate-shimmer rounded mb-3"></div>
@@ -184,7 +184,7 @@ const Portfolio = () => {
               </div>
             ) : (
               <div id="projects-grid">
-                <div className="flex flex-wrap justify-center gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   <AnimatePresence mode="popLayout">
                     {projects.map((project, index) => (
                       <motion.div
@@ -194,10 +194,9 @@ const Portfolio = () => {
                         exit={{ opacity: 0, scale: 0.9 }}
                         transition={{ duration: 0.4 }}
                         key={project._id || index}
-                        className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-[420px] group bg-white rounded-3xl overflow-hidden border border-[#E5E7EB] hover:shadow-xl transition-all duration-500 flex flex-col"
+                        className="w-full group bg-white rounded-3xl overflow-hidden border border-[#E5E7EB] hover:shadow-xl transition-all duration-500 flex flex-col h-[460px]"
                       >
-                        {/* Image container */}
-                        <div className="aspect-[4/3] overflow-hidden relative">
+                        <div className="aspect-[16/10] overflow-hidden relative shrink-0">
                           <ImageLoad 
                             src={
                               project.type === 'video'

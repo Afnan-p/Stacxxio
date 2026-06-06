@@ -266,7 +266,7 @@ const AdminDashboard = () => {
         )}
 
         {/* Asset Grid */}
-        <div className={activeTab === 'stats' ? '' : "grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-8"}>
+        <div className={activeTab === 'stats' ? '' : (activeTab === 'tech' ? "flex flex-col gap-12" : "grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-8")}>
           {activeTab === 'stats' ? (
             <ManageStats />
           ) : activeTab === 'inquiries' ? (
@@ -298,34 +298,60 @@ const AdminDashboard = () => {
               </div>
             ))
           ) : activeTab === 'tech' ? (
-            filteredItems().map((item) => {
-              const IconComp = getIcon(item.icon);
-              return (
-                <div key={item._id} className="glass-card rounded-[2.5rem] p-8 flex items-center gap-8 group">
-                  <div className="w-24 h-24 bg-brand-bg rounded-2xl border border-white/5 flex items-center justify-center text-brand-accent shadow-2xl transition-all duration-500 group-hover:scale-110">
-                    <IconComp size={40} />
-                  </div>
-                  <div className="flex-grow">
-                    <h3 className="text-2xl font-display font-medium mb-2">{item.name}</h3>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-text-dim">Order: {item.order}</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <button 
-                      onClick={() => { setEditingItem(item); setIsTechFormOpen(true); }}
-                      className="p-4 bg-gray-100 text-gray-500 rounded-2xl hover:bg-gray-900 hover:text-white transition-all"
-                    >
-                      <Edit2 size={18} />
-                    </button>
-                    <button 
-                      onClick={() => handleDelete(item._id, 'tech')}
-                      className="p-4 bg-red-50 text-red-500 rounded-2xl hover:bg-red-500 hover:text-white transition-all"
-                    >
-                      <Trash2 size={18} />
-                    </button>
+            (() => {
+              const groupedTech = filteredItems().reduce((acc, item) => {
+                const cat = item.category || 'frontend';
+                if (!acc[cat]) acc[cat] = [];
+                acc[cat].push(item);
+                return acc;
+              }, {});
+
+              const categoryLabels = {
+                frontend: 'Frontend Development',
+                backend: 'Backend Development',
+                database: 'Database',
+                design: 'UI/UX Design',
+                cloud: 'Deployment & Cloud'
+              };
+
+              return Object.entries(groupedTech).map(([category, items]) => (
+                <div key={category} className="flex flex-col gap-6">
+                  <h3 className="text-xl font-display font-bold text-white border-b border-white/10 pb-3">
+                    {categoryLabels[category] || category}
+                  </h3>
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-8">
+                    {items.map((item) => {
+                      const IconComp = getIcon(item.icon);
+                      return (
+                        <div key={item._id} className="glass-card rounded-[2.5rem] p-8 flex items-center gap-8 group">
+                          <div className="w-24 h-24 bg-brand-bg rounded-2xl border border-white/5 flex items-center justify-center text-brand-accent shadow-2xl transition-all duration-500 group-hover:scale-110 shrink-0">
+                            <IconComp size={40} />
+                          </div>
+                          <div className="flex-grow">
+                            <h3 className="text-2xl font-display font-medium mb-2">{item.name}</h3>
+                            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-text-dim">Order: {item.order}</p>
+                          </div>
+                          <div className="flex gap-2">
+                            <button 
+                              onClick={() => { setEditingItem(item); setIsTechFormOpen(true); }}
+                              className="p-4 bg-gray-100 text-gray-500 rounded-2xl hover:bg-gray-900 hover:text-white transition-all"
+                            >
+                              <Edit2 size={18} />
+                            </button>
+                            <button 
+                              onClick={() => handleDelete(item._id, 'tech')}
+                              className="p-4 bg-red-50 text-red-500 rounded-2xl hover:bg-red-500 hover:text-white transition-all"
+                            >
+                              <Trash2 size={18} />
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
-              );
-            })
+              ));
+            })()
           ) : activeTab === 'services' ? (
             filteredItems().map((item, index) => {
               const fallbackImages = [

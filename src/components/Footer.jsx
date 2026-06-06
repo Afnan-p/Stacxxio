@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { MessageCircle } from 'lucide-react';
 import { FaLinkedinIn, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 import API from '../api/axios';
+import toast from 'react-hot-toast';
 
 const Footer = () => {
   const [footerData, setFooterData] = useState({
@@ -33,7 +34,7 @@ const Footer = () => {
     <>
       <footer className="py-12 bg-white border-t border-[#E5E7EB] relative overflow-hidden">
         <div className="container mx-auto px-6 md:px-10">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left md:pr-24">
             <div>
               <div className="text-2xl font-display font-bold tracking-tight mb-2 text-brand-text">
                 {footerData.logoText}
@@ -44,9 +45,48 @@ const Footer = () => {
             </div>
             
             <div className="flex flex-wrap justify-center gap-6 text-sm font-medium text-brand-text-dim">
-              <a href={footerData.twitter} target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors">Twitter</a>
-              <a href={footerData.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors">LinkedIn</a>
-              <a href={footerData.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors">Instagram</a>
+              <a 
+                href={footerData.twitter && footerData.twitter !== '#' ? footerData.twitter : '#'} 
+                target={footerData.twitter && footerData.twitter !== '#' ? "_blank" : "_self"}
+                rel="noopener noreferrer" 
+                onClick={(e) => {
+                  if (!footerData.twitter || footerData.twitter === '#') {
+                    e.preventDefault();
+                    toast("Twitter profile is currently unavailable.");
+                  }
+                }}
+                className="hover:text-brand-accent transition-colors cursor-pointer"
+              >
+                Twitter
+              </a>
+              <a 
+                href={footerData.linkedin && footerData.linkedin !== '#' ? footerData.linkedin : '#'} 
+                target={footerData.linkedin && footerData.linkedin !== '#' ? "_blank" : "_self"}
+                rel="noopener noreferrer" 
+                onClick={(e) => {
+                  if (!footerData.linkedin || footerData.linkedin === '#') {
+                    e.preventDefault();
+                    toast("LinkedIn profile is currently unavailable.");
+                  }
+                }}
+                className="hover:text-brand-accent transition-colors cursor-pointer"
+              >
+                LinkedIn
+              </a>
+              <a 
+                href={footerData.instagram && footerData.instagram !== '#' ? footerData.instagram : '#'} 
+                target={footerData.instagram && footerData.instagram !== '#' ? "_blank" : "_self"}
+                rel="noopener noreferrer" 
+                onClick={(e) => {
+                  if (!footerData.instagram || footerData.instagram === '#') {
+                    e.preventDefault();
+                    toast("Instagram profile is currently unavailable.");
+                  }
+                }}
+                className="hover:text-brand-accent transition-colors cursor-pointer"
+              >
+                Instagram
+              </a>
             </div>
 
             <p className="text-sm font-medium text-brand-text-dim">

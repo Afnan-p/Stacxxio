@@ -55,7 +55,37 @@ const AppContent = () => {
 function App() {
   return (
     <Router>
-      <Toaster position="top-center" reverseOrder={false} />
+      <Toaster 
+        position="bottom-center" 
+        reverseOrder={false} 
+        toastOptions={{
+          style: {
+            background: '#111111',
+            color: '#ffffff',
+            padding: '14px 24px',
+            borderRadius: '100px',
+            fontSize: '14px',
+            fontWeight: '500',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
+            border: '1px solid rgba(255,255,255,0.1)'
+          },
+          success: {
+            iconTheme: {
+              primary: '#ffffff',
+              secondary: '#111111',
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: '#ef4444',
+              secondary: '#111111',
+            },
+          },
+        }}
+        containerStyle={{
+          bottom: 40
+        }}
+      />
       <AppContent />
     </Router>
   );
