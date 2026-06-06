@@ -199,6 +199,10 @@ const ProjectForm = ({ onClose, onRefresh, editProject = null }) => {
     if (thumbnailFile) data.append('thumbnail', thumbnailFile);
     images.forEach((img) => data.append('images', img));
 
+    // Send existing gallery image URLs that were not deleted
+    const existingImages = previewImages.filter(img => typeof img === 'string' && img.startsWith('http'));
+    data.append('existingImages', JSON.stringify(existingImages));
+
     try {
       const token = localStorage.getItem('token');
       const config = { headers: { 'Authorization': `Bearer ${token}` } };
