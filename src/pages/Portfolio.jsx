@@ -155,9 +155,9 @@ const Portfolio = () => {
         {loading && projects.length === 0 ? (
           <div>
             <div className="text-sm font-medium text-gray-400 mb-4 animate-pulse text-center">Loading Projects...</div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="flex flex-wrap justify-center gap-8">
               {[...Array(6)].map((_, index) => (
-                <div key={`skel-${index}`} className="group bg-white rounded-3xl overflow-hidden border border-[#E5E7EB] shadow-sm flex flex-col h-[420px]">
+                <div key={`skel-${index}`} className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-[420px] group bg-white rounded-3xl overflow-hidden border border-[#E5E7EB] shadow-sm flex flex-col h-[420px]">
                   <div className="aspect-[4/3] w-full bg-gray-200 animate-shimmer"></div>
                   <div className="p-6 md:p-8 flex flex-col flex-grow">
                     <div className="w-1/4 h-3 bg-gray-200 animate-shimmer rounded mb-4"></div>
@@ -184,7 +184,7 @@ const Portfolio = () => {
               </div>
             ) : (
               <div id="projects-grid">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="flex flex-wrap justify-center gap-8">
                   <AnimatePresence mode="popLayout">
                     {projects.map((project, index) => (
                       <motion.div
@@ -194,7 +194,7 @@ const Portfolio = () => {
                         exit={{ opacity: 0, scale: 0.9 }}
                         transition={{ duration: 0.4 }}
                         key={project._id || index}
-                        className="group bg-white rounded-3xl overflow-hidden border border-[#E5E7EB] hover:shadow-xl transition-all duration-500 flex flex-col"
+                        className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-[420px] group bg-white rounded-3xl overflow-hidden border border-[#E5E7EB] hover:shadow-xl transition-all duration-500 flex flex-col"
                       >
                         {/* Image container */}
                         <div className="aspect-[4/3] overflow-hidden relative">

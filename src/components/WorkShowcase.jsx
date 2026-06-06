@@ -87,9 +87,9 @@ const WorkShowcase = () => {
         {loading ? (
           <div>
             <div className="text-sm font-medium text-gray-400 mb-4 animate-pulse">Loading Projects...</div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            <div className="flex flex-wrap justify-center gap-6 lg:gap-8">
               {[...Array(4)].map((_, index) => (
-                <div key={`skel-${index}`} className="group bg-white rounded-2xl overflow-hidden flex flex-col h-[380px] border border-gray-100 shadow-sm">
+                <div key={`skel-${index}`} className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)] group bg-white rounded-2xl overflow-hidden flex flex-col h-[420px] border border-gray-100 shadow-sm">
                   <div className="aspect-[16/10] w-full bg-gray-200 animate-shimmer"></div>
                   <div className="p-5 flex flex-col flex-grow">
                     <div className="w-1/4 h-3 bg-gray-200 animate-shimmer rounded mb-4"></div>
@@ -102,7 +102,7 @@ const WorkShowcase = () => {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+          <div className="flex flex-wrap justify-center gap-6 lg:gap-8">
             {projects.map((project, index) => (
               <motion.div
                 key={`${project._id}-${index}`}
@@ -112,7 +112,7 @@ const WorkShowcase = () => {
                 whileHover={{ y: -6 }}
                 transition={{ duration: 0.5, delay: (index % 4) * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => navigate(`/project/${project._id}`)}
-                className="group bg-white rounded-2xl overflow-hidden flex flex-col h-full cursor-pointer transition-all border border-gray-100 shadow-sm hover:shadow-xl hover:border-gray-200"
+                className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)] group bg-white rounded-2xl overflow-hidden flex flex-col h-[420px] cursor-pointer transition-all border border-gray-100 shadow-sm hover:shadow-xl hover:border-gray-200"
               >
                 {/* Image Area - Reduced Height 16:10 */}
                 <div className="aspect-[16/10] w-full relative overflow-hidden bg-gray-50">

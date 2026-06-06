@@ -147,10 +147,10 @@ const Services = () => {
           </div>
 
           {/* Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-16">
+          <div className="flex flex-wrap justify-center gap-4 md:gap-6 mb-16">
             {loading ? (
               [...Array(4)].map((_, index) => (
-                <div key={`skel-serv-${index}`} className="block h-[240px] relative rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-white flex flex-col justify-center items-center p-6">
+                <div key={`skel-serv-${index}`} className="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] block h-[240px] relative rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-white flex flex-col justify-center items-center p-6">
                   <div className="absolute inset-0 bg-gray-100 animate-shimmer opacity-50 z-0"></div>
                   <div className="relative z-10 w-3/4 h-6 bg-gray-200 animate-shimmer rounded mb-4"></div>
                   <div className="relative z-10 w-full h-4 bg-gray-200 animate-shimmer rounded mb-2"></div>
@@ -183,6 +183,7 @@ const Services = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                    className="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)]"
                   >
                     <Link
                       to={`/services/${service.slug || service._id}`}

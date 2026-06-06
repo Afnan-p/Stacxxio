@@ -17,7 +17,7 @@ const ImageLoad = ({ src, alt, className = '', wrapperClassName = '', ...props }
           e.target.src = '/fallback.jpg';
           setIsLoaded(true);
         }}
-        className={`${className} relative z-10 transition-opacity duration-700 ease-in-out ${
+        className={`${className} relative z-10 transition-all duration-700 ease-in-out ${
           isLoaded ? 'opacity-100' : 'opacity-0'
         }`}
         {...props}

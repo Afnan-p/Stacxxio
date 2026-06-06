@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaLinkedin, FaGithub } from "react-icons/fa";
+import { FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
 import API from '../api/axios';
 import ImageLoad from './ImageLoad';
 
@@ -42,10 +42,10 @@ const Team = () => {
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 max-w-7xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-4 lg:gap-6 max-w-7xl mx-auto">
           {loading ? (
             [...Array(5)].map((_, index) => (
-              <div key={`skel-team-${index}`} className="bg-white border border-[#E5E7EB] rounded-[1.5rem] overflow-hidden flex flex-col h-[320px] shadow-sm">
+              <div key={`skel-team-${index}`} className="w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1rem)] lg:w-[220px] xl:w-[240px] bg-white border border-[#E5E7EB] rounded-[1.5rem] overflow-hidden flex flex-col h-[320px] shadow-sm">
                 <div className="aspect-[4/5] w-full bg-gray-200 animate-shimmer relative overflow-hidden">
                   <div className="absolute inset-0 bg-gray-100 opacity-50 z-0"></div>
                 </div>
@@ -63,7 +63,7 @@ const Team = () => {
                 whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="bg-brand-surface border border-[#E5E7EB] rounded-[1.5rem] overflow-hidden hover:shadow-xl transition-all duration-500 group flex flex-col"
+                className="w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1rem)] lg:w-[220px] xl:w-[240px] bg-brand-surface border border-[#E5E7EB] rounded-[1.5rem] overflow-hidden hover:shadow-xl transition-all duration-500 group flex flex-col"
               >
                 <div className="aspect-[4/5] w-full relative overflow-hidden bg-[#111111]">
                   <ImageLoad
@@ -74,7 +74,12 @@ const Team = () => {
                   />
                   
                   {/* Social Overlay */}
-                  <div className="absolute inset-0 bg-white/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-3">
+                  <div className="absolute inset-0 z-20 bg-white/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-3">
+                    {member.socialLinks?.instagram && (
+                      <a href={member.socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="p-3 bg-white text-brand-accent rounded-full border border-[#E5E7EB] hover:bg-brand-accent hover:text-white transition-colors shadow-sm">
+                        <FaInstagram size={16} />
+                      </a>
+                    )}
                     {member.socialLinks?.linkedin && (
                       <a href={member.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="p-3 bg-white text-brand-accent rounded-full border border-[#E5E7EB] hover:bg-brand-accent hover:text-white transition-colors shadow-sm">
                         <FaLinkedin size={16} />
