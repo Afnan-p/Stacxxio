@@ -9,6 +9,7 @@ import {
 } from 'react-icons/si';
 import API from '../api/axios';
 import { getOptimizedMedia } from '../utils/cloudinary';
+import ImageLoad from './ImageLoad';
 
 // Helper to get correct icon based on tech name
 const getTechIcon = (name) => {
@@ -30,6 +31,7 @@ const getTechIcon = (name) => {
 
 const WorkShowcase = () => {
   const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const containerRef = useRef(null);
 
@@ -41,6 +43,8 @@ const WorkShowcase = () => {
         setProjects(projectsArray.slice(0, 4)); 
       } catch (err) {
         console.error("Failed to load projects", err);
+      } finally {
+        setLoading(false);
       }
     };
     loadProjects();
@@ -80,30 +84,48 @@ const WorkShowcase = () => {
       </div>
 
       <div className="container mx-auto px-6 md:px-10 max-w-[1400px] mb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {projects.map((project, index) => (
-            <motion.div
-              key={`${project._id}-${index}`}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              whileHover={{ y: -6 }}
-              transition={{ duration: 0.5, delay: (index % 4) * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              onClick={() => navigate(`/project/${project._id}`)}
-              className="group bg-white rounded-2xl overflow-hidden flex flex-col h-full cursor-pointer transition-all border border-gray-100 shadow-sm hover:shadow-xl hover:border-gray-200"
-            >
-              {/* Image Area - Reduced Height 16:10 */}
-              <div className="aspect-[16/10] w-full relative overflow-hidden bg-gray-50">
-                <img
-                  src={
-                    project.type === 'video'
-                      ? getOptimizedMedia(project.thumbnail || '/fallback.jpg', 'thumbnail')
-                      : getOptimizedMedia(project.mediaUrl || project.images?.[0] || '/fallback.jpg', 'thumbnail')
-                  }
-                  alt={project.title}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                />
+        {loading ? (
+          <div>
+            <div className="text-sm font-medium text-gray-400 mb-4 animate-pulse">Loading Projects...</div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+              {[...Array(4)].map((_, index) => (
+                <div key={`skel-${index}`} className="group bg-white rounded-2xl overflow-hidden flex flex-col h-[380px] border border-gray-100 shadow-sm">
+                  <div className="aspect-[16/10] w-full bg-gray-200 animate-shimmer"></div>
+                  <div className="p-5 flex flex-col flex-grow">
+                    <div className="w-1/4 h-3 bg-gray-200 animate-shimmer rounded mb-4"></div>
+                    <div className="w-3/4 h-6 bg-gray-200 animate-shimmer rounded mb-2"></div>
+                    <div className="w-full h-4 bg-gray-200 animate-shimmer rounded mb-1"></div>
+                    <div className="w-5/6 h-4 bg-gray-200 animate-shimmer rounded mt-auto"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {projects.map((project, index) => (
+              <motion.div
+                key={`${project._id}-${index}`}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -6 }}
+                transition={{ duration: 0.5, delay: (index % 4) * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                onClick={() => navigate(`/project/${project._id}`)}
+                className="group bg-white rounded-2xl overflow-hidden flex flex-col h-full cursor-pointer transition-all border border-gray-100 shadow-sm hover:shadow-xl hover:border-gray-200"
+              >
+                {/* Image Area - Reduced Height 16:10 */}
+                <div className="aspect-[16/10] w-full relative overflow-hidden bg-gray-50">
+                  <ImageLoad
+                    src={
+                      project.type === 'video'
+                        ? getOptimizedMedia(project.thumbnail || '/fallback.jpg', 'thumbnail')
+                        : getOptimizedMedia(project.mediaUrl || project.images?.[0] || '/fallback.jpg', 'thumbnail')
+                    }
+                    alt={project.title}
+                    wrapperClassName="w-full h-full"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  />
                 
                 {project.type === 'video' && (
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -177,6 +199,7 @@ const WorkShowcase = () => {
             </motion.div>
           ))}
         </div>
+        )}
       </div>
     </section>
   );

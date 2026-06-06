@@ -5,6 +5,7 @@ import { FaGithub } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import API from '../api/axios';
 import { getOptimizedMedia } from '../utils/cloudinary';
+import ImageLoad from '../components/ImageLoad';
 
 const Portfolio = () => {
   const [projects, setProjects] = useState([]);
@@ -151,9 +152,22 @@ const Portfolio = () => {
         </div>
 
         {/* Projects Grid */}
-        {loading ? (
-          <div className="flex justify-center items-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-accent"></div>
+        {loading && projects.length === 0 ? (
+          <div>
+            <div className="text-sm font-medium text-gray-400 mb-4 animate-pulse text-center">Loading Projects...</div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(6)].map((_, index) => (
+                <div key={`skel-${index}`} className="group bg-white rounded-3xl overflow-hidden border border-[#E5E7EB] shadow-sm flex flex-col h-[420px]">
+                  <div className="aspect-[4/3] w-full bg-gray-200 animate-shimmer"></div>
+                  <div className="p-6 md:p-8 flex flex-col flex-grow">
+                    <div className="w-1/4 h-3 bg-gray-200 animate-shimmer rounded mb-4"></div>
+                    <div className="w-3/4 h-6 bg-gray-200 animate-shimmer rounded mb-3"></div>
+                    <div className="w-full h-4 bg-gray-200 animate-shimmer rounded mb-1"></div>
+                    <div className="w-5/6 h-4 bg-gray-200 animate-shimmer rounded mt-auto"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         ) : (
           <>
@@ -184,17 +198,14 @@ const Portfolio = () => {
                       >
                         {/* Image container */}
                         <div className="aspect-[4/3] overflow-hidden relative">
-                          <img 
+                          <ImageLoad 
                             src={
                               project.type === 'video'
                                 ? getOptimizedMedia(project.thumbnail || '/fallback.jpg', 'thumbnail')
                                 : getOptimizedMedia(project.mediaUrl || project.images?.[0] || '/fallback.jpg', 'thumbnail')
                             } 
                             alt={project.title}
-                            loading="lazy"
-                            onError={(e) => {
-                              e.target.src = "/fallback.jpg";
-                            }}
+                            wrapperClassName="w-full h-full"
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                           />
                           <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm gap-4">
