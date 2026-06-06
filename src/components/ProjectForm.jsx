@@ -66,7 +66,7 @@ const ProjectForm = ({ onClose, onRefresh, editProject = null }) => {
       setFormData({
         title: editProject.title,
         description: editProject.description,
-        category: typeof editProject.category === 'object' ? editProject.category._id : editProject.category,
+        category: editProject.category ? (typeof editProject.category === 'object' ? editProject.category._id : editProject.category) : '',
         techStack: editProject.techStack.join(', '),
         liveLink: editProject.liveLink || '',
         githubLink: editProject.githubLink || '',

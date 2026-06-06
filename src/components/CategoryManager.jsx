@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Plus, Trash2, Tag } from 'lucide-react';
+import { X, Plus, Trash2, Tag, Edit2 } from 'lucide-react';
 import API from '../api/axios';
 import toast from 'react-hot-toast';
 
@@ -8,6 +8,8 @@ const CategoryManager = ({ onClose, onRefresh }) => {
   const [categories, setCategories] = useState([]);
   const [newName, setNewName] = useState('');
   const [loading, setLoading] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [editName, setEditName] = useState('');
 
   useEffect(() => {
     fetchCategories();
@@ -39,6 +41,26 @@ const CategoryManager = ({ onClose, onRefresh }) => {
       toast.error(err.response?.data?.message || 'Failed to add category');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleEditSubmit = async (id) => {
+    if (!editName.trim()) {
+      setEditingId(null);
+      return;
+    }
+    try {
+      const token = localStorage.getItem('token');
+      await API.put(`/api/categories/${id}`, { name: editName }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      toast.success('Category updated');
+      setEditingId(null);
+      fetchCategories();
+      if (onRefresh) onRefresh();
+    } catch (err) {
+      console.error("Update category error:", err);
+      toast.error(err.response?.data?.message || 'Failed to update category');
     }
   };
 
@@ -108,13 +130,54 @@ const CategoryManager = ({ onClose, onRefresh }) => {
                   exit={{ opacity: 0, height: 0, marginBottom: 0 }}
                   className="flex justify-between items-center px-5 py-4 bg-[#FFFFFF] border-[1.5px] border-gray-200 rounded-[14px] hover:border-gray-300 transition-colors group"
                 >
-                  <span className="text-[#111111] font-semibold tracking-tight">{cat.name}</span>
-                  <button 
-                    onClick={() => handleDelete(cat._id)}
-                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all opacity-0 group-hover:opacity-100"
-                  >
-                    <Trash2 size={18} />
-                  </button>
+                  {editingId === cat._id ? (
+                    <div className="flex w-full gap-2 items-center">
+                      <input 
+                        autoFocus
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') handleEditSubmit(cat._id);
+                          if (e.key === 'Escape') setEditingId(null);
+                        }}
+                        className="flex-grow h-[40px] px-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-gray-900"
+                      />
+                      <button onClick={() => handleEditSubmit(cat._id)} className="px-3 py-1.5 bg-gray-900 text-white text-xs rounded-lg font-medium">Save</button>
+                      <button onClick={() => setEditingId(null)} className="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs rounded-lg font-medium">Cancel</button>
+                    </div>
+                  ) : (
+                    <>
+                      <span 
+                        onDoubleClick={() => {
+                          setEditingId(cat._id);
+                          setEditName(cat.name);
+                        }}
+                        className="text-[#111111] font-semibold tracking-tight cursor-default"
+                        title="Double click to edit"
+                      >
+                        {cat.name}
+                      </span>
+                      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all">
+                        <button 
+                          onClick={() => {
+                            setEditingId(cat._id);
+                            setEditName(cat.name);
+                          }}
+                          className="p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-all"
+                          title="Edit Category"
+                        >
+                          <Edit2 size={16} />
+                        </button>
+                        <button 
+                          onClick={() => handleDelete(cat._id)}
+                          className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                          title="Delete Category"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </motion.div>
               ))}
             </AnimatePresence>

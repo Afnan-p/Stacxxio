@@ -46,34 +46,34 @@ const Navbar = () => {
 
   return (
     <nav style={{ zIndex: 9999 }} className={`fixed left-0 right-0 w-full flex justify-center transition-all duration-500 ease-[0.16,1,0.3,1] ${isScrolled ? 'top-4 px-4' : 'top-0 px-6 md:px-10'}`}>
-      <div className={`flex items-center justify-between w-full max-w-6xl transition-all duration-500 ${
+      <div className={`flex items-center justify-between w-full max-w-[1400px] transition-all duration-500 ${
         isScrolled 
-          ? 'px-6 md:px-8 py-3.5 bg-white/80 backdrop-blur-2xl border border-gray-200/80 shadow-[0_16px_40px_rgb(0,0,0,0.08)] rounded-full' 
-          : 'py-6 md:py-8 bg-transparent border border-transparent rounded-none'
+          ? 'px-6 md:px-10 py-4 bg-white/80 backdrop-blur-2xl border border-gray-200/80 shadow-[0_16px_40px_rgb(0,0,0,0.08)] rounded-full' 
+          : 'py-6 md:py-10 bg-transparent border border-transparent rounded-none'
       }`}>
         {/* Logo */}
         <Link 
           to="/" 
           onClick={handleLogoClick}
-          className="text-xl md:text-2xl font-display font-extrabold tracking-tight text-brand-text shrink-0"
+          className="text-2xl md:text-[28px] font-display font-black tracking-tight text-brand-text shrink-0"
         >
           STACKXXIO  
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center space-x-1 font-sans">
+        <div className="hidden md:flex items-center space-x-2 font-sans">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="px-5 py-2.5 text-sm font-semibold text-gray-500 hover:text-brand-text hover:bg-gray-50 rounded-full transition-all duration-300"
+              className="px-6 py-3 text-[15px] font-bold text-gray-600 hover:text-brand-text hover:bg-gray-50 rounded-full transition-all duration-300"
             >
               {link.name}
             </a>
           ))}
           <a
             href={isHome ? "#contact" : "/#contact"}
-            className="ml-2 px-7 py-3 bg-brand-text text-white rounded-full text-sm font-bold hover:bg-brand-accent hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+            className="ml-4 px-8 py-3.5 bg-brand-text text-white rounded-full text-[15px] font-bold hover:bg-brand-accent hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
           >
             Start Project
           </a>

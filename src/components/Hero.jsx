@@ -66,7 +66,7 @@ const Hero = () => {
       </div>
       
       {/* Main Content Reveal */}
-      <div className="container mx-auto px-6 relative z-20 flex flex-col items-start md:items-center text-left md:text-center mt-8 md:mt-0">
+      <div className="container mx-auto px-6 relative z-20 flex flex-col items-start md:items-center text-left md:text-center mt-4 md:mt-8">
         <div className="flex flex-col items-start md:items-center w-full max-w-5xl">
           
           {/* Agency Badge */}
@@ -74,7 +74,7 @@ const Hero = () => {
             initial="hidden"
             animate={isLoaded ? "visible" : "hidden"}
             variants={fadeUpVariants}
-            className="mb-8 md:mb-10"
+            className="mb-6 md:mb-8"
           >
             <div className="px-5 py-2 rounded-full border border-gray-200 bg-white/60 backdrop-blur-md shadow-sm">
               <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-gray-500">
@@ -88,13 +88,13 @@ const Hero = () => {
             variants={containerVariants}
             initial="hidden"
             animate={isLoaded ? "visible" : "hidden"}
-            className="text-[11vw] md:text-5xl lg:text-6xl xl:text-7xl font-display font-extrabold text-gray-900 tracking-tighter leading-tight mb-4 md:mb-6"
+            className="text-[11vw] md:text-5xl lg:text-6xl xl:text-7xl font-display font-extrabold text-gray-900 tracking-tighter leading-tight mb-3 md:mb-4"
           >
             <span className="block overflow-hidden"><motion.span variants={textVariants} className="block pb-1">Premium Digital Products</motion.span></span>
             <span className="block overflow-hidden"><motion.span variants={textVariants} className="block pb-1">Engineered For</motion.span></span>
             
             {/* Rotating Keyword */}
-            <span className="block h-[1.2em] relative w-full mt-1 md:mt-2 overflow-hidden">
+            <span className="block h-[1.2em] relative w-full mt-1 md:mt-1 overflow-hidden">
               <span className="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-full md:w-auto text-left md:text-center text-gray-400">
                 <AnimatePresence mode="wait">
                   <motion.span
@@ -119,7 +119,7 @@ const Hero = () => {
             animate={isLoaded ? "visible" : "hidden"}
             transition={{ delay: 0.6 }}
           >
-            <p className="text-base md:text-lg lg:text-xl text-gray-500 font-sans font-normal max-w-[700px] mb-8 md:mb-10 leading-relaxed tracking-tight">
+            <p className="text-base md:text-lg lg:text-xl text-gray-500 font-sans font-normal max-w-[700px] mb-6 md:mb-8 leading-relaxed tracking-tight">
               We build fast, scalable, and conversion-focused websites that help modern businesses grow online.
             </p>
           </motion.div>
@@ -130,7 +130,7 @@ const Hero = () => {
             initial="hidden"
             animate={isLoaded ? "visible" : "hidden"}
             transition={{ delay: 0.8 }}
-            className="flex flex-col sm:flex-row items-center gap-4 md:gap-6 w-full md:w-auto"
+            className="flex flex-col sm:flex-row items-center gap-4 md:gap-5 w-full md:w-auto"
           >
             <a 
               href="#contact" 
