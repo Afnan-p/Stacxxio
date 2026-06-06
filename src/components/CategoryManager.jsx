@@ -134,16 +134,17 @@ const CategoryManager = ({ onClose, onRefresh }) => {
                     <div className="flex w-full gap-2 items-center">
                       <input 
                         autoFocus
+                        placeholder="Category Name"
                         value={editName}
                         onChange={(e) => setEditName(e.target.value)}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') handleEditSubmit(cat._id);
                           if (e.key === 'Escape') setEditingId(null);
                         }}
-                        className="flex-grow h-[40px] px-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-gray-900"
+                        className="flex-grow h-[40px] px-3 border border-gray-300 rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:border-gray-900"
                       />
-                      <button onClick={() => handleEditSubmit(cat._id)} className="px-3 py-1.5 bg-gray-900 text-white text-xs rounded-lg font-medium">Save</button>
-                      <button onClick={() => setEditingId(null)} className="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs rounded-lg font-medium">Cancel</button>
+                      <button type="button" onClick={() => handleEditSubmit(cat._id)} className="px-3 py-1.5 bg-gray-900 text-white text-xs rounded-lg font-medium">Save</button>
+                      <button type="button" onClick={() => setEditingId(null)} className="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs rounded-lg font-medium">Cancel</button>
                     </div>
                   ) : (
                     <>

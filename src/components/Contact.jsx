@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send, Mail, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Send, Mail, CheckCircle2, AlertCircle, Phone } from 'lucide-react';
 import API from '../api/axios';
 
 const Contact = () => {
@@ -14,6 +14,27 @@ const Contact = () => {
     success: false,
     error: null
   });
+  const [contactInfo, setContactInfo] = useState({
+    email: 'stackxxioweb@gmail.com',
+    phones: []
+  });
+
+  React.useEffect(() => {
+    const fetchContactInfo = async () => {
+      try {
+        const res = await API.get('/api/footer');
+        if (res.data) {
+          setContactInfo({
+            email: res.data.email || 'stackxxioweb@gmail.com',
+            phones: res.data.phones || []
+          });
+        }
+      } catch (err) {
+        console.error("Failed to fetch contact info:", err);
+      }
+    };
+    fetchContactInfo();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -60,14 +81,32 @@ const Contact = () => {
               We are ready to bring your ideas to life. Reach out to us today to start a conversation about how our web agency can help you achieve your business goals.
             </p>
             
-            <div className="flex items-center gap-6 group">
-              <div className="w-16 h-16 rounded-full bg-white border border-[#E5E7EB] shadow-sm flex items-center justify-center text-brand-text group-hover:bg-brand-accent group-hover:text-white transition-colors duration-300">
-                <Mail size={24} />
+            <div className="flex flex-col gap-6">
+              <div className="flex items-center gap-6 group">
+                <div className="w-16 h-16 shrink-0 rounded-full bg-white border border-[#E5E7EB] shadow-sm flex items-center justify-center text-brand-text group-hover:bg-brand-accent group-hover:text-white transition-colors duration-300">
+                  <Mail size={24} />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-brand-text-dim mb-1">Email Us Directly</p>
+                  <p className="text-xl font-bold text-brand-text break-all">{contactInfo.email}</p>
+                </div>
               </div>
-              <div>
-                <p className="text-sm font-medium text-brand-text-dim mb-1">Email Us Directly</p>
-                <p className="text-xl font-bold text-brand-text">stackxxioweb@gmail.com</p>
-              </div>
+
+              {contactInfo.phones && contactInfo.phones.length > 0 && (
+                <div className="flex items-start gap-6 group">
+                  <div className="w-16 h-16 shrink-0 rounded-full bg-white border border-[#E5E7EB] shadow-sm flex items-center justify-center text-brand-text group-hover:bg-brand-accent group-hover:text-white transition-colors duration-300 mt-1">
+                    <Phone size={24} />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-brand-text-dim mb-1">Call Us Directly</p>
+                    <div className="space-y-1">
+                      {contactInfo.phones.map((phone, idx) => (
+                        <p key={idx} className="text-xl font-bold text-brand-text break-all">{phone}</p>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 

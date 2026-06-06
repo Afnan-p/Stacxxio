@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { X, Check } from 'lucide-react';
+import { X, Check, Plus, Trash2 } from 'lucide-react';
 import API from '../api/axios';
 import toast from 'react-hot-toast';
 
 const FooterForm = ({ onClose, onRefresh }) => {
   const [formData, setFormData] = useState({
+    email: 'stackxxioweb@gmail.com',
+    phones: [],
     logoText: '',
     tagline: '',
     twitter: '',
@@ -85,6 +87,64 @@ const FooterForm = ({ onClose, onRefresh }) => {
         {/* Form Content */}
         <div className="p-8 overflow-y-auto flex-grow">
           <form id="footer-form" onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid sm:grid-cols-2 gap-6">
+              <div>
+                <InputLabel required>Contact Email</InputLabel>
+                <input 
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  className={inputClass}
+                />
+              </div>
+              <div></div>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <InputLabel>Contact Phone Numbers</InputLabel>
+                <button 
+                  type="button" 
+                  onClick={() => setFormData({...formData, phones: [...(formData.phones || []), '']})}
+                  className="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1 bg-blue-50 px-2 py-1 rounded-md"
+                >
+                  <Plus size={14} /> Add Number
+                </button>
+              </div>
+              <div className="space-y-3">
+                {(!formData.phones || formData.phones.length === 0) ? (
+                  <p className="text-sm text-gray-400 italic">No contact numbers added yet.</p>
+                ) : (
+                  formData.phones.map((phone, index) => (
+                    <div key={index} className="flex gap-2">
+                      <input 
+                        type="text"
+                        placeholder="e.g. +1 (555) 123-4567"
+                        value={phone}
+                        onChange={(e) => {
+                          const newPhones = [...formData.phones];
+                          newPhones[index] = e.target.value;
+                          setFormData({...formData, phones: newPhones});
+                        }}
+                        className={inputClass}
+                      />
+                      <button 
+                        type="button"
+                        onClick={() => {
+                          const newPhones = formData.phones.filter((_, i) => i !== index);
+                          setFormData({...formData, phones: newPhones});
+                        }}
+                        className="w-[56px] h-[56px] shrink-0 bg-red-50 text-red-500 rounded-[14px] flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors"
+                      >
+                        <Trash2 size={20} />
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+
             <div className="grid sm:grid-cols-2 gap-6">
               <div>
                 <InputLabel required>Logo Text</InputLabel>

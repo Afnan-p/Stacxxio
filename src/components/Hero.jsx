@@ -88,7 +88,7 @@ const Hero = () => {
             variants={containerVariants}
             initial="hidden"
             animate={isLoaded ? "visible" : "hidden"}
-            className="text-[11vw] md:text-5xl lg:text-6xl xl:text-7xl font-display font-extrabold text-gray-900 tracking-tighter leading-tight mb-3 md:mb-4"
+            className="text-[11vw] md:text-5xl lg:text-6xl xl:text-7xl font-display font-extrabold text-gray-900 tracking-tight leading-tight mb-3 md:mb-4"
           >
             <span className="block overflow-hidden"><motion.span variants={textVariants} className="block pb-1">Premium Digital Products</motion.span></span>
             <span className="block overflow-hidden"><motion.span variants={textVariants} className="block pb-1">Engineered For</motion.span></span>
