@@ -106,7 +106,7 @@ const ProjectDetail = () => {
 
   if (!project) return (
     <div className="min-h-screen bg-brand-bg flex flex-col items-center justify-center p-6 text-center">
-      <h1 className="text-4xl font-display font-bold mb-6 text-white">Masterpiece Not Found</h1>
+      <h1 className="text-4xl font-display font-bold mb-6 text-brand-text">Masterpiece Not Found</h1>
       <Link to="/" className="btn-premium">Return to Gallery</Link>
     </div>
   );
@@ -131,7 +131,7 @@ const ProjectDetail = () => {
             className="lg:col-span-7 space-y-4 md:space-y-6"
           >
             {project.type === 'video' ? (
-              <div className="relative rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-white/5 shadow-premium bg-[#0b0f19] aspect-video flex items-center justify-center">
+              <div className="relative rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-gray-200 shadow-premium bg-gray-50 aspect-video flex items-center justify-center">
                 {(() => {
                   const vUrl = project.videoUrl || project.mediaUrl;
                   if (!vUrl) return <div className="text-brand-text-dim italic text-xs md:text-base">Motion Asset Missing</div>;

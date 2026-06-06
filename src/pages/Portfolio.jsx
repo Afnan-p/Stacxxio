@@ -189,10 +189,11 @@ const Portfolio = () => {
                     {projects.map((project, index) => (
                       <motion.div
                         layout
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
                         exit={{ opacity: 0, scale: 0.9 }}
-                        transition={{ duration: 0.4 }}
+                        transition={{ duration: 0.6, delay: (index % 6) * 0.1, ease: [0.16, 1, 0.3, 1] }}
                         key={project._id || index}
                         className="w-full group bg-white rounded-3xl overflow-hidden border border-[#E5E7EB] hover:shadow-xl transition-all duration-500 flex flex-col h-[460px]"
                       >

@@ -178,24 +178,7 @@ const ServiceDetail = () => {
                   </div>
                 )}
 
-                {/* Contact CTA Widget */}
-                <div className="bg-gray-900 p-8 rounded-3xl text-white relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-brand-accent/20 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-accent/30 transition-colors duration-700" />
-                  
-                  <div className="relative z-10">
-                    <MessageCircle className="w-10 h-10 text-brand-accent mb-6" />
-                    <h3 className="text-2xl font-display font-bold mb-4">Start Your Project</h3>
-                    <p className="text-gray-400 mb-8 text-sm leading-relaxed">
-                      Ready to elevate your digital presence? Let's discuss how our {service.title} services can help you achieve your goals.
-                    </p>
-                    <a 
-                      href="mailto:contact@stackxxio.com" 
-                      className="inline-flex items-center justify-center w-full py-4 bg-brand-accent text-white font-bold rounded-xl hover:bg-opacity-90 transition-colors"
-                    >
-                      Get in Touch
-                    </a>
-                  </div>
-                </div>
+
 
               </div>
             </div>
