@@ -40,7 +40,7 @@ const Founders = () => {
             >
               <img
                 src={foundersImg}
-                alt="Stackxxio Founders"
+                alt="ZYNEXTA Founders"
                 className="w-full h-auto max-h-[850px] object-cover opacity-80 brightness-[0.9] contrast-[0.95] transition-all duration-[3000ms] ease-out hover:scale-105"
                 style={{ objectPosition: 'center 20%' }}
               />

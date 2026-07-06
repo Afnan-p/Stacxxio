@@ -65,17 +65,14 @@ const ServiceDetail = () => {
     : fallbackImages[fallbackIndex];
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] font-sans selection:bg-brand-accent selection:text-white flex flex-col">
+    <div className="min-h-screen bg-[#FAFAFA] font-sans selection:bg-[#111111] selection:text-white flex flex-col">
       <Helmet>
-        <title>{service.seoTitle || `${service.title} - STACKXXIO Services`}</title>
+        <title>{service.seoTitle || `${service.title} - ZYNEXTA Services`}</title>
         <meta name="description" content={service.seoDescription || service.description} />
       </Helmet>
 
-      {/* Since we omitted Navbar from App.js for this route, we manually render it here over a dark or light background */}
-      <Navbar />
-
-      <main className="flex-grow pt-24 pb-20">
-        <div className="container mx-auto px-6 md:px-10 max-w-6xl">
+      <main className="flex-grow pt-16 pb-20">
+        <div className="container mx-auto px-6 md:px-10 max-w-[1400px]">
           
           {/* Back Navigation */}
           <Link to="/#services" className="inline-flex items-center gap-2 text-gray-500 hover:text-gray-900 transition-colors mb-8 font-medium">
@@ -88,14 +85,14 @@ const ServiceDetail = () => {
             animate={{ opacity: 1, y: 0 }}
             className="mb-16 md:mb-24"
           >
-            <div className="max-w-4xl">
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-brand-accent mb-4 block">
+            <div className="max-w-6xl">
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-gray-500 mb-4 block">
                 {service.tag || "Premium Service"}
               </span>
               <h1 className="text-5xl md:text-7xl font-display font-bold text-gray-900 tracking-tight leading-[1.1] mb-6">
                 {service.title}
               </h1>
-              <p className="text-xl md:text-2xl text-gray-500 leading-relaxed max-w-3xl">
+              <p className="text-xl md:text-2xl text-gray-500 leading-relaxed max-w-5xl">
                 {service.description}
               </p>
             </div>
@@ -123,7 +120,7 @@ const ServiceDetail = () => {
               {/* Service Overview */}
               <section>
                 <h2 className="text-3xl font-display font-bold text-gray-900 mb-6">Service Overview</h2>
-                <div className="prose prose-lg text-gray-600 prose-headings:font-display prose-headings:text-gray-900 prose-a:text-brand-accent max-w-none whitespace-pre-wrap">
+                <div className="prose prose-lg text-gray-600 prose-headings:font-display prose-headings:text-gray-900 prose-a:text-gray-900 max-w-none whitespace-pre-wrap">
                   {service.fullDescription || service.description || "Detailed description for this service is currently being updated."}
                 </div>
               </section>
@@ -135,7 +132,7 @@ const ServiceDetail = () => {
                   <div className="grid sm:grid-cols-2 gap-6">
                     {service.features.map((feature, idx) => (
                       <div key={idx} className="flex items-start gap-4 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-                        <CheckCircle2 className="w-6 h-6 text-brand-accent flex-shrink-0" />
+                        <CheckCircle2 className="w-6 h-6 text-gray-900 flex-shrink-0" />
                         <span className="text-gray-700 font-medium">{feature}</span>
                       </div>
                     ))}

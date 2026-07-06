@@ -32,7 +32,7 @@ const Team = () => {
             viewport={{ once: true }}
             className="flex flex-col items-center"
           >
-            <span className="text-brand-accent font-medium uppercase tracking-wider text-sm mb-4">Leadership & Experts</span>
+            <span className="text-[#111111] font-medium uppercase tracking-wider text-sm mb-4">Leadership & Experts</span>
             <h2 className="text-4xl md:text-5xl font-display font-bold text-brand-text mb-6">
               Meet Our Team
             </h2>
@@ -76,17 +76,17 @@ const Team = () => {
                   {/* Social Overlay */}
                   <div className="absolute inset-0 z-20 bg-white/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-3">
                     {member.socialLinks?.instagram && typeof member.socialLinks.instagram === 'string' && member.socialLinks.instagram.trim() !== '' && member.socialLinks.instagram.trim() !== '#' && (
-                      <a href={member.socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="p-3 bg-white text-brand-accent rounded-full border border-[#E5E7EB] hover:bg-brand-accent hover:text-white transition-colors shadow-sm">
+                      <a href={member.socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="p-3 bg-white text-[#111111] rounded-full border border-[#E5E7EB] hover:bg-[#111111] hover:text-white transition-colors shadow-sm">
                         <FaInstagram size={16} />
                       </a>
                     )}
                     {member.socialLinks?.linkedin && typeof member.socialLinks.linkedin === 'string' && member.socialLinks.linkedin.trim() !== '' && member.socialLinks.linkedin.trim() !== '#' && (
-                      <a href={member.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="p-3 bg-white text-brand-accent rounded-full border border-[#E5E7EB] hover:bg-brand-accent hover:text-white transition-colors shadow-sm">
+                      <a href={member.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="p-3 bg-white text-[#111111] rounded-full border border-[#E5E7EB] hover:bg-[#111111] hover:text-white transition-colors shadow-sm">
                         <FaLinkedin size={16} />
                       </a>
                     )}
                     {member.socialLinks?.github && typeof member.socialLinks.github === 'string' && member.socialLinks.github.trim() !== '' && member.socialLinks.github.trim() !== '#' && (
-                      <a href={member.socialLinks.github} target="_blank" rel="noopener noreferrer" className="p-3 bg-white text-brand-accent rounded-full border border-[#E5E7EB] hover:bg-brand-accent hover:text-white transition-colors shadow-sm">
+                      <a href={member.socialLinks.github} target="_blank" rel="noopener noreferrer" className="p-3 bg-white text-[#111111] rounded-full border border-[#E5E7EB] hover:bg-[#111111] hover:text-white transition-colors shadow-sm">
                         <FaGithub size={16} />
                       </a>
                     )}

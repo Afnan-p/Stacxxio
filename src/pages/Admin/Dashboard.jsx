@@ -98,7 +98,7 @@ const AdminDashboard = () => {
   const NavContent = () => (
     <>
       <div className="mb-16 hidden md:block">
-        <h1 className="text-3xl font-display font-bold tracking-tighter mb-2 text-brand-text">STACKXXIO</h1>
+        <h1 className="text-3xl font-display font-bold tracking-tighter mb-2 text-brand-text">ZYNEXTA</h1>
         <p className="text-[9px] font-black uppercase tracking-[0.4em] text-brand-accent">Control Center</p>
       </div>
 
@@ -173,7 +173,7 @@ const AdminDashboard = () => {
       {/* Mobile Header */}
       <div className="md:hidden flex items-center justify-between p-6 border-b border-white/5 bg-brand-surface sticky top-0 z-[60]">
         <div>
-          <h1 className="text-2xl font-display font-bold tracking-tighter">STACKXXIO</h1>
+          <h1 className="text-2xl font-display font-bold tracking-tighter">ZYNEXTA</h1>
           <p className="text-[7px] font-black uppercase tracking-[0.4em] text-brand-accent">Control</p>
         </div>
         <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-3 bg-white/5 rounded-xl">

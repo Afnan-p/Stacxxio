@@ -69,7 +69,7 @@ const Login = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className={inputClass}
-                placeholder="admin@stackxxio.studio"
+                placeholder="admin@zynexta.studio"
                 required
               />
             </div>
@@ -101,7 +101,7 @@ const Login = () => {
         </form>
         
         <div className="mt-8 text-center text-xs font-semibold text-gray-400 uppercase tracking-widest">
-          Stackxxio Dashboard
+          ZYNEXTA Dashboard
         </div>
       </motion.div>
     </div>

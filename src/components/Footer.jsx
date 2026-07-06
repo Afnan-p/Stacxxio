@@ -7,13 +7,13 @@ import toast from 'react-hot-toast';
 
 const Footer = () => {
   const [footerData, setFooterData] = useState({
-    logoText: 'STACKXXIO.',
+    logoText: 'ZYNEXTA',
     tagline: 'PREMIUM SOFTWARE AGENCY • EST. 2024',
     twitter: '#',
     linkedin: '#',
     instagram: '#',
     whatsapp: '',
-    copyright: `© ${new Date().getFullYear()} STACKXXIO. ALL RIGHTS RESERVED.`
+    copyright: `© ${new Date().getFullYear()} ZYNEXTA. ALL RIGHTS RESERVED.`
   });
 
   useEffect(() => {
@@ -35,12 +35,19 @@ const Footer = () => {
       <footer className="py-12 bg-white border-t border-[#E5E7EB] relative overflow-hidden">
         <div className="container mx-auto px-6 md:px-10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left md:pr-24">
-            <div>
-              <div className="text-2xl font-display font-bold tracking-tight mb-2 text-brand-text">
-                {footerData.logoText}
+            <div className="flex flex-col items-center md:items-start">
+              <div className="flex items-center gap-2 mb-3">
+                {/* <img src="/zynexta-logo.png" alt="ZYNEXTA Logo" className="w-12 h-12 md:w-[55px] md:h-[55px] object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-sm mix-blend-multiply" /> */}
+                
+                <div 
+                  className="text-2xl md:text-[26px] font-extrabold tracking-wide text-brand-text leading-[0.9] mt-1.5"
+                  style={{ fontFamily: "'Montserrat', sans-serif" }}
+                >
+                  ZYNEXTΛ
+                </div>
               </div>
               <p className="text-brand-text-dim text-xs font-medium uppercase tracking-wider">
-                {footerData.tagline}
+                {footerData.tagline ? footerData.tagline.replace(/STACKXXIO/ig, 'ZYNEXTA') : 'PREMIUM SOFTWARE AGENCY • EST. 2024'}
               </p>
             </div>
             
@@ -90,7 +97,7 @@ const Footer = () => {
             </div>
 
             <p className="text-sm font-medium text-brand-text-dim">
-              {footerData.copyright}
+              {footerData.copyright ? footerData.copyright.replace(/STACKXXIO/ig, 'ZYNEXTA') : `© ${new Date().getFullYear()} ZYNEXTA. ALL RIGHTS RESERVED.`}
             </p>
           </div>
         </div>
@@ -109,7 +116,7 @@ const Footer = () => {
             animate={{ scale: 1, opacity: 1 }}
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            className="group relative w-12 h-12 md:w-[52px] md:h-[52px] bg-white text-brand-text rounded-full flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-xl hover:bg-brand-text hover:text-white transition-all duration-300 border border-[#E5E7EB]"
+            className="group relative w-12 h-12 md:w-[52px] md:h-[52px] bg-white text-brand-text rounded-full flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.15)] hover:bg-[#111111] hover:border-[#111111] hover:text-white transition-all duration-300 border border-[#E5E7EB]"
           >
             <FaLinkedinIn size={20} className="md:w-[22px] md:h-[22px]" />
             <span className="absolute right-full mr-4 bg-gray-900 text-white text-[10px] font-semibold tracking-wider px-3 py-1.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-lg">
@@ -128,7 +135,7 @@ const Footer = () => {
             animate={{ scale: 1, opacity: 1 }}
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            className="group relative w-12 h-12 md:w-[52px] md:h-[52px] bg-white text-brand-text rounded-full flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-xl hover:bg-brand-text hover:text-white transition-all duration-300 border border-[#E5E7EB]"
+            className="group relative w-12 h-12 md:w-[52px] md:h-[52px] bg-white text-brand-text rounded-full flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.15)] hover:bg-[#111111] hover:border-[#111111] hover:text-white transition-all duration-300 border border-[#E5E7EB]"
           >
             <FaInstagram size={20} className="md:w-[22px] md:h-[22px]" />
             <span className="absolute right-full mr-4 bg-gray-900 text-white text-[10px] font-semibold tracking-wider px-3 py-1.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-lg">
@@ -147,7 +154,7 @@ const Footer = () => {
             animate={{ scale: 1, opacity: 1 }}
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            className="group relative w-14 h-14 md:w-[60px] md:h-[60px] bg-brand-text text-white rounded-full flex items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:shadow-xl hover:bg-black transition-all duration-300 mt-1 md:mt-2"
+            className="group relative w-14 h-14 md:w-[60px] md:h-[60px] bg-[#111111] text-white rounded-full flex items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:shadow-brand-glow transition-all duration-300 mt-1 md:mt-2"
           >
             <FaWhatsapp size={28} className="md:w-[32px] md:h-[32px]" />
             <span className="absolute right-full mr-4 bg-gray-900 text-white text-[10px] font-semibold tracking-wider px-3 py-1.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-lg">

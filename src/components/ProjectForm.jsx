@@ -620,7 +620,7 @@ const ProjectForm = ({ onClose, onRefresh, editProject = null }) => {
             <button 
               onClick={handleSubmit}
               disabled={loading}
-              className="h-[56px] px-8 bg-brand-accent text-white font-semibold rounded-[14px] hover:bg-black hover:shadow-lg transition-all flex items-center gap-2 disabled:opacity-50 shadow-md"
+              className="h-[56px] px-8 bg-[#111111] text-white font-semibold rounded-[14px] hover:shadow-brand-glow transition-all flex items-center gap-2 disabled:opacity-50 shadow-md"
             >
               {loading ? 'Saving...' : (editProject ? 'Save Changes' : 'Create Project')} 
               {!loading && <Check size={18} />}

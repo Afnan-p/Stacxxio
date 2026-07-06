@@ -140,13 +140,13 @@ const WorkShowcase = () => {
                 
                 {/* Category Badge */}
                 <div className="mb-3">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-brand-accent">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
                     {project.category?.name || 'CASE STUDY'}
                   </span>
                 </div>
 
                 {/* Project Title */}
-                <h3 className="text-xl font-bold text-gray-900 mb-1.5 group-hover:text-brand-accent transition-colors">
+                <h3 className="text-xl font-bold text-gray-900 mb-1.5 group-hover:text-gray-600 transition-colors">
                   {project.title}
                 </h3>
                 
@@ -176,7 +176,7 @@ const WorkShowcase = () => {
                 
                 {/* Bottom Action Area */}
                 <div className="pt-3 border-t border-gray-100 flex items-center justify-between mt-auto">
-                  <div className="flex items-center gap-1.5 text-gray-900 font-semibold text-[13px] group-hover:text-brand-accent transition-colors">
+                  <div className="flex items-center gap-1.5 text-gray-900 font-semibold text-[13px] group-hover:text-gray-600 transition-colors">
                     <span>View Project</span>
                     <ArrowRight size={14} className="transform group-hover:translate-x-1.5 transition-transform duration-300" />
                   </div>
@@ -189,7 +189,7 @@ const WorkShowcase = () => {
                       </a>
                     )}
                     {project.liveLink && (
-                      <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-brand-accent transition-colors" title="Live Preview">
+                      <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-900 transition-colors" title="Live Preview">
                         <Globe size={16} />
                       </a>
                     )}

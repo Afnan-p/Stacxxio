@@ -1,12 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 @import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800&f[]=general-sans@500,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&display=swap');
 @import "tailwindcss";
 
 @theme {
   --color-brand-bg: #FFFFFF;
   --color-brand-surface: #F8F9FA;
-  --color-brand-accent: #000000;
+  --color-brand-accent: #111111;
   --color-brand-accent-glow: #222222;
+  --color-brand-gradient-start: #111111;
+  --color-brand-gradient-end: #000000;
   --color-brand-text: #111111;
   --color-brand-text-dim: #555555;
   --color-border: #E5E7EB;
@@ -17,7 +20,22 @@
   --font-body: "Inter", sans-serif;
 
   --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+  --shadow-brand-glow: 0 10px 30px -10px rgba(0, 0, 0, 0.15);
   --shadow-emerald-glow: none;
+}
+
+@layer utilities {
+  .shadow-brand-glow {
+    box-shadow: var(--shadow-brand-glow);
+  }
+  .bg-brand-gradient {
+    background: linear-gradient(135deg, var(--color-brand-gradient-start) 0%, var(--color-brand-gradient-end) 100%);
+  }
+  .text-brand-gradient {
+    background: linear-gradient(135deg, var(--color-brand-gradient-start) 0%, var(--color-brand-gradient-end) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
 
 @layer base {
@@ -47,7 +65,7 @@
 }
 
 .btn-premium {
-  @apply px-8 py-4 rounded-full bg-brand-accent text-white font-medium hover:bg-[#222222] transition-colors duration-300;
+  @apply px-8 py-4 rounded-full bg-[#111111] text-white font-medium hover:bg-[#222222] transition-colors duration-300;
 }
 
 .btn-luxury-outline {

@@ -110,7 +110,7 @@ const Portfolio = () => {
               onClick={() => setActiveCategory('All')}
               className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 border ${
                 activeCategory === 'All' 
-                ? 'bg-brand-accent text-white border-brand-accent shadow-md' 
+                ? 'bg-[#111111] text-white border-[#111111] shadow-md' 
                 : 'bg-white text-brand-text-dim border-[#E5E7EB] hover:border-gray-300 hover:text-brand-text'
               }`}
             >
@@ -122,7 +122,7 @@ const Portfolio = () => {
                 onClick={() => setActiveCategory(category._id)}
                 className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 border ${
                   activeCategory === category._id 
-                  ? 'bg-brand-accent text-white border-brand-accent shadow-md' 
+                  ? 'bg-[#111111] text-white border-[#111111] shadow-md' 
                   : 'bg-white text-brand-text-dim border-[#E5E7EB] hover:border-gray-300 hover:text-brand-text'
                 }`}
               >
@@ -146,7 +146,7 @@ const Portfolio = () => {
               placeholder="Search projects..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-white border border-[#E5E7EB] rounded-full text-sm text-brand-text focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-all shadow-sm"
+              className="w-full pl-12 pr-4 py-3 bg-white border border-[#E5E7EB] rounded-full text-sm text-brand-text focus:outline-none focus:border-[#111111] focus:ring-1 focus:ring-[#111111] transition-all shadow-sm"
             />
           </motion.div>
         </div>
@@ -177,7 +177,7 @@ const Portfolio = () => {
                 <p className="text-brand-text-dim">Try adjusting your search or category filters.</p>
                 <button 
                   onClick={() => { setSearchTerm(''); setActiveCategory('All'); }}
-                  className="mt-6 text-brand-accent font-medium hover:underline"
+                  className="mt-6 text-brand-text font-medium hover:underline"
                 >
                   Clear Filters
                 </button>
@@ -215,7 +215,7 @@ const Portfolio = () => {
                               </a>
                             )}
                             {project.githubLink && (
-                              <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="p-3 bg-brand-accent text-white rounded-full hover:scale-110 transition-transform">
+                              <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="p-3 bg-[#111111] text-white rounded-full hover:scale-110 transition-transform">
                                 <FaGithub size={18} />
                               </a>
                             )}
@@ -225,7 +225,7 @@ const Portfolio = () => {
                         {/* Content container */}
                         <div className="p-6 md:p-8 flex flex-col flex-grow">
                           <div className="flex justify-between items-start mb-4">
-                            <span className="text-xs font-semibold uppercase tracking-wider text-brand-accent bg-brand-accent/5 px-3 py-1 rounded-full">
+                            <span className="text-xs font-semibold uppercase tracking-wider text-gray-500 bg-gray-50 px-3 py-1 rounded-full border border-gray-100">
                               {project.category?.name || 'Case Study'}
                             </span>
                           </div>
@@ -254,7 +254,7 @@ const Portfolio = () => {
                             
                             <Link 
                               to={`/project/${project._id}`}
-                              className="inline-flex items-center gap-2 text-sm font-semibold text-brand-text group-hover:text-brand-accent transition-colors"
+                              className="inline-flex items-center gap-2 text-sm font-semibold text-brand-text group-hover:text-gray-600 transition-colors"
                             >
                               Read Case Study
                               <ArrowUpRight size={16} className="transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -271,7 +271,7 @@ const Portfolio = () => {
                   <div className="flex justify-center items-center mt-16">
                     <button
                       onClick={() => setPage(p => p + 1)}
-                      className="px-8 py-3 rounded-full text-sm font-semibold transition-all bg-white border border-[#E5E7EB] text-brand-text hover:border-brand-accent hover:text-brand-accent shadow-sm"
+                      className="px-8 py-3 rounded-full text-sm font-semibold transition-all bg-white border border-[#E5E7EB] text-brand-text hover:border-gray-900 hover:text-gray-900 shadow-sm"
                     >
                       {loading ? 'Loading...' : 'Load More'}
                     </button>

@@ -36,7 +36,7 @@ const AppContent = () => {
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/project/:id" element={<ProjectDetail />} />
             <Route path="/services/:slug" element={<ServiceDetail />} />
-            <Route path="/admin/stackxxio" element={<AdminLogin />} />
+            <Route path="/admin/zynexta" element={<AdminLogin />} />
             <Route 
               path="/admin/dashboard" 
               element={

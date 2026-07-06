@@ -134,7 +134,7 @@ const Hero = () => {
           >
             <a 
               href="#contact" 
-              className="group relative w-full sm:w-auto px-8 py-4 md:px-10 md:py-4 bg-gray-900 text-white font-sans font-semibold rounded-full overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 text-center text-[15px] tracking-wide"
+              className="group relative w-full sm:w-auto px-8 py-4 md:px-10 md:py-4 bg-[#111111] text-white font-sans font-semibold rounded-full overflow-hidden transition-all duration-300 hover:shadow-brand-glow hover:-translate-y-1 text-center text-[15px] tracking-wide"
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
                 Start A Project
@@ -144,7 +144,7 @@ const Hero = () => {
             </a>
             <a 
               href="#work" 
-              className="group w-full sm:w-auto px-8 py-4 md:px-10 md:py-4 bg-gray-50 text-gray-900 border border-gray-200 font-sans font-semibold rounded-full hover:border-gray-900 hover:bg-white transition-all duration-300 hover:shadow-md hover:-translate-y-1 text-center text-[15px] tracking-wide"
+              className="group w-full sm:w-auto px-8 py-4 md:px-10 md:py-4 bg-gray-50 text-gray-900 border border-gray-200 font-sans font-semibold rounded-full hover:border-brand-accent hover:text-brand-accent hover:bg-white transition-all duration-300 hover:shadow-sm hover:-translate-y-1 text-center text-[15px] tracking-wide"
             >
               Explore Projects
             </a>

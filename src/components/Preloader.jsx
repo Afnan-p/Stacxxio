@@ -85,8 +85,11 @@ const Preloader = ({ onComplete }) => {
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className="mb-8"
               >
-                <h1 className="text-[14vw] md:text-[9rem] font-display font-bold tracking-tighter leading-none mb-6 text-[#111111]">
-                  STACKXXIO<span className="text-gray-300">.</span>
+                <h1 
+                  className="text-[14vw] md:text-[9rem] font-extrabold tracking-wide leading-none mb-6 text-brand-text"
+                  style={{ fontFamily: "'Montserrat', sans-serif" }}
+                >
+                  ZYNEXTΛ<span className="text-brand-text">.</span>
                 </h1>
                 
                 <motion.div 

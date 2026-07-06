@@ -69,7 +69,7 @@ const Projects = () => {
                 <div className="absolute inset-0 bg-white/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
                   <div className="flex gap-4">
                     {project.liveLink && (
-                      <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="p-4 bg-brand-accent text-white rounded-full hover:scale-110 active:scale-95 transition-transform shadow-lg hover:bg-[#222222]">
+                      <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="p-4 bg-[#111111] text-white rounded-full hover:scale-110 active:scale-95 transition-all shadow-lg hover:shadow-brand-glow">
                         <ExternalLink size={20} />
                       </a>
                     )}
@@ -122,7 +122,7 @@ const Projects = () => {
         <div className="mt-20 flex justify-center">
           <Link 
             to="/portfolio" 
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-accent text-white font-sans font-semibold rounded-full hover:bg-[#222222] transition-colors shadow-sm group"
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#111111] text-white font-sans font-semibold rounded-full hover:shadow-brand-glow transition-all shadow-sm group"
           >
             View All Projects
             <ArrowUpRight size={18} className="transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />

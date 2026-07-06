@@ -418,7 +418,7 @@ const ServiceForm = ({ editService, onClose, onRefresh }) => {
             <button 
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="h-[56px] px-8 bg-brand-accent text-white font-semibold rounded-[14px] hover:bg-black hover:shadow-lg transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+              className="h-[56px] px-8 bg-[#111111] text-white font-semibold rounded-[14px] hover:shadow-brand-glow transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
             >
               {isSubmitting ? 'Saving...' : (editService ? 'Save Changes' : 'Create Service')} 
               {!isSubmitting && <Save size={18} />}

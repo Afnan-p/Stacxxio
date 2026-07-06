@@ -55,9 +55,24 @@ const Navbar = () => {
         <Link 
           to="/" 
           onClick={handleLogoClick}
-          className="text-2xl md:text-[28px] font-display font-black tracking-tight text-brand-text shrink-0"
+          className="flex items-center shrink-0 group gap-1.5 md:gap-2"
         >
-          STACKXXIO  
+          <img src="/zynexta-logo.png" alt="ZYNEXTA Logo" className="w-12 h-12 md:w-[55px] md:h-[55px] object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-sm mix-blend-multiply" />
+          <div className="flex flex-col justify-center items-start mt-1">
+            <span 
+              className="text-2xl md:text-[32px] font-extrabold tracking-wide text-brand-text leading-[0.9] mt-2"
+              style={{ fontFamily: "'Montserrat', sans-serif" }}
+            >
+              ZYNEXTΛ
+            </span>
+            <div className="flex items-center gap-1.5 md:gap-2 mt-1.5 w-full opacity-95">
+              <div className="h-[1px] flex-grow min-w-[12px] bg-gray-400"></div>
+              <span className="text-[6.5px] md:text-[7.5px] font-bold uppercase tracking-[0.2em] whitespace-nowrap text-brand-text">
+                WHERE INNOVATION MEETS EXECUTION.
+              </span>
+              <div className="h-[1px] flex-grow min-w-[12px] bg-gray-400"></div>
+            </div>
+          </div>
         </Link>
 
         {/* Desktop Nav */}
@@ -66,14 +81,14 @@ const Navbar = () => {
             <a
               key={link.name}
               href={link.href}
-              className="px-6 py-3 text-[15px] font-bold text-gray-600 hover:text-brand-text hover:bg-gray-50 rounded-full transition-all duration-300"
+              className="px-6 py-3 text-[15px] font-bold text-gray-600 hover:text-brand-accent hover:bg-brand-accent/5 rounded-full transition-all duration-300"
             >
               {link.name}
             </a>
           ))}
           <a
             href={isHome ? "#contact" : "/#contact"}
-            className="ml-4 px-8 py-3.5 bg-brand-text text-white rounded-full text-[15px] font-bold hover:bg-brand-accent hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+            className="ml-4 px-8 py-3.5 bg-[#111111] text-white rounded-full text-[15px] font-bold hover:shadow-brand-glow hover:-translate-y-0.5 transition-all duration-300"
           >
             Start Project
           </a>
@@ -124,7 +139,7 @@ const Navbar = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 href={isHome ? "#contact" : "/#contact"} 
-                className="w-full max-w-xs py-5 bg-brand-text text-white rounded-full text-center text-lg font-bold mt-8 hover:bg-brand-accent shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all"
+                className="w-full max-w-xs py-5 bg-[#111111] text-white rounded-full text-center text-lg font-bold mt-8 hover:shadow-brand-glow hover:-translate-y-0.5 shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Start Project

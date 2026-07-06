@@ -15,7 +15,7 @@ const Contact = () => {
     error: null
   });
   const [contactInfo, setContactInfo] = useState({
-    email: 'stackxxioweb@gmail.com',
+    email: 'zynextaweb@gmail.com',
     phones: []
   });
 
@@ -25,7 +25,7 @@ const Contact = () => {
         const res = await API.get('/api/footer');
         if (res.data) {
           setContactInfo({
-            email: res.data.email || 'stackxxioweb@gmail.com',
+            email: res.data.email || 'zynextaweb@gmail.com',
             phones: res.data.phones || []
           });
         }
@@ -83,7 +83,7 @@ const Contact = () => {
             
             <div className="flex flex-col gap-6">
               <div className="flex items-center gap-6 group">
-                <div className="w-16 h-16 shrink-0 rounded-full bg-white border border-[#E5E7EB] shadow-sm flex items-center justify-center text-brand-text group-hover:bg-brand-accent group-hover:text-white transition-colors duration-300">
+                <div className="w-16 h-16 shrink-0 rounded-full bg-white border border-[#E5E7EB] shadow-sm flex items-center justify-center text-brand-text group-hover:bg-[#111111] group-hover:text-white transition-colors duration-300">
                   <Mail size={24} />
                 </div>
                 <div>
@@ -94,7 +94,7 @@ const Contact = () => {
 
               {contactInfo.phones && contactInfo.phones.length > 0 && (
                 <div className="flex items-start gap-6 group">
-                  <div className="w-16 h-16 shrink-0 rounded-full bg-white border border-[#E5E7EB] shadow-sm flex items-center justify-center text-brand-text group-hover:bg-brand-accent group-hover:text-white transition-colors duration-300 mt-1">
+                  <div className="w-16 h-16 shrink-0 rounded-full bg-white border border-[#E5E7EB] shadow-sm flex items-center justify-center text-brand-text group-hover:bg-[#111111] group-hover:text-white transition-colors duration-300 mt-1">
                     <Phone size={24} />
                   </div>
                   <div>
@@ -178,7 +178,7 @@ const Contact = () => {
               <button 
                 type="submit"
                 disabled={status.loading}
-                className={`w-full py-4 bg-brand-accent text-white font-medium rounded-xl flex items-center justify-center gap-3 hover:bg-[#222222] transition-colors ${status.loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                className={`w-full py-4 bg-[#111111] text-white font-medium rounded-xl flex items-center justify-center gap-3 hover:shadow-brand-glow transition-all ${status.loading ? 'opacity-70 cursor-not-allowed' : ''}`}
               >
                 {status.loading ? 'Sending...' : 'Send Message'} <Send size={18} />
               </button>
