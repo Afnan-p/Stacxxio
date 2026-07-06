@@ -42,29 +42,31 @@ const Team = () => {
           </motion.div>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-4 lg:gap-6 max-w-7xl mx-auto">
+        <div className="flex md:flex-wrap overflow-x-auto md:overflow-visible md:justify-center gap-0 sm:gap-4 lg:gap-6 max-w-7xl mx-auto pb-8 -mx-6 md:mx-auto md:px-0 snap-x snap-mandatory md:snap-none scrollbar-hide">
           {loading ? (
             [...Array(5)].map((_, index) => (
-              <div key={`skel-team-${index}`} className="w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1rem)] lg:w-[220px] xl:w-[240px] bg-white border border-[#E5E7EB] rounded-[1.5rem] overflow-hidden flex flex-col h-[320px] shadow-sm">
-                <div className="aspect-[4/5] w-full bg-gray-200 animate-shimmer relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gray-100 opacity-50 z-0"></div>
-                </div>
-                <div className="p-5 flex flex-col items-center flex-grow bg-white z-10">
-                  <div className="w-2/3 h-4 bg-gray-200 animate-shimmer rounded mb-2"></div>
-                  <div className="w-1/2 h-3 bg-gray-200 animate-shimmer rounded"></div>
+              <div key={`skel-team-${index}`} className="w-[100vw] sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1rem)] lg:w-[220px] xl:w-[240px] shrink-0 snap-center flex justify-center sm:block">
+                <div className="w-[260px] sm:w-full bg-white border border-[#E5E7EB] rounded-[1.5rem] overflow-hidden flex flex-col h-[320px] shadow-sm">
+                  <div className="aspect-[4/5] w-full bg-gray-200 animate-shimmer relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gray-100 opacity-50 z-0"></div>
+                  </div>
+                  <div className="p-5 flex flex-col items-center flex-grow bg-white z-10">
+                    <div className="w-2/3 h-4 bg-gray-200 animate-shimmer rounded mb-2"></div>
+                    <div className="w-1/2 h-3 bg-gray-200 animate-shimmer rounded"></div>
+                  </div>
                 </div>
               </div>
             ))
           ) : (
             team.map((member, index) => (
-              <motion.div
-                key={member._id}
-                initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1rem)] lg:w-[220px] xl:w-[240px] bg-brand-surface border border-[#E5E7EB] rounded-[1.5rem] overflow-hidden hover:shadow-xl transition-all duration-500 group flex flex-col"
-              >
+              <div key={member._id} className="w-[100vw] sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1rem)] lg:w-[220px] xl:w-[240px] shrink-0 snap-center flex justify-center sm:block">
+                <motion.div
+                  initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+                  whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  className="w-[260px] sm:w-full bg-brand-surface border border-[#E5E7EB] rounded-[1.5rem] overflow-hidden hover:shadow-xl transition-all duration-500 group flex flex-col"
+                >
                 <div className="aspect-[4/5] w-full relative overflow-hidden bg-[#111111]">
                   <ImageLoad
                     src={member.image ? (member.image.startsWith('http') ? member.image : `${import.meta.env.VITE_API_URL}/${member.image}`) : '/fallback.jpg'}
@@ -97,7 +99,8 @@ const Team = () => {
                   <h3 className="text-lg font-bold text-brand-text mb-1 tracking-tight">{member.name}</h3>
                   <p className="text-[13px] font-medium text-brand-text-dim">{member.role}</p>
                 </div>
-              </motion.div>
+                </motion.div>
+              </div>
             ))
           )}
         </div>
