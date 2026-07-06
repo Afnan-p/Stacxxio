@@ -56,6 +56,7 @@ const Navbar = () => {
           to="/" 
           onClick={handleLogoClick}
           className="flex flex-col items-center shrink-0 group"
+          aria-label="ZYNEXTA Home"
         >
           <div className="flex items-center gap-1.5 md:gap-2">
             <img src="/zynexta-logo.png" alt="ZYNEXTA Logo" className="w-12 h-12 md:w-[55px] md:h-[55px] object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-sm mix-blend-multiply" />
@@ -117,6 +118,7 @@ const Navbar = () => {
             <button 
               className="absolute top-8 right-8 p-3 bg-gray-100 rounded-full text-brand-text hover:bg-gray-200 transition-colors"
               onClick={() => setMobileMenuOpen(false)}
+              aria-label="Close Menu"
             >
               <X size={24} />
             </button>

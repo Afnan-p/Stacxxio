@@ -112,6 +112,7 @@ const Footer = () => {
             href={footerData.linkedin}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Visit our LinkedIn Profile"
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             whileHover={{ scale: 1.05, y: -2 }}
@@ -131,6 +132,7 @@ const Footer = () => {
             href={footerData.instagram}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Visit our Instagram Profile"
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             whileHover={{ scale: 1.05, y: -2 }}
@@ -150,6 +152,7 @@ const Footer = () => {
             href={`https://wa.me/${footerData.whatsapp.replace(/\D/g, '')}`}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Contact us on WhatsApp"
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             whileHover={{ scale: 1.05, y: -2 }}

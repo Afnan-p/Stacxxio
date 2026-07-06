@@ -5,6 +5,7 @@ import { ArrowLeft, ExternalLink, ChevronRight, ChevronLeft, Maximize2, X } from
 import { FaGithub } from "react-icons/fa";
 import API from '../api/axios';
 import { getOptimizedMedia } from '../utils/cloudinary';
+import SEO from '../components/SEO';
 
 const ProjectDetail = () => {
   const { id } = useParams();
@@ -117,6 +118,11 @@ const ProjectDetail = () => {
 
   return (
     <div className="pt-12 md:pt-20 pb-12 md:pb-20 bg-brand-bg min-h-screen luxury-noise">
+      <SEO 
+        title={`${project.title} | ZYNEXTA Portfolio`}
+        description={project.description.slice(0, 160) + "..."}
+        canonical={`https://zynexta.com/project/${project._id}`}
+      />
       <div className="container mx-auto px-4 md:px-10">
         <Link to="/" className="inline-flex items-center gap-3 text-brand-text-dim hover:text-brand-accent transition-colors mb-8 md:mb-10 group">
           <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 group-hover:-translate-x-2 transition-transform" />

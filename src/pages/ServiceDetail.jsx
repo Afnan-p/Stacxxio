@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, CheckCircle2, MessageCircle } from 'lucide-react';
-import { Helmet } from 'react-helmet';
+import SEO from '../components/SEO';
 import API from '../api/axios';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -66,10 +66,11 @@ const ServiceDetail = () => {
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] font-sans selection:bg-[#111111] selection:text-white flex flex-col">
-      <Helmet>
-        <title>{service.seoTitle || `${service.title} - ZYNEXTA Services`}</title>
-        <meta name="description" content={service.seoDescription || service.description} />
-      </Helmet>
+      <SEO 
+        title={service.seoTitle || `${service.title} - ZYNEXTA Services`}
+        description={service.seoDescription || service.description}
+        canonical={`https://zynexta.com/services/${slug}`}
+      />
 
       <main className="flex-grow pt-16 pb-20">
         <div className="container mx-auto px-6 md:px-10 max-w-[1400px]">

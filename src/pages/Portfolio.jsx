@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import API from '../api/axios';
 import { getOptimizedMedia } from '../utils/cloudinary';
 import ImageLoad from '../components/ImageLoad';
+import SEO from '../components/SEO';
 
 const Portfolio = () => {
   const [projects, setProjects] = useState([]);
@@ -76,6 +77,11 @@ const Portfolio = () => {
 
   return (
     <div className="min-h-screen bg-brand-surface pt-40 md:pt-48 pb-24">
+      <SEO 
+        title="Portfolio & Case Studies | ZYNEXTA"
+        description="Explore our latest software development projects, case studies, and digital solutions created by ZYNEXTA."
+        canonical="https://zynexta.com/portfolio"
+      />
       <div className="container mx-auto px-6 md:px-10 max-w-7xl">
         
         {/* Page Header */}
