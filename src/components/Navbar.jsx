@@ -55,23 +55,23 @@ const Navbar = () => {
         <Link 
           to="/" 
           onClick={handleLogoClick}
-          className="flex items-center shrink-0 group gap-1.5 md:gap-2"
+          className="flex flex-col items-center shrink-0 group"
         >
-          <img src="/zynexta-logo.png" alt="ZYNEXTA Logo" className="w-12 h-12 md:w-[55px] md:h-[55px] object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-sm mix-blend-multiply" />
-          <div className="flex flex-col justify-center items-start mt-1">
+          <div className="flex items-center gap-1.5 md:gap-2">
+            <img src="/zynexta-logo.png" alt="ZYNEXTA Logo" className="w-12 h-12 md:w-[55px] md:h-[55px] object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-sm mix-blend-multiply" />
             <span 
-              className="text-2xl md:text-[32px] font-extrabold tracking-wide text-brand-text leading-[0.9] mt-2"
+              className="text-2xl md:text-[32px] font-extrabold tracking-wide text-brand-text leading-[0.9] mt-1.5"
               style={{ fontFamily: "'Montserrat', sans-serif" }}
             >
               ZYNEXTΛ
             </span>
-            <div className="flex items-center gap-1.5 md:gap-2 mt-1.5 w-full opacity-95">
-              <div className="h-[1px] flex-grow min-w-[12px] bg-gray-400"></div>
-              <span className="text-[6.5px] md:text-[7.5px] font-bold uppercase tracking-[0.2em] whitespace-nowrap text-brand-text">
-                WHERE INNOVATION MEETS EXECUTION.
-              </span>
-              <div className="h-[1px] flex-grow min-w-[12px] bg-gray-400"></div>
-            </div>
+          </div>
+          <div className="flex items-center gap-1.5 md:gap-2 w-full opacity-95 px-1">
+            <div className="h-[1px] flex-grow min-w-[12px] bg-gray-400"></div>
+            <span className="text-[6.5px] md:text-[7.5px] font-bold uppercase tracking-[0.2em] whitespace-nowrap text-brand-text">
+              WHERE INNOVATION MEETS EXECUTION.
+            </span>
+            <div className="h-[1px] flex-grow min-w-[12px] bg-gray-400"></div>
           </div>
         </Link>
 
