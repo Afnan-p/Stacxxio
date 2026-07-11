@@ -61,6 +61,7 @@ const Projects = () => {
                   <img
                     src={project.images?.[0] || 'https://via.placeholder.com/1200x800'}
                     alt={project.title}
+                    loading="lazy"
                     className="w-full h-full object-cover rounded-xl transition-transform duration-[1.5s] group-hover:scale-105 ease-out"
                   />
                 </div>

@@ -6,7 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Space+Grotesk:wght@700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+      (function() {
+        try {
+          var localTheme = localStorage.getItem('zynexta-theme');
+          var isDark = localTheme === 'dark' || (!localTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (isDark) document.documentElement.classList.add('dark');
+        } catch (e) {}
+      })();
+    </script>
     <title>ZYNEXTA | Premium Web & Software Agency</title>
     <meta name="description" content="ZYNEXTA is a premium web development and software agency. We build custom websites, e-commerce platforms, and scalable digital solutions." />
     <meta name="keywords" content="web agency, software development, custom websites, e-commerce, web design, full-stack" />

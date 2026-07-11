@@ -31,7 +31,7 @@ const Login = () => {
   const inputClass = "w-full h-[56px] bg-[#FFFFFF] border-[1.5px] border-[#D1D5DB] text-[#111111] placeholder-[#9CA3AF] rounded-[14px] pl-[52px] pr-[18px] font-medium transition-all duration-250 ease-in-out focus:border-[#111111] focus:ring-4 focus:ring-black/5 focus:outline-none";
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center p-6 relative overflow-hidden font-sans">
+    <div className="min-h-screen bg-brand-surface flex items-center justify-center p-6 relative overflow-hidden font-sans">
       {/* Soft Background Accent */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gray-200/50 rounded-full blur-[120px] -z-0 pointer-events-none" />
       

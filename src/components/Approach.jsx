@@ -40,7 +40,7 @@ const Approach = () => {
   const isInView = useInView(containerRef, { once: true, amount: 0.2 });
 
   return (
-    <section id="approach" className="py-16 md:py-20 bg-[#FAFAFA] relative overflow-hidden font-sans border-y border-gray-100">
+    <section id="approach" className="py-16 md:py-20 bg-brand-surface relative overflow-hidden font-sans border-y border-gray-100">
       <div className="container mx-auto px-6 max-w-7xl relative z-10" ref={containerRef}>
         
         {/* Section Header */}

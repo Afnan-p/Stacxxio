@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import Hero from '../components/Hero';
 import SEO from '../components/SEO';
+import TechMarquee from '../components/TechMarquee';
 
 const Services = React.lazy(() => import('../components/Services'));
 const WorkShowcase = React.lazy(() => import('../components/WorkShowcase'));
@@ -18,6 +19,7 @@ const Home = () => {
         canonical="https://zynexta.com/"
       />
       <Hero />
+      <TechMarquee />
       <Suspense fallback={<div className="h-20 w-full flex items-center justify-center"><div className="w-6 h-6 border-2 border-brand-accent rounded-full border-t-transparent animate-spin"></div></div>}>
         <Services />
         <WorkShowcase />

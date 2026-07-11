@@ -51,12 +51,12 @@ const Hero = () => {
   }, [isLoaded]);
 
   return (
-    <section className="relative min-h-[90vh] md:min-h-screen w-full flex flex-col items-center justify-center bg-white overflow-hidden pt-20 md:pt-16 pb-8 md:pb-12">
+    <section className="relative min-h-[90vh] md:min-h-screen w-full flex flex-col items-center justify-center bg-brand-bg overflow-hidden pt-20 md:pt-16 pb-8 md:pb-12">
       {/* Premium Background Elements */}
       <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none overflow-hidden">
         {/* Subtle Grid Pattern */}
         <div 
-          className="absolute inset-0 opacity-[0.03]"
+          className="absolute inset-0 theme-invert opacity-[0.07]"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm1 1h38v38H1V1z' fill='%23000000' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
           }}
@@ -76,7 +76,7 @@ const Hero = () => {
             variants={fadeUpVariants}
             className="mb-6 md:mb-8"
           >
-            <div className="px-5 py-2 rounded-full border border-gray-200 bg-white/60 backdrop-blur-md shadow-sm">
+            <div className="px-5 py-2 rounded-full border border-border bg-brand-surface/60 backdrop-blur-md shadow-sm">
               <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-gray-500">
                 Crafting Digital Experiences
               </span>
@@ -134,13 +134,13 @@ const Hero = () => {
           >
             <a 
               href="#contact" 
-              className="group relative w-full sm:w-auto px-8 py-4 md:px-10 md:py-4 bg-[#111111] text-white font-sans font-semibold rounded-full overflow-hidden transition-all duration-300 hover:shadow-brand-glow hover:-translate-y-1 text-center text-[15px] tracking-wide"
+              className="group relative w-full sm:w-auto px-8 py-4 md:px-10 md:py-4 bg-brand-accent text-brand-bg font-sans font-semibold rounded-full overflow-hidden transition-all duration-300 hover:shadow-brand-glow hover:-translate-y-1 text-center text-[15px] tracking-wide"
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
                 Start A Project
                 <span className="block transition-transform duration-300 group-hover:translate-x-1">→</span>
               </span>
-              <div className="absolute inset-0 bg-black translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-0"></div>
+              <div className="absolute inset-0 bg-brand-text translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-0"></div>
             </a>
             <a 
               href="#work" 

@@ -51,7 +51,7 @@ const WorkShowcase = () => {
   }, []);
 
   return (
-    <section id="work" className="py-16 md:py-20 bg-[#FAFAFA] relative overflow-hidden font-sans border-y border-gray-100" ref={containerRef}>
+    <section id="work" className="py-16 md:py-20 bg-brand-surface relative overflow-hidden font-sans border-y border-gray-100" ref={containerRef}>
       <div className="container mx-auto px-6 md:px-10 max-w-[1400px] mb-16 flex flex-col md:flex-row justify-between items-end gap-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

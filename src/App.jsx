@@ -2,6 +2,7 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { Analytics } from '@vercel/analytics/react';
+import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import Footer from './components/Footer';
@@ -53,43 +54,46 @@ const AppContent = () => {
   );
 };
 
+
 function App() {
   return (
-    <Router>
-      <Toaster 
-        position="bottom-center" 
-        reverseOrder={false} 
-        toastOptions={{
-          style: {
-            background: '#111111',
-            color: '#ffffff',
-            padding: '14px 24px',
-            borderRadius: '100px',
-            fontSize: '14px',
-            fontWeight: '500',
-            boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
-            border: '1px solid rgba(255,255,255,0.1)'
-          },
-          success: {
-            iconTheme: {
-              primary: '#ffffff',
-              secondary: '#111111',
+    <ThemeProvider>
+      <Router>
+        <Toaster 
+          position="bottom-center" 
+          reverseOrder={false} 
+          toastOptions={{
+            style: {
+              background: '#111111',
+              color: '#ffffff',
+              padding: '14px 24px',
+              borderRadius: '100px',
+              fontSize: '14px',
+              fontWeight: '500',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
+              border: '1px solid rgba(255,255,255,0.1)'
             },
-          },
-          error: {
-            iconTheme: {
-              primary: '#ef4444',
-              secondary: '#111111',
+            success: {
+              iconTheme: {
+                primary: '#ffffff',
+                secondary: '#111111',
+              },
             },
-          },
-        }}
-        containerStyle={{
-          bottom: 40
-        }}
-      />
-      <AppContent />
-      <Analytics />
-    </Router>
+            error: {
+              iconTheme: {
+                primary: '#ef4444',
+                secondary: '#111111',
+              },
+            },
+          }}
+          containerStyle={{
+            bottom: 40
+          }}
+        />
+        <AppContent />
+        <Analytics />
+      </Router>
+    </ThemeProvider>
   );
 }
 

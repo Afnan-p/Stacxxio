@@ -32,7 +32,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="py-12 bg-white border-t border-[#E5E7EB] relative overflow-hidden">
+      <footer className="py-12 bg-brand-bg border-t border-border relative overflow-hidden">
         <div className="container mx-auto px-6 md:px-10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left md:pr-24">
             <div className="flex flex-col items-center md:items-start">
@@ -40,8 +40,8 @@ const Footer = () => {
                 {/* <img src="/zynexta-logo.png" alt="ZYNEXTA Logo" className="w-12 h-12 md:w-[55px] md:h-[55px] object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-sm mix-blend-multiply" /> */}
                 
                 <div 
-                  className="text-2xl md:text-[26px] font-extrabold tracking-wide text-brand-text leading-[0.9] mt-1.5"
-                  style={{ fontFamily: "'Montserrat', sans-serif" }}
+                  className="text-[1.3rem] md:text-[22px] font-bold tracking-[0.3em] text-brand-text leading-none mt-1.5 pl-2"
+                  style={{ fontFamily: "'Syncopate', sans-serif" }}
                 >
                   ZYNEXTΛ
                 </div>
@@ -117,10 +117,10 @@ const Footer = () => {
             animate={{ scale: 1, opacity: 1 }}
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            className="group relative w-12 h-12 md:w-[52px] md:h-[52px] bg-white text-brand-text rounded-full flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.15)] hover:bg-[#111111] hover:border-[#111111] hover:text-white transition-all duration-300 border border-[#E5E7EB]"
+            className="group relative w-12 h-12 md:w-[52px] md:h-[52px] bg-brand-bg text-brand-text rounded-full flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.15)] hover:bg-brand-accent hover:border-brand-accent hover:text-brand-bg transition-all duration-300 border border-border"
           >
             <FaLinkedinIn size={20} className="md:w-[22px] md:h-[22px]" />
-            <span className="absolute right-full mr-4 bg-gray-900 text-white text-[10px] font-semibold tracking-wider px-3 py-1.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-lg">
+            <span className="absolute right-full mr-4 bg-brand-text text-brand-bg text-[10px] font-semibold tracking-wider px-3 py-1.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-lg">
               LinkedIn
             </span>
           </motion.a>
@@ -137,10 +137,10 @@ const Footer = () => {
             animate={{ scale: 1, opacity: 1 }}
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            className="group relative w-12 h-12 md:w-[52px] md:h-[52px] bg-white text-brand-text rounded-full flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.15)] hover:bg-[#111111] hover:border-[#111111] hover:text-white transition-all duration-300 border border-[#E5E7EB]"
+            className="group relative w-12 h-12 md:w-[52px] md:h-[52px] bg-brand-bg text-brand-text rounded-full flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.15)] hover:bg-brand-accent hover:border-brand-accent hover:text-brand-bg transition-all duration-300 border border-border"
           >
             <FaInstagram size={20} className="md:w-[22px] md:h-[22px]" />
-            <span className="absolute right-full mr-4 bg-gray-900 text-white text-[10px] font-semibold tracking-wider px-3 py-1.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-lg">
+            <span className="absolute right-full mr-4 bg-brand-text text-brand-bg text-[10px] font-semibold tracking-wider px-3 py-1.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-lg">
               Instagram
             </span>
           </motion.a>
@@ -157,10 +157,10 @@ const Footer = () => {
             animate={{ scale: 1, opacity: 1 }}
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            className="group relative w-14 h-14 md:w-[60px] md:h-[60px] bg-[#111111] text-white rounded-full flex items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:shadow-brand-glow transition-all duration-300 mt-1 md:mt-2"
+            className="group relative w-14 h-14 md:w-[60px] md:h-[60px] bg-brand-accent text-brand-bg rounded-full flex items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:shadow-brand-glow transition-all duration-300 mt-1 md:mt-2"
           >
             <FaWhatsapp size={28} className="md:w-[32px] md:h-[32px]" />
-            <span className="absolute right-full mr-4 bg-gray-900 text-white text-[10px] font-semibold tracking-wider px-3 py-1.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-lg">
+            <span className="absolute right-full mr-4 bg-brand-text text-brand-bg text-[10px] font-semibold tracking-wider px-3 py-1.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-lg">
               WhatsApp
             </span>
           </motion.a>

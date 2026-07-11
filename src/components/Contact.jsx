@@ -83,7 +83,7 @@ const Contact = () => {
             
             <div className="flex flex-col gap-6">
               <div className="flex items-center gap-6 group">
-                <div className="w-16 h-16 shrink-0 rounded-full bg-white border border-[#E5E7EB] shadow-sm flex items-center justify-center text-brand-text group-hover:bg-[#111111] group-hover:text-white transition-colors duration-300">
+                <div className="w-16 h-16 shrink-0 rounded-full bg-brand-bg border border-border shadow-sm flex items-center justify-center text-brand-text group-hover:bg-brand-accent group-hover:text-brand-bg transition-colors duration-300">
                   <Mail size={24} />
                 </div>
                 <div>
@@ -94,7 +94,7 @@ const Contact = () => {
 
               {contactInfo.phones && contactInfo.phones.length > 0 && (
                 <div className="flex items-start gap-6 group">
-                  <div className="w-16 h-16 shrink-0 rounded-full bg-white border border-[#E5E7EB] shadow-sm flex items-center justify-center text-brand-text group-hover:bg-[#111111] group-hover:text-white transition-colors duration-300 mt-1">
+                  <div className="w-16 h-16 shrink-0 rounded-full bg-brand-bg border border-border shadow-sm flex items-center justify-center text-brand-text group-hover:bg-brand-accent group-hover:text-brand-bg transition-colors duration-300 mt-1">
                     <Phone size={24} />
                   </div>
                   <div>
@@ -114,7 +114,7 @@ const Contact = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="p-8 md:p-12 bg-white rounded-2xl border border-[#E5E7EB] shadow-sm"
+            className="p-8 md:p-12 bg-brand-bg rounded-2xl border border-border shadow-sm"
           >
             <form onSubmit={handleSubmit} className="space-y-6">
               {status.success && (
@@ -146,7 +146,7 @@ const Contact = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full px-5 py-4 bg-brand-surface border border-[#E5E7EB] rounded-xl focus:border-brand-accent outline-none transition-colors text-brand-text" 
+                  className="w-full px-5 py-4 bg-brand-surface border border-border rounded-xl focus:border-brand-accent outline-none transition-colors text-brand-text" 
                   placeholder="John Doe"
                 />
               </div>
@@ -158,7 +158,7 @@ const Contact = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-5 py-4 bg-brand-surface border border-[#E5E7EB] rounded-xl focus:border-brand-accent outline-none transition-colors text-brand-text" 
+                  className="w-full px-5 py-4 bg-brand-surface border border-border rounded-xl focus:border-brand-accent outline-none transition-colors text-brand-text" 
                   placeholder="john@company.com"
                 />
               </div>
@@ -170,7 +170,7 @@ const Contact = () => {
                   value={formData.message}
                   onChange={handleChange}
                   rows="4" 
-                  className="w-full px-5 py-4 bg-brand-surface border border-[#E5E7EB] rounded-xl focus:border-brand-accent outline-none transition-colors text-brand-text resize-none" 
+                  className="w-full px-5 py-4 bg-brand-surface border border-border rounded-xl focus:border-brand-accent outline-none transition-colors text-brand-text resize-none" 
                   placeholder="Tell us about your project requirements..."
                 />
               </div>
@@ -178,7 +178,7 @@ const Contact = () => {
               <button 
                 type="submit"
                 disabled={status.loading}
-                className={`w-full py-4 bg-[#111111] text-white font-medium rounded-xl flex items-center justify-center gap-3 hover:shadow-brand-glow transition-all ${status.loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                className={`w-full py-4 bg-brand-accent text-brand-bg font-medium rounded-xl flex items-center justify-center gap-3 hover:shadow-brand-glow transition-all ${status.loading ? 'opacity-70 cursor-not-allowed' : ''}`}
               >
                 {status.loading ? 'Sending...' : 'Send Message'} <Send size={18} />
               </button>

@@ -1,127 +1,67 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { getIcon } from '../utils/IconMap';
-import API from '../api/axios';
 import ImageLoad from './ImageLoad';
 
 const Services = () => {
-  const [services, setServices] = useState([]);
-  const [loading, setLoading] = useState(true);
-
   // Premium Agency Fallback Services
-  const fallbackServices = [
+  const services = [
     {
-      title: 'Website Development',
-      description: 'Modern responsive websites designed for growth, conversion, and performance.',
-      icon: 'Monitor',
-      number: '01',
-      hoverBorder: 'group-hover:border-blue-500',
-      iconColor: 'text-blue-500',
-      bgHover: 'group-hover:bg-blue-50/50'
+      _id: '1',
+      title: 'Business Website Development',
+      tag: 'Professional business websites designed to establish credibility, drive growth, and enhance your digital presence',
+      description: 'Professional business websites designed to establish credibility, drive growth, and enhance your digital presence.',
+      image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80',
     },
     {
-      title: 'E-Commerce Solutions',
-      description: 'Robust online storefronts optimized for maximum sales and seamless checkout.',
-      icon: 'ShoppingCart',
-      number: '02',
-      hoverBorder: 'group-hover:border-emerald-500',
-      iconColor: 'text-emerald-500',
-      bgHover: 'group-hover:bg-emerald-50/50'
+      _id: '2',
+      title: 'Custom Web Application Development',
+      tag: 'Scalable web applications built to streamline operations, automate processes, and scale with your business',
+      description: 'Scalable web applications built to streamline operations, automate processes, and scale with your business.',
+      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
     },
     {
-      title: 'Digital Showcase',
-      description: 'Stunning portfolio sites and landing pages that capture your unique brand identity.',
-      icon: 'Layout',
-      number: '03',
-      hoverBorder: 'group-hover:border-orange-500',
-      iconColor: 'text-orange-500',
-      bgHover: 'group-hover:bg-orange-50/50'
+      _id: '3',
+      title: 'E-Commerce Development',
+      tag: 'High-converting online stores designed to deliver seamless shopping experiences and maximize online sales',
+      description: 'High-converting online stores designed to deliver seamless shopping experiences and maximize online sales.',
+      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80',
     },
     {
-      title: 'App Development',
-      description: 'High-performance cross-platform mobile applications for iOS and Android.',
-      icon: 'Smartphone',
-      number: '04',
-      hoverBorder: 'group-hover:border-purple-500',
-      iconColor: 'text-purple-500',
-      bgHover: 'group-hover:bg-purple-50/50'
+      _id: '4',
+      title: 'Portfolio & Personal Branding Websites',
+      tag: 'Professional portfolio websites crafted to showcase expertise, build personal brand, and attract high-value clients',
+      description: 'Professional portfolio websites crafted to showcase expertise, build personal brand, and attract high-value clients.',
+      image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80',
     },
     {
-      title: 'Brand Design',
-      description: 'Distinctive visual identities, intuitive UI/UX systems, and design systems.',
-      icon: 'PenTool',
-      number: '05',
-      hoverBorder: 'group-hover:border-pink-500',
-      iconColor: 'text-pink-500',
-      bgHover: 'group-hover:bg-pink-50/50'
+      _id: '5',
+      title: 'Website Maintenance & Support',
+      tag: 'Ongoing website maintenance, security updates, performance optimization, and dedicated technical support',
+      description: 'Ongoing website maintenance, security updates, performance optimization, and dedicated technical support.',
+      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
     },
     {
-      title: 'SEO & Growth',
-      description: 'Data-driven technical SEO and analytics to systematically scale your organic reach.',
-      icon: 'TrendingUp',
-      number: '06',
-      hoverBorder: 'group-hover:border-cyan-500',
-      iconColor: 'text-cyan-500',
-      bgHover: 'group-hover:bg-cyan-50/50'
+      _id: '6',
+      title: 'Mobile App Development',
+      tag: 'High-performance cross-platform mobile applications built for iOS and Android',
+      description: 'High-performance cross-platform mobile applications built for iOS and Android to engage your users on the go.',
+      image: 'https://images.unsplash.com/photo-1601972599720-36938d4ecd31?auto=format&fit=crop&w=800&q=80',
     }
   ];
 
-  const [stats, setStats] = useState([
-    { value: '50+', label: 'Projects Delivered' },
-    { value: '20+', label: 'Happy Clients' },
+  const stats = [
+    { value: '5+', label: 'Projects Delivered' },
+    { value: '5+', label: 'Happy Clients' },
     { value: '5+', label: 'Core Services' },
     { value: '100%', label: 'Commitment' }
-  ]);
+  ];
 
-  useEffect(() => {
-    const fetchServicesAndStats = async () => {
-      try {
-        const [servRes, projRes, statsRes] = await Promise.all([
-          API.get('/api/services'),
-          API.get('/api/projects?paginate=false'),
-          API.get('/api/stats').catch(() => ({ data: [] }))
-        ]);
-        
-        if (servRes.data && servRes.data.length > 0) {
-          setServices(servRes.data);
-        } else {
-          setServices(fallbackServices);
-        }
-
-        if (statsRes.data && statsRes.data.length > 0) {
-          setStats(statsRes.data.map(stat => ({
-            value: stat.number,
-            label: stat.label
-          })));
-        } else {
-          // Fallback to dynamic calculation
-          const projectsCount = projRes.data ? (Array.isArray(projRes.data) ? projRes.data.length : (projRes.data.projects?.length || 50)) : 50;
-          const servicesCount = servRes.data ? servRes.data.length : 5;
-          const clientsCount = Math.max(20, Math.floor(projectsCount * 0.85));
-
-          setStats([
-            { value: `${projectsCount}+`, label: 'Projects Delivered' },
-            { value: `${clientsCount}+`, label: 'Happy Clients' },
-            { value: `${servicesCount}+`, label: 'Core Services' },
-            { value: '100%', label: 'Commitment' }
-          ]);
-        }
-
-      } catch (err) {
-        console.error('Failed to fetch dynamic services and stats:', err);
-        setServices(fallbackServices);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchServicesAndStats();
-  }, []);
+  const loading = false;
 
   return (
-    <section id="services" className="py-16 md:py-20 bg-[#FAFAFA] relative overflow-hidden font-sans border-y border-gray-100">
+    <section id="services" className="py-16 md:py-20 bg-brand-surface relative overflow-hidden font-sans border-y border-gray-100">
       <div className="container mx-auto px-6 md:px-10">
         <div className="max-w-7xl mx-auto">
           
