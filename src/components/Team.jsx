@@ -1,6 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import ImageLoad from './ImageLoad';
 
 const Team = () => {
@@ -9,117 +8,149 @@ const Team = () => {
       _id: '1',
       name: 'Afnan',
       secondaryRole: 'Full Stack Developer',
-      image: '/afnan.png',
-      socialLinks: { linkedin: '#', instagram: '#' }
+      image: '/afnan.webp',
     },
     {
       _id: '2',
       name: 'Shaheed',
       secondaryRole: 'Backend Developer',
-      image: '/shaheed.png',
-      socialLinks: { linkedin: '#', github: '#' }
+      image: '/shaheed.webp',
     },
     {
       _id: '3',
       name: 'Hashir',
       secondaryRole: 'Business Development',
-      image: '/hashir.png',
-      socialLinks: { linkedin: '#', instagram: '#' }
+      image: '/hashir.webp',
     },
     {
       _id: '4',
       name: 'Shijil',
       secondaryRole: 'UI/UX Designer',
-      image: '/shijil.png',
-      socialLinks: { linkedin: '#', github: '#' }
+      image: '/shijil.webp',
     },
     {
       _id: '5',
       name: 'Anas',
       secondaryRole: 'Digital Marketing',
-      image: '/anas.png',
-      socialLinks: { linkedin: '#', github: '#' }
+      image: '/anas.webp',
     }
   ];
 
-  const loading = false;
+  const [activeIndex, setActiveIndex] = useState(1);
+
+  // Auto-scroll every 3.5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % team.length);
+    }, 3500);
+    return () => clearInterval(interval);
+  }, [team.length]);
 
   return (
-    <section id="team" className="pt-16 pb-8 md:py-20 bg-brand-bg relative overflow-hidden mb-4 md:mb-16">
-      <div className="container mx-auto px-6 md:px-10">
-        <div className="mb-16 md:mb-20 text-center max-w-3xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="flex flex-col items-center"
-          >
-            <span className="text-gray-400 font-semibold uppercase tracking-[0.2em] text-xs mb-4">Leadership & Experts</span>
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-brand-text mb-6">
-              Meet Our Team
-            </h2>
-            <p className="text-brand-text-dim text-lg leading-relaxed">
-              We are a team of dedicated professionals committed to delivering exceptional web solutions and engineering excellence.
-            </p>
-          </motion.div>
-        </div>
+    <section id="team" className="py-20 md:py-32 bg-brand-bg relative overflow-hidden">
+      <div className="container mx-auto px-6 md:px-10 max-w-7xl">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-8 items-center">
+          
+          {/* Left Side: Typography */}
+          <div className="text-left z-10 relative">
+            <motion.h2 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-[3.5rem] md:text-[4.5rem] lg:text-[5.5rem] xl:text-[6rem] leading-[1.1] font-light text-brand-text mb-6 tracking-tight"
+            >
+              You're Going <br />
+              To Love It <br />
+              <span className="font-medium">Here!</span>
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="text-brand-text-dim text-lg md:text-xl max-w-md leading-relaxed"
+            >
+              Working with this team feels like building something meaningful. we learn, grow, and win together.
+            </motion.p>
+          </div>
 
-        <div className="flex md:flex-wrap overflow-x-auto md:overflow-visible md:justify-center gap-4 lg:gap-6 max-w-[1400px] mx-auto pb-8 -mx-6 px-6 md:mx-auto md:px-4 snap-x snap-mandatory md:snap-none scrollbar-hide">
-          {loading ? (
-            [...Array(5)].map((_, index) => (
-              <div key={`skel-team-${index}`} className="w-[220px] sm:max-w-none shrink-0 snap-center sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(20%-1.25rem)] bg-white border border-[#E5E7EB] rounded-[1.25rem] overflow-hidden flex flex-col shadow-sm">
-                <div className="aspect-[4/5] w-full bg-gray-200 animate-shimmer relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gray-100 opacity-50 z-0"></div>
-                </div>
-                <div className="p-4 flex flex-col items-center flex-grow bg-white z-10">
-                  <div className="w-2/3 h-4 bg-gray-200 animate-shimmer rounded mb-2"></div>
-                  <div className="w-1/2 h-3 bg-gray-200 animate-shimmer rounded"></div>
-                </div>
-              </div>
-            ))
-          ) : (
-            team.map((member, index) => (
-              <div
-                key={member._id}
-                className="w-[220px] sm:max-w-none shrink-0 snap-center sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(20%-1.25rem)] bg-brand-surface border border-border rounded-[1.25rem] overflow-hidden hover:shadow-xl transition-all duration-500 group flex flex-col"
-              >
-                <div className="aspect-[4/5] w-full relative overflow-hidden bg-brand-accent">
-                  <ImageLoad
-                    src={member.image ? (member.image.startsWith('http') || member.image.startsWith('/') ? member.image : `${import.meta.env.VITE_API_URL}/${member.image}`) : '/fallback.jpg'}
-                    alt={member.name}
-                    wrapperClassName="w-full h-full"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700 ease-out"
-                  />
+          {/* Right Side: 3D Carousel */}
+          <div className="relative h-[500px] md:h-[650px] w-full flex items-center justify-center">
+            <div className="relative w-full h-full flex items-center justify-center perspective-1000">
+              <AnimatePresence initial={false}>
+                {team.map((member, idx) => {
+                  // Calculate distance from active index (circular array logic)
+                  let diff = idx - activeIndex;
+                  const total = team.length;
+                  if (diff < -Math.floor(total/2)) diff += total;
+                  if (diff > Math.floor(total/2)) diff -= total;
                   
-                  {/* Social Overlay */}
-                  <div className="absolute inset-0 z-20 bg-brand-bg/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-3">
-                    {member.socialLinks?.instagram && typeof member.socialLinks.instagram === 'string' && member.socialLinks.instagram.trim() !== '' && member.socialLinks.instagram.trim() !== '#' && (
-                      <a href={member.socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="p-3 bg-brand-bg text-brand-text rounded-full border border-border hover:bg-brand-accent hover:text-brand-bg transition-colors shadow-sm">
-                        <FaInstagram size={16} />
-                      </a>
-                    )}
-                    {member.socialLinks?.linkedin && typeof member.socialLinks.linkedin === 'string' && member.socialLinks.linkedin.trim() !== '' && member.socialLinks.linkedin.trim() !== '#' && (
-                      <a href={member.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="p-3 bg-brand-bg text-brand-text rounded-full border border-border hover:bg-brand-accent hover:text-brand-bg transition-colors shadow-sm">
-                        <FaLinkedin size={16} />
-                      </a>
-                    )}
-                    {member.socialLinks?.github && typeof member.socialLinks.github === 'string' && member.socialLinks.github.trim() !== '' && member.socialLinks.github.trim() !== '#' && (
-                      <a href={member.socialLinks.github} target="_blank" rel="noopener noreferrer" className="p-3 bg-brand-bg text-brand-text rounded-full border border-border hover:bg-brand-accent hover:text-brand-bg transition-colors shadow-sm">
-                        <FaGithub size={16} />
-                      </a>
-                    )}
-                  </div>
-                </div>
-                
-                <div className="p-5 text-center bg-brand-bg flex-grow flex flex-col justify-center">
-                  <h3 className="text-[17px] sm:text-lg font-bold text-brand-text mb-1 tracking-tight">{member.name}</h3>
-                  {member.secondaryRole && (
-                    <p className="text-[13px] font-semibold text-gray-500">{member.secondaryRole}</p>
-                  )}
-                </div>
-              </div>
-            ))
-          )}
+                  // Only render the center item and its immediate left/right neighbors
+                  if (Math.abs(diff) > 1) return null;
+
+                  const isActive = diff === 0;
+                  
+                  // Mobile responsive X positioning
+                  const xPosBase = typeof window !== 'undefined' && window.innerWidth < 768 ? 110 : 180;
+                  const xPos = diff * xPosBase;
+                  
+                  const scale = isActive ? 1 : 0.65;
+                  const opacity = isActive ? 1 : 0.4;
+                  const zIndex = isActive ? 30 : 20;
+                  // In light mode, dimming non-active items using brightness
+                  const filter = isActive ? 'brightness(1) grayscale(0%)' : 'brightness(0.5) grayscale(40%)';
+
+                  return (
+                    <motion.div
+                      key={member._id}
+                      initial={{ 
+                        opacity: 0, 
+                        x: diff > 0 ? xPosBase + 50 : -(xPosBase + 50), 
+                        scale: 0.5 
+                      }}
+                      animate={{ 
+                        opacity, 
+                        x: xPos, 
+                        scale, 
+                        zIndex,
+                        filter
+                      }}
+                      exit={{ 
+                        opacity: 0, 
+                        x: diff < 0 ? -(xPosBase + 50) : xPosBase + 50, 
+                        scale: 0.5 
+                      }}
+                      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                      className="absolute flex flex-col items-center top-1/2 -translate-y-1/2"
+                    >
+                      {/* Image Container (No Background/Card) */}
+                      <div className="w-[220px] h-[330px] md:w-[320px] md:h-[480px] flex items-end justify-center drop-shadow-2xl">
+                        <ImageLoad
+                          src={member.image ? (member.image.startsWith('http') || member.image.startsWith('/') ? member.image : `${import.meta.env.VITE_API_URL}/${member.image}`) : '/fallback.jpg'}
+                          alt={member.secondaryRole}
+                          wrapperClassName="w-full h-full flex items-end justify-center"
+                          className="w-full h-full object-contain object-bottom select-none"
+                        />
+                      </div>
+                      
+                      {/* Role Text */}
+                      <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: isActive ? 1 : 0 }}
+                        transition={{ duration: 0.4, delay: isActive ? 0.2 : 0 }}
+                        className="absolute -bottom-12 w-[300px] text-center"
+                      >
+                        <p className="text-[14px] md:text-[16px] font-bold font-sans text-brand-text tracking-[0.2em] uppercase whitespace-nowrap">
+                          {member.secondaryRole}
+                        </p>
+                      </motion.div>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

@@ -47,11 +47,11 @@ const Navbar = () => {
   };
 
   return (
-    <nav style={{ zIndex: 9999 }} className={`fixed left-0 right-0 w-full flex justify-center transition-all duration-500 ease-[0.16,1,0.3,1] ${isScrolled ? 'top-4 px-4' : 'top-0 px-6 md:px-10'}`}>
+    <nav style={{ zIndex: 9999 }} className={`fixed left-0 right-0 w-full flex justify-center transition-all duration-500 ease-[0.16,1,0.3,1] ${isScrolled ? 'top-4 px-2 md:px-4' : 'top-0 px-4 md:px-10'}`}>
       <div className={`flex items-center justify-between w-full max-w-[1400px] transition-all duration-500 ${
         isScrolled 
-          ? 'px-6 md:px-10 py-4 bg-brand-bg/80 backdrop-blur-2xl border border-gray-200/50 shadow-premium rounded-full' 
-          : 'py-6 md:py-10 bg-transparent border border-transparent rounded-none'
+          ? 'px-4 md:px-10 py-3 md:py-4 bg-brand-bg/80 backdrop-blur-2xl border border-gray-200/50 shadow-premium rounded-full' 
+          : 'py-5 md:py-10 bg-transparent border border-transparent rounded-none'
       }`}>
         {/* Logo */}
         <Link 
@@ -60,18 +60,18 @@ const Navbar = () => {
           className="flex items-center gap-2 md:gap-2.5 shrink-0 group"
           aria-label="ZYNEXTA Home"
         >
-          <img src="/zynexta-logo.png" alt="ZYNEXTA Logo" className="w-14 h-14 md:w-[65px] md:h-[65px] object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-sm theme-invert" />
+          <img src="/zynexta-logo.png" alt="ZYNEXTA Logo" className="w-10 h-10 md:w-[65px] md:h-[65px] object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-sm theme-invert" />
           
           <div className="flex flex-col justify-center">
             <span 
-              className="text-[1.1rem] md:text-[26px] font-bold tracking-[0.3em] text-brand-text leading-none mt-1 pl-2"
+              className="text-[1rem] md:text-[26px] font-bold tracking-[0.25em] md:tracking-[0.3em] text-brand-text leading-none mt-1 pl-1 md:pl-2"
               style={{ fontFamily: "'Syncopate', sans-serif" }}
             >
               ZYNEXTΛ
             </span>
             <div className="flex items-center gap-1.5 w-full opacity-80 mt-1.5">
               <div className="h-[1px] flex-grow bg-brand-text/20"></div>
-              <span className="text-[5.5px] md:text-[6.5px] font-bold uppercase tracking-[0.25em] whitespace-nowrap text-brand-text">
+              <span className="text-[5px] md:text-[6.5px] font-bold uppercase tracking-[0.2em] md:tracking-[0.25em] whitespace-nowrap text-brand-text">
                 WHERE INNOVATION MEETS EXECUTION.
               </span>
               <div className="h-[1px] flex-grow bg-brand-text/20"></div>
@@ -119,7 +119,7 @@ const Navbar = () => {
           </button>
           
           <button 
-            className={`p-2 -mr-2 rounded-full transition-colors duration-300 ${isScrolled ? 'text-brand-text hover:bg-gray-100' : 'text-brand-text'}`} 
+            className={`p-2 rounded-full transition-colors duration-300 ${isScrolled ? 'text-brand-text hover:bg-gray-100' : 'text-brand-text'}`} 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle Menu"
           >
