@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 
 const FooterForm = ({ onClose, onRefresh }) => {
   const [formData, setFormData] = useState({
-    email: 'zynextaweb@gmail.com',
+    email: 'zynexta@gmail.com',
     phones: [],
     logoText: '',
     tagline: '',

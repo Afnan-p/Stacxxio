@@ -15,7 +15,7 @@ const Contact = () => {
     error: null
   });
   const [contactInfo, setContactInfo] = useState({
-    email: 'zynextaweb@gmail.com',
+    email: 'zynexta@gmail.com',
     phones: []
   });
 
@@ -25,7 +25,7 @@ const Contact = () => {
         const res = await API.get('/api/footer');
         if (res.data) {
           setContactInfo({
-            email: res.data.email || 'zynextaweb@gmail.com',
+            email: res.data.email || 'zynexta@gmail.com',
             phones: res.data.phones || []
           });
         }
@@ -88,7 +88,9 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-sm font-medium text-brand-text-dim mb-1">Email Us Directly</p>
-                  <p className="text-xl font-bold text-brand-text break-all">{contactInfo.email}</p>
+                  <a href={`mailto:${contactInfo.email}`} className="text-xl font-bold text-brand-text break-all hover:text-brand-accent transition-colors">
+                    {contactInfo.email}
+                  </a>
                 </div>
               </div>
 
@@ -101,7 +103,9 @@ const Contact = () => {
                     <p className="text-sm font-medium text-brand-text-dim mb-1">Call Us Directly</p>
                     <div className="space-y-1">
                       {contactInfo.phones.map((phone, idx) => (
-                        <p key={idx} className="text-xl font-bold text-brand-text break-all">{phone}</p>
+                        <a key={idx} href={`tel:${phone.replace(/\s+/g, '')}`} className="block text-xl font-bold text-brand-text break-all hover:text-brand-accent transition-colors">
+                          {phone}
+                        </a>
                       ))}
                     </div>
                   </div>
