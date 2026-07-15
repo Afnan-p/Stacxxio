@@ -48,6 +48,17 @@ const Team = () => {
 
   return (
     <section id="team" className="py-20 md:py-32 bg-brand-bg relative overflow-hidden">
+      {/* Hidden preloader to ensure smooth 3D carousel transitions without gray boxes */}
+      <div className="hidden">
+        {team.map((member) => (
+          <img 
+            key={`preload-${member._id}`} 
+            src={member.image ? (member.image.startsWith('http') || member.image.startsWith('/') ? member.image : `${import.meta.env.VITE_API_URL}/${member.image}`) : '/fallback.jpg'} 
+            alt="preload" 
+          />
+        ))}
+      </div>
+
       <div className="container mx-auto px-6 md:px-10 max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-8 items-center">
           
@@ -128,6 +139,7 @@ const Team = () => {
                         <ImageLoad
                           src={member.image ? (member.image.startsWith('http') || member.image.startsWith('/') ? member.image : `${import.meta.env.VITE_API_URL}/${member.image}`) : '/fallback.jpg'}
                           alt={member.secondaryRole}
+                          eager={true}
                           wrapperClassName="w-full h-full flex items-end justify-center"
                           className="w-full h-full object-contain object-bottom select-none"
                         />

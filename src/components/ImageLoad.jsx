@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ImageLoad = ({ src, alt, className = '', wrapperClassName = '', ...props }) => {
+const ImageLoad = ({ src, alt, className = '', wrapperClassName = '', eager = false, ...props }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
@@ -11,7 +11,7 @@ const ImageLoad = ({ src, alt, className = '', wrapperClassName = '', ...props }
       <img
         src={src}
         alt={alt}
-        loading="lazy"
+        loading={eager ? "eager" : "lazy"}
         onLoad={() => setIsLoaded(true)}
         onError={(e) => {
           e.target.src = '/fallback.jpg';
