@@ -38,9 +38,9 @@ const WorkShowcase = () => {
   useEffect(() => {
     const loadProjects = async () => {
       try {
-        const res = await API.get('/api/projects?paginate=false');
-        const projectsArray = Array.isArray(res.data) ? res.data : (res.data.projects || []);
-        setProjects(projectsArray.slice(0, 4)); 
+        const res = await API.get('/api/projects?page=1&limit=4');
+        const projectsArray = res.data.projects || [];
+        setProjects(projectsArray); 
       } catch (err) {
         console.error("Failed to load projects", err);
       } finally {
