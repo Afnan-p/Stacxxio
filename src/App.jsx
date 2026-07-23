@@ -46,6 +46,7 @@ const AppContent = () => {
                 </ProtectedRoute>
               } 
             />
+            <Route path="*" element={<Home />} />
           </Routes>
         </Suspense>
       </main>

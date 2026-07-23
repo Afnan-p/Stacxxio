@@ -9,6 +9,7 @@ const Services = () => {
   const services = [
     {
       _id: '1',
+      slug: 'business-website-development',
       title: 'Business Website Development',
       tag: 'Professional business websites designed to establish credibility, drive growth, and enhance your digital presence',
       description: 'Professional business websites designed to establish credibility, drive growth, and enhance your digital presence.',
@@ -16,6 +17,7 @@ const Services = () => {
     },
     {
       _id: '2',
+      slug: 'custom-web-application-development',
       title: 'Custom Web Application Development',
       tag: 'Scalable web applications built to streamline operations, automate processes, and scale with your business',
       description: 'Scalable web applications built to streamline operations, automate processes, and scale with your business.',
@@ -23,6 +25,7 @@ const Services = () => {
     },
     {
       _id: '3',
+      slug: 'e-commerce-development',
       title: 'E-Commerce Development',
       tag: 'High-converting online stores designed to deliver seamless shopping experiences and maximize online sales',
       description: 'High-converting online stores designed to deliver seamless shopping experiences and maximize online sales.',
@@ -30,6 +33,7 @@ const Services = () => {
     },
     {
       _id: '4',
+      slug: 'portfolio-personal-branding-websites',
       title: 'Portfolio & Personal Branding Websites',
       tag: 'Professional portfolio websites crafted to showcase expertise, build personal brand, and attract high-value clients',
       description: 'Professional portfolio websites crafted to showcase expertise, build personal brand, and attract high-value clients.',
@@ -37,6 +41,7 @@ const Services = () => {
     },
     {
       _id: '5',
+      slug: 'website-maintenance-support',
       title: 'Website Maintenance & Support',
       tag: 'Ongoing website maintenance, security updates, performance optimization, and dedicated technical support',
       description: 'Ongoing website maintenance, security updates, performance optimization, and dedicated technical support.',
@@ -44,6 +49,7 @@ const Services = () => {
     },
     {
       _id: '6',
+      slug: 'mobile-app-development',
       title: 'Mobile App Development',
       tag: 'High-performance cross-platform mobile applications built for iOS and Android',
       description: 'High-performance cross-platform mobile applications built for iOS and Android to engage your users on the go.',
