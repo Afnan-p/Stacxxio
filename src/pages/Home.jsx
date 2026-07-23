@@ -34,12 +34,18 @@ const Home = () => {
     }
   }, [location]);
 
+  const isServicesPage = location.pathname === '/services';
+
   return (
     <>
       <SEO 
-        title={location.pathname === '/services' ? "Services - ZYNEXTA | Premium Web & Software Agency" : "ZYNEXTA | Premium Web & Software Agency"}
-        description="ZYNEXTA builds modern, high-performance websites and custom software solutions designed to scale your business."
-        canonical={location.pathname === '/services' ? "https://zynexta.com/services" : "https://zynexta.com/"}
+        title={isServicesPage ? "Software Development Services | ZYNEXTA" : "Web Development & Software Company in Kerala | ZYNEXTA"}
+        description={isServicesPage 
+          ? "Explore ZYNEXTA's software development services including web development, mobile app development, UI/UX design, eCommerce solutions, and custom business software."
+          : "ZYNEXTA is a leading web development and software company in Kerala, India. We build custom websites, web applications, mobile apps, eCommerce solutions, UI/UX design, and business software for startups and enterprises."
+        }
+        canonical={isServicesPage ? "https://zynexta.com/services" : "https://zynexta.com/"}
+        image="https://zynexta.com/social-banner.png"
       />
       <Hero />
       <TechMarquee />

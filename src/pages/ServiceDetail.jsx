@@ -11,6 +11,8 @@ const detailedServices = [
     _id: '1',
     slug: 'business-website-development',
     title: 'Business Website Development',
+    seoTitle: 'Business Website Development Company in Kerala | ZYNEXTA',
+    seoDescription: 'Professional business website development services for startups, SMEs, and enterprises. Fast, secure, responsive websites built by ZYNEXTA.',
     tag: 'Professional business websites designed to establish credibility, drive growth, and enhance your digital presence',
     description: 'Professional business websites designed to establish credibility, drive growth, and enhance your digital presence.',
     fullDescription: 'In today\'s digital landscape, your website is often the first interaction potential clients have with your brand. We design and develop bespoke business websites that not only look stunning but are strategically built to convert visitors into loyal customers.\n\nOur approach combines cutting-edge aesthetics with robust technical architecture, ensuring your site is lightning-fast, fully responsive across all devices, and optimized for search engines. We focus on clear user journeys, compelling calls to action, and seamless integration with your existing business tools.',
@@ -27,6 +29,8 @@ const detailedServices = [
     _id: '2',
     slug: 'custom-web-application-development',
     title: 'Custom Web Application Development',
+    seoTitle: 'Custom Web Application Development | ZYNEXTA',
+    seoDescription: 'Custom web application development for businesses using modern technologies with scalable architecture and premium UI.',
     tag: 'Scalable web applications built to streamline operations, automate processes, and scale with your business',
     description: 'Scalable web applications built to streamline operations, automate processes, and scale with your business.',
     fullDescription: 'Off-the-shelf software rarely fits the unique operational needs of a growing business. We engineer custom web applications designed specifically to solve your complex business challenges, automate workflows, and provide unparalleled value to your users.\n\nFrom sophisticated SaaS platforms and internal CRM dashboards to complex data visualization tools, our engineering team utilizes modern, scalable tech stacks to build secure and high-performing applications. We prioritize robust architecture, intuitive user interfaces, and seamless third-party API integrations.',
@@ -43,6 +47,8 @@ const detailedServices = [
     _id: '3',
     slug: 'e-commerce-development',
     title: 'E-Commerce Development',
+    seoTitle: 'E-Commerce Website Development Company | ZYNEXTA',
+    seoDescription: 'Premium eCommerce website development with payment gateway integration, admin dashboard, inventory management, and responsive design.',
     tag: 'High-converting online stores designed to deliver seamless shopping experiences and maximize online sales',
     description: 'High-converting online stores designed to deliver seamless shopping experiences and maximize online sales.',
     fullDescription: 'Success in e-commerce requires more than just a digital catalog; it demands an immersive, frictionless shopping experience. We build robust e-commerce platforms engineered to maximize conversion rates, reduce cart abandonment, and scale alongside your business.\n\nWhether developing custom headless commerce solutions or leveraging powerful platforms like Shopify Plus, we focus on lightning-fast performance, secure payment gateways, and intuitive inventory management. Our designs prioritize the user journey, ensuring a seamless transition from product discovery to final checkout.',
@@ -59,6 +65,8 @@ const detailedServices = [
     _id: '4',
     slug: 'portfolio-personal-branding-websites',
     title: 'Portfolio & Personal Branding Websites',
+    seoTitle: 'Portfolio Website Development | ZYNEXTA',
+    seoDescription: 'Professional portfolio and personal branding websites for freelancers, creators, professionals, and businesses.',
     tag: 'Professional portfolio websites crafted to showcase expertise, build personal brand, and attract high-value clients',
     description: 'Professional portfolio websites crafted to showcase expertise, build personal brand, and attract high-value clients.',
     fullDescription: 'For creatives, consultants, and industry leaders, your digital presence is your strongest asset. We craft ultra-premium portfolio and personal branding websites designed to position you as an authority in your field and attract high-value opportunities.\n\nWe utilize advanced layout techniques, cinematic micro-interactions, and flawless typography to create a memorable digital experience. Our portfolio designs don\'t just display your work; they tell the story of your expertise, your unique approach, and the immense value you bring to your clients.',
@@ -75,6 +83,8 @@ const detailedServices = [
     _id: '5',
     slug: 'website-maintenance-support',
     title: 'Website Maintenance & Support',
+    seoTitle: 'Website Maintenance & Support Services | ZYNEXTA',
+    seoDescription: 'Reliable website maintenance, security updates, backups, monitoring, bug fixing, and long-term technical support.',
     tag: 'Ongoing website maintenance, security updates, performance optimization, and dedicated technical support',
     description: 'Ongoing website maintenance, security updates, performance optimization, and dedicated technical support.',
     fullDescription: 'A successful website requires continuous care to remain secure, fast, and aligned with evolving web standards. Our comprehensive maintenance and support services act as your dedicated technical partner, ensuring your digital assets perform flawlessly 24/7.\n\nFrom routine security patching and server monitoring to proactive performance optimizations and content updates, we handle the technical complexities so you can focus on running your business. We provide detailed monthly reporting and dedicated support channels for rapid issue resolution.',
@@ -91,6 +101,8 @@ const detailedServices = [
     _id: '6',
     slug: 'mobile-app-development',
     title: 'Mobile App Development',
+    seoTitle: 'Mobile App Development Company in Kerala | ZYNEXTA',
+    seoDescription: 'Android and iOS mobile app development with modern UI, scalable backend, API integration, and premium user experience.',
     tag: 'High-performance cross-platform mobile applications built for iOS and Android',
     description: 'High-performance cross-platform mobile applications built for iOS and Android to engage your users on the go.',
     fullDescription: 'In a mobile-first world, delivering a flawless app experience is critical to user engagement and brand loyalty. We develop high-performance, intuitive mobile applications for both iOS and Android platforms that your users will love.\n\nLeveraging modern cross-platform frameworks, we deliver native-like performance and aesthetics while significantly reducing development time and costs. From conceptual wireframing to App Store deployment, we handle the entire lifecycle, ensuring your app is secure, scalable, and perfectly aligned with your business objectives.',
@@ -140,9 +152,10 @@ const ServiceDetail = () => {
   return (
     <div className="min-h-screen bg-brand-surface font-sans selection:bg-[#111111] selection:text-white flex flex-col">
       <SEO 
-        title={service.seoTitle || `${service.title} - ZYNEXTA Services`}
+        title={service.seoTitle || `${service.title} | ZYNEXTA`}
         description={service.seoDescription || service.description}
-        canonical={`https://zynexta.com/services/${slug}`}
+        canonical={`https://zynexta.com/services/${service.slug || slug}`}
+        image={displayImage || "https://zynexta.com/social-banner.png"}
       />
 
       <main className="flex-grow pt-16 pb-20">

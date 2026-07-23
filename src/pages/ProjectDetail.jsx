@@ -119,9 +119,10 @@ const ProjectDetail = () => {
   return (
     <div className="pt-12 md:pt-20 pb-12 md:pb-20 bg-brand-bg min-h-screen luxury-noise">
       <SEO 
-        title={`${project.title} | ZYNEXTA Portfolio`}
-        description={project.description.slice(0, 160) + "..."}
+        title={`${project.title} | ZYNEXTA`}
+        description={project.description ? (project.description.length > 160 ? project.description.slice(0, 157) + "..." : project.description) : "Explore project case study by ZYNEXTA."}
         canonical={`https://zynexta.com/project/${project._id}`}
+        image={project.thumbnail || project.mediaUrl || (project.images && project.images[0]) || "https://zynexta.com/social-banner.png"}
       />
       <div className="container mx-auto px-4 md:px-10">
         <Link to="/" className="inline-flex items-center gap-3 text-brand-text-dim hover:text-brand-accent transition-colors mb-8 md:mb-10 group">

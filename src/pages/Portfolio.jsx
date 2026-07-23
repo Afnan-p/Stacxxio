@@ -78,9 +78,10 @@ const Portfolio = () => {
   return (
     <div className="min-h-screen bg-brand-surface pt-40 md:pt-48 pb-24">
       <SEO 
-        title="Portfolio & Case Studies | ZYNEXTA"
-        description="Explore our latest software development projects, case studies, and digital solutions created by ZYNEXTA."
+        title="Portfolio | ZYNEXTA"
+        description="View ZYNEXTA's portfolio showcasing premium websites, web applications, eCommerce platforms, mobile apps, and custom software projects."
         canonical="https://zynexta.com/portfolio"
+        image="https://zynexta.com/social-banner.png"
       />
       <div className="container mx-auto px-6 md:px-10 max-w-7xl">
         
