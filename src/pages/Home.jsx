@@ -3,8 +3,8 @@ import { useLocation } from 'react-router-dom';
 import Hero from '../components/Hero';
 import SEO from '../components/SEO';
 import TechMarquee from '../components/TechMarquee';
+import Services from '../components/Services';
 
-const Services = React.lazy(() => import('../components/Services'));
 const WorkShowcase = React.lazy(() => import('../components/WorkShowcase'));
 const Approach = React.lazy(() => import('../components/Approach'));
 const TechStack = React.lazy(() => import('../components/TechStack'));
@@ -16,13 +16,21 @@ const Home = () => {
 
   useEffect(() => {
     if (location.pathname === '/services' || location.hash === '#services') {
-      const timer = setTimeout(() => {
+      const handleScroll = () => {
         const el = document.getElementById('services');
         if (el) {
           el.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-      }, 250);
-      return () => clearTimeout(timer);
+      };
+
+      handleScroll();
+      const t1 = setTimeout(handleScroll, 100);
+      const t2 = setTimeout(handleScroll, 400);
+
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+      };
     }
   }, [location]);
 
@@ -35,8 +43,8 @@ const Home = () => {
       />
       <Hero />
       <TechMarquee />
+      <Services />
       <Suspense fallback={<div className="h-20 w-full flex items-center justify-center"><div className="w-6 h-6 border-2 border-brand-accent rounded-full border-t-transparent animate-spin"></div></div>}>
-        <Services />
         <WorkShowcase />
         <Approach />
         <TechStack />
