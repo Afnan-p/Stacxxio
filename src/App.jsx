@@ -17,11 +17,23 @@ const AdminDashboard = lazy(() => import('./pages/Admin/Dashboard'));
 const Portfolio = lazy(() => import('./pages/Portfolio'));
 const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
 
+const GA_MEASUREMENT_ID = 'G-M126ZJWD4S';
+
 const AppContent = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
   const isProjectDetail = location.pathname.startsWith('/project/');
   const isServiceDetail = location.pathname.startsWith('/services/');
+
+  // Track SPA route changes in Google Analytics 4
+  useEffect(() => {
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      window.gtag('config', GA_MEASUREMENT_ID, {
+        page_path: location.pathname + location.search,
+        page_title: document.title,
+      });
+    }
+  }, [location]);
 
   return (
     <div className="min-h-screen flex flex-col">
