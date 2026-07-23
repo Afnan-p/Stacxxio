@@ -11,6 +11,7 @@ const TODAY = new Date().toISOString().split('T')[0];
 // Only real, active, working public pages in ZYNEXTA project
 const routes = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },
+  { path: '/services', priority: '0.9', changefreq: 'weekly' },
   { path: '/portfolio', priority: '0.9', changefreq: 'weekly' },
   
   // Real active service detail pages
