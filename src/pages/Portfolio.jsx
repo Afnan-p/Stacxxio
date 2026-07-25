@@ -117,8 +117,8 @@ const Portfolio = () => {
               onClick={() => setActiveCategory('All')}
               className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 border ${
                 activeCategory === 'All' 
-                ? 'bg-[#111111] text-white border-[#111111] shadow-md' 
-                : 'bg-white text-brand-text-dim border-[#E5E7EB] hover:border-gray-300 hover:text-brand-text'
+                ? 'bg-brand-accent text-brand-bg border-brand-accent shadow-md' 
+                : 'bg-brand-surface text-brand-text-dim border-border hover:text-brand-text'
               }`}
             >
               All
@@ -129,8 +129,8 @@ const Portfolio = () => {
                 onClick={() => setActiveCategory(category._id)}
                 className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 border ${
                   activeCategory === category._id 
-                  ? 'bg-[#111111] text-white border-[#111111] shadow-md' 
-                  : 'bg-white text-brand-text-dim border-[#E5E7EB] hover:border-gray-300 hover:text-brand-text'
+                  ? 'bg-brand-accent text-brand-bg border-brand-accent shadow-md' 
+                  : 'bg-brand-surface text-brand-text-dim border-border hover:text-brand-text'
                 }`}
               >
                 {category.name}

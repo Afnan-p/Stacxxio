@@ -143,11 +143,11 @@ html.dark .theme-invert {
 }
 
 .btn-premium {
-  @apply px-8 py-4 rounded-full bg-[#111111] text-white font-medium hover:bg-[#222222] transition-colors duration-300;
+  @apply px-8 py-4 rounded-full bg-brand-accent text-brand-bg font-semibold hover:opacity-90 transition-all duration-300;
 }
 
 .btn-luxury-outline {
-  @apply px-8 py-4 rounded-full border border-brand-accent text-brand-accent font-medium hover:bg-brand-surface transition-colors duration-300;
+  @apply px-8 py-4 rounded-full border border-brand-accent text-brand-accent font-semibold hover:bg-brand-accent/10 transition-all duration-300;
 }
 
 .tab-active {

@@ -203,15 +203,15 @@ const AdminDashboard = () => {
         {/* Search & Filters */}
         {activeTab !== 'branding' && (
           <div className="mb-12 relative group">
-            <Search className="absolute left-8 top-1/2 -translate-y-1/2 text-[#9CA3AF] group-focus-within:text-[#111111] transition-colors" size={24} />
-          <input 
-            type="text"
-            placeholder={`Search ${activeTab}...`}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full h-[72px] bg-[#FFFFFF] border-[1.5px] border-[#D1D5DB] text-[#111111] placeholder-[#9CA3AF] rounded-[24px] pl-20 pr-10 outline-none focus:border-[#111111] focus:ring-4 focus:ring-black/5 transition-all text-lg font-medium"
-          />
-        </div>
+            <Search className="absolute left-8 top-1/2 -translate-y-1/2 text-brand-text-dim group-focus-within:text-brand-accent transition-colors" size={24} />
+            <input 
+              type="text"
+              placeholder={`Search ${activeTab}...`}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full h-[72px] bg-brand-surface border border-brand-accent/20 text-brand-text placeholder-brand-text-dim/60 rounded-[24px] pl-20 pr-10 outline-none focus:border-brand-accent focus:ring-4 focus:ring-brand-accent/10 transition-all text-lg font-medium shadow-sm"
+            />
+          </div>
         )}
 
         {/* Asset Grid */}
