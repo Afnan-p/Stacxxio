@@ -133,10 +133,10 @@ const Services = () => {
                   >
                     <Link
                       to={`/services/${service.slug || service._id}`}
-                      className="block h-[240px] relative rounded-xl overflow-hidden group cursor-pointer border border-gray-200 shadow-sm hover:shadow-[0_15px_30px_rgba(0,0,0,0.06)] hover:-translate-y-1 transition-all duration-500"
+                      className="block h-[240px] relative rounded-xl overflow-hidden group cursor-pointer border border-[#e5e7eb]/20 shadow-sm hover:shadow-[0_15px_30px_rgba(0,0,0,0.2)] hover:-translate-y-1 transition-all duration-500"
                     >
-                      {/* Atmospheric Background Image */}
-                      <div className="absolute inset-0 bg-black z-0">
+                      {/* Atmospheric Background Image - Always true dark background */}
+                      <div className="absolute inset-0 bg-[#000000] z-0">
                         <ImageLoad 
                           src={displayImage} 
                           alt={service.title} 
@@ -145,22 +145,22 @@ const Services = () => {
                         />
                       </div>
 
-                      {/* Dark Gradient Overlay for maximum text readability & premium feel */}
-                      <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/90 via-black/50 to-black/20 group-hover:from-black/80 group-hover:via-black/40 transition-all duration-500" />
+                      {/* Dark Gradient Overlay for maximum text readability & premium feel - Always dark overlay */}
+                      <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#000000]/90 via-[#000000]/50 to-[#000000]/20 group-hover:from-[#000000]/80 group-hover:via-[#000000]/40 transition-all duration-500" />
 
-                      {/* Centered Typography Content */}
+                      {/* Centered Typography Content - Always pure white & light gray text */}
                       <div className="relative z-20 w-full h-full flex flex-col justify-center items-center text-center p-6">
                         
-                        <h3 className="text-xl font-display font-bold text-white mb-2 transition-colors duration-300">
+                        <h3 className="text-xl font-display font-bold text-[#ffffff] mb-2 transition-colors duration-300">
                           {service.title}
                         </h3>
                         
-                        <p className="text-gray-300 text-[10px] font-semibold tracking-[0.2em] uppercase line-clamp-2 px-2 max-w-[90%]">
+                        <p className="text-[#d1d5db] text-[10px] font-semibold tracking-[0.2em] uppercase line-clamp-2 px-2 max-w-[90%]">
                           {subTitle}
                         </p>
                         
-                        {/* CTA positioned at bottom */}
-                        <div className="absolute bottom-5 flex items-center gap-1.5 text-[10px] font-bold text-white uppercase tracking-widest opacity-90 group-hover:opacity-100">
+                        {/* CTA positioned at bottom - Always white text */}
+                        <div className="absolute bottom-5 flex items-center gap-1.5 text-[10px] font-bold text-[#ffffff] uppercase tracking-widest opacity-90 group-hover:opacity-100">
                           Learn More <span className="transform group-hover:translate-x-1.5 transition-transform duration-300">→</span>
                         </div>
                       </div>
