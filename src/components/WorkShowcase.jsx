@@ -112,7 +112,7 @@ const WorkShowcase = () => {
                 whileHover={{ y: -6 }}
                 transition={{ duration: 0.5, delay: (index % 4) * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => navigate(`/project/${project._id}`)}
-                className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)] group bg-white rounded-2xl overflow-hidden flex flex-col h-[460px] cursor-pointer transition-all border border-gray-100 shadow-sm hover:shadow-xl hover:border-gray-200"
+                className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)] group bg-white rounded-2xl overflow-hidden flex flex-col min-h-[480px] h-[480px] cursor-pointer transition-all border border-gray-100 shadow-sm hover:shadow-xl hover:border-gray-200"
               >
                 {/* Image Area - Reduced Height 16:10 */}
                 <div className="aspect-[16/10] w-full relative overflow-hidden bg-gray-50 shrink-0">
@@ -136,46 +136,47 @@ const WorkShowcase = () => {
                 )}
               </div>
               
-              <div className="p-5 flex-grow flex flex-col">
-                
-                {/* Category Badge */}
-                <div className="mb-3">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
-                    {project.category?.name || 'CASE STUDY'}
-                  </span>
-                </div>
+              <div className="p-5 flex-grow flex flex-col justify-between">
+                <div>
+                  {/* Category Badge */}
+                  <div className="mb-2">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
+                      {project.category?.name || 'CASE STUDY'}
+                    </span>
+                  </div>
 
-                {/* Project Title */}
-                <h3 className="text-xl font-bold text-gray-900 mb-1.5 group-hover:text-gray-600 transition-colors">
-                  {project.title}
-                </h3>
-                
-                {/* Short Description */}
-                <p className="text-gray-500 text-sm leading-relaxed line-clamp-2 mb-4 flex-grow">
-                  {project.description}
-                </p>
-                
-                {/* Modern Tech Stack Pills */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.techStack?.slice(0, 3).map((tech, i) => {
-                    const techName = tech.name || tech;
-                    const Icon = getTechIcon(techName);
-                    return (
-                      <div key={i} className="flex items-center gap-1.5 px-2 py-1 bg-white border border-gray-200 rounded-md text-[11px] font-semibold text-gray-600 hover:border-gray-300 hover:bg-gray-50 transition-colors">
-                        {Icon && <Icon size={12} className="text-gray-500" />}
-                        <span>{techName}</span>
+                  {/* Project Title */}
+                  <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-1.5 line-clamp-2 leading-snug group-hover:text-gray-600 transition-colors">
+                    {project.title}
+                  </h3>
+                  
+                  {/* Short Description */}
+                  <p className="text-gray-500 text-xs md:text-sm leading-relaxed line-clamp-2 mb-3">
+                    {project.description}
+                  </p>
+                  
+                  {/* Modern Tech Stack Pills */}
+                  <div className="flex flex-wrap gap-1.5 mb-3 max-h-14 overflow-hidden">
+                    {project.techStack?.slice(0, 2).map((tech, i) => {
+                      const techName = tech.name || tech;
+                      const Icon = getTechIcon(techName);
+                      return (
+                        <div key={i} className="flex items-center gap-1.5 px-2 py-1 bg-white border border-gray-200 rounded-md text-[11px] font-semibold text-gray-600 hover:border-gray-300 hover:bg-gray-50 transition-colors">
+                          {Icon && <Icon size={12} className="text-gray-500" />}
+                          <span className="truncate max-w-[100px]">{techName}</span>
+                        </div>
+                      );
+                    })}
+                    {project.techStack?.length > 2 && (
+                      <div className="flex items-center px-2 py-1 bg-gray-50 border border-gray-100 rounded-md text-[11px] font-semibold text-gray-500">
+                        +{project.techStack.length - 2}
                       </div>
-                    );
-                  })}
-                  {project.techStack?.length > 3 && (
-                    <div className="flex items-center px-2 py-1 bg-gray-50 border border-gray-100 rounded-md text-[11px] font-semibold text-gray-500">
-                      +{project.techStack.length - 3}
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
                 
-                {/* Bottom Action Area */}
-                <div className="pt-3 border-t border-gray-100 flex items-center justify-between mt-auto">
+                {/* Bottom Action Area - Fixed at bottom */}
+                <div className="pt-3 border-t border-gray-100 flex items-center justify-between mt-auto shrink-0">
                   <div className="flex items-center gap-1.5 text-gray-900 font-semibold text-[13px] group-hover:text-gray-600 transition-colors">
                     <span>View Project</span>
                     <ArrowRight size={14} className="transform group-hover:translate-x-1.5 transition-transform duration-300" />

@@ -202,7 +202,7 @@ const Portfolio = () => {
                         exit={{ opacity: 0, scale: 0.9 }}
                         transition={{ duration: 0.6, delay: (index % 6) * 0.1, ease: [0.16, 1, 0.3, 1] }}
                         key={project._id || index}
-                        className="w-full group bg-white rounded-3xl overflow-hidden border border-[#E5E7EB] hover:shadow-xl transition-all duration-500 flex flex-col h-[460px]"
+                        className="w-full group bg-white rounded-3xl overflow-hidden border border-[#E5E7EB] hover:shadow-xl transition-all duration-500 flex flex-col min-h-[480px] h-[480px]"
                       >
                         <div className="aspect-[16/10] overflow-hidden relative shrink-0">
                           <ImageLoad 
@@ -222,7 +222,7 @@ const Portfolio = () => {
                               </a>
                             )}
                             {project.githubLink && (
-                              <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="p-3 bg-[#111111] text-white rounded-full hover:scale-110 transition-transform">
+                              <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="p-3 bg-brand-accent text-brand-bg rounded-full hover:scale-110 transition-transform">
                                 <FaGithub size={18} />
                               </a>
                             )}
@@ -230,23 +230,25 @@ const Portfolio = () => {
                         </div>
                         
                         {/* Content container */}
-                        <div className="p-6 md:p-8 flex flex-col flex-grow">
-                          <div className="flex justify-between items-start mb-4">
-                            <span className="text-xs font-semibold uppercase tracking-wider text-gray-500 bg-gray-50 px-3 py-1 rounded-full border border-gray-100">
-                              {project.category?.name || 'Case Study'}
-                            </span>
+                        <div className="p-6 md:p-8 flex flex-col flex-grow justify-between">
+                          <div>
+                            <div className="flex justify-between items-start mb-3">
+                              <span className="text-xs font-semibold uppercase tracking-wider text-gray-500 bg-gray-50 px-3 py-1 rounded-full border border-gray-100">
+                                {project.category?.name || 'Case Study'}
+                              </span>
+                            </div>
+                            
+                            <h3 className="text-xl md:text-2xl font-display font-bold text-brand-text mb-2 tracking-tight line-clamp-2 leading-snug">
+                              {project.title}
+                            </h3>
+                            
+                            <p className="text-brand-text-dim text-xs md:text-sm leading-relaxed mb-4 line-clamp-2">
+                              {project.description}
+                            </p>
                           </div>
                           
-                          <h3 className="text-2xl font-display font-bold text-brand-text mb-3 tracking-tight">
-                            {project.title}
-                          </h3>
-                          
-                          <p className="text-brand-text-dim text-sm leading-relaxed mb-6 line-clamp-3 flex-grow">
-                            {project.description}
-                          </p>
-                          
-                          <div className="mt-auto">
-                            <div className="flex flex-wrap gap-2 mb-6">
+                          <div className="mt-auto shrink-0">
+                            <div className="flex flex-wrap gap-1.5 mb-4 max-h-14 overflow-hidden">
                               {project.technologies?.slice(0, 3).map(tech => (
                                 <span key={tech} className="text-[11px] font-medium text-gray-500 bg-gray-50 border border-gray-100 px-2 py-1 rounded-md">
                                   {tech}
