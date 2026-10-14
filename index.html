@@ -1,4 +1,4 @@
-
+```html
 <!doctype html>
 <html lang="en">
   <head>
@@ -9,21 +9,19 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
 
     <!-- Primary SEO -->
-    <title>
-      Zynexta | Website Development & Software Solutions in Kerala
-    </title>
+    <title>Zynexta | Website Development & Software Solutions in Kerala</title>
 
     <meta
       name="description"
-      content="Zynexta provides website development, e-commerce websites, portfolio websites, mobile apps, and custom web application solutions."
+      content="Zynexta builds modern business websites, e-commerce platforms, portfolio websites, mobile apps, and custom web applications for businesses."
     />
 
     <meta name="author" content="Zynexta" />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#ffffff" />
 
-    <!-- Canonical URL: confirm preferred domain and redirects before deployment -->
-    <link rel="canonical" href="https://zynexta.com/" />
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.zynexta.com/" />
 
     <!-- Open Graph / Social Sharing -->
     <meta property="og:type" content="website" />
@@ -34,10 +32,13 @@
     />
     <meta
       property="og:description"
-      content="Explore Zynexta's website development, e-commerce, mobile app, and custom software services."
+      content="Discover Zynexta's website development, e-commerce, mobile app, and custom web application services."
     />
-    <meta property="og:url" content="https://zynexta.com/" />
-    <meta property="og:image" content="https://zynexta.com/zynexta-logo.png" />
+    <meta property="og:url" content="https://www.zynexta.com/" />
+    <meta
+      property="og:image"
+      content="https://www.zynexta.com/zynexta-logo.png"
+    />
 
     <!-- Google Analytics -->
     <script
@@ -46,26 +47,33 @@
     ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
+
       function gtag() {
         dataLayer.push(arguments);
       }
+
       gtag("js", new Date());
       gtag("config", "G-M126ZJWD4S");
     </script>
 
     <!-- Font Optimization -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Space+Grotesk:wght@700&family=Syncopate:wght@400;700&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Preserve existing theme behavior -->
+    <!-- Preserve Existing Theme Behavior -->
     <script>
       (function () {
         try {
           var localTheme = localStorage.getItem("zynexta-theme");
+
           var isDark =
             localTheme === "dark" ||
             (!localTheme &&
@@ -83,12 +91,13 @@
       {
         "@context": "https://schema.org",
         "@type": "Organization",
+        "@id": "https://www.zynexta.com/#organization",
         "name": "ZYNEXTA",
+        "url": "https://www.zynexta.com/",
+        "logo": "https://www.zynexta.com/zynexta-logo.png",
         "email": "zynexta@gmail.com",
-        "url": "https://zynexta.com/",
-        "logo": "https://zynexta.com/zynexta-logo.png",
         "telephone": "+91 8590315711",
-        "description": "Website development and software solutions company.",
+        "description": "Zynexta provides website development, e-commerce, mobile application development, and custom software solutions.",
         "sameAs": [
           "https://www.instagram.com/zynexta"
         ]
@@ -100,9 +109,14 @@
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
+        "@id": "https://www.zynexta.com/#website",
         "name": "Zynexta",
         "alternateName": "ZYNEXTA",
-        "url": "https://zynexta.com/"
+        "url": "https://www.zynexta.com/",
+        "publisher": {
+          "@id": "https://www.zynexta.com/#organization"
+        },
+        "inLanguage": "en"
       }
     </script>
   </head>
@@ -112,3 +126,4 @@
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
+```
