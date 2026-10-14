@@ -1,51 +1,112 @@
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M126ZJWD4S"></script>
+
+    <!-- Primary SEO -->
+    <title>
+      Zynexta | Website Development & Software Solutions in Kerala
+    </title>
+
+    <meta
+      name="description"
+      content="Zynexta provides website development, e-commerce websites, portfolio websites, mobile apps, and custom web application solutions."
+    />
+
+    <meta name="author" content="Zynexta" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Canonical URL: confirm preferred domain and redirects before deployment -->
+    <link rel="canonical" href="https://zynexta.com/" />
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Zynexta" />
+    <meta
+      property="og:title"
+      content="Zynexta | Website Development & Software Solutions in Kerala"
+    />
+    <meta
+      property="og:description"
+      content="Explore Zynexta's website development, e-commerce, mobile app, and custom software services."
+    />
+    <meta property="og:url" content="https://zynexta.com/" />
+    <meta property="og:image" content="https://zynexta.com/zynexta-logo.png" />
+
+    <!-- Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-M126ZJWD4S"
+    ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-M126ZJWD4S');
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-M126ZJWD4S");
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Space+Grotesk:wght@700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Optimization -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Space+Grotesk:wght@700&family=Syncopate:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Preserve existing theme behavior -->
     <script>
-      (function() {
+      (function () {
         try {
-          var localTheme = localStorage.getItem('zynexta-theme');
-          var isDark = localTheme === 'dark' || (!localTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
-          if (isDark) document.documentElement.classList.add('dark');
+          var localTheme = localStorage.getItem("zynexta-theme");
+          var isDark =
+            localTheme === "dark" ||
+            (!localTheme &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+          if (isDark) {
+            document.documentElement.classList.add("dark");
+          }
         } catch (e) {}
       })();
     </script>
-    <title>ZYNEXTA | Web Development & Software Company in Kerala</title>
-    <meta name="keywords" content="web agency, software development, custom websites, e-commerce, web design, full-stack" />
-    <meta name="author" content="ZYNEXTA" />
-    <meta name="theme-color" content="#ffffff" />
-    <meta name="robots" content="index, follow" />
+
+    <!-- Organization Structured Data -->
     <script type="application/ld+json">
-     {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "ZYNEXTA",
-  "email": "zynexta@gmail.com",
-  "url": "https://zynexta.com",
-  "logo": "https://zynexta.com/zynexta-logo.png",
-  "telephone": "+91 8590315711",
-  "description": "Web Development and Software Company",
-  "sameAs": [
-    "https://www.instagram.com/zynexta"
-  ]
-}
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "ZYNEXTA",
+        "email": "zynexta@gmail.com",
+        "url": "https://zynexta.com/",
+        "logo": "https://zynexta.com/zynexta-logo.png",
+        "telephone": "+91 8590315711",
+        "description": "Website development and software solutions company.",
+        "sameAs": [
+          "https://www.instagram.com/zynexta"
+        ]
+      }
+    </script>
+
+    <!-- Website Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Zynexta",
+        "alternateName": "ZYNEXTA",
+        "url": "https://zynexta.com/"
+      }
     </script>
   </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
